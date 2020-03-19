@@ -35,9 +35,12 @@ class AppInfoAdapter(private val context: Context, filledList: List<AppInfo>) : 
         //Set text to icon label text
         view.findViewById<TextView>(R.id.appIconTextView).text = appInfoList[position].iconLabel
 
+        //Set button action to launch app
         view.findViewById<ConstraintLayout>(R.id.appIconConstraintLayout)
             .setOnClickListener {
-                val intent = context.packageManager.getLaunchIntentForPackage(appInfoList[position].packageName)
+                val intent = context.packageManager
+                    .getLaunchIntentForPackage(appInfoList[position].packageName)
+
                 if (intent != null) {
                     context.startActivity(intent)
                 }

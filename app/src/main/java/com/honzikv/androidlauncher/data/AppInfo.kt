@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.data
 
 import android.graphics.drawable.Drawable
-import androidx.annotation.NonNull
 
 data class AppInfo(
 
@@ -19,4 +18,4 @@ data class AppInfo(
      * Name of package
      */
     val packageName: String
-    )
+)
