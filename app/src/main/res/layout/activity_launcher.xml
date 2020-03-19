@@ -5,11 +5,11 @@
     style="@style/BackgroundTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".ui.activity.LauncherActivity">
 
     <fragment
         android:id="@+id/homescreenFragment"
-        android:name="com.honzikv.androidlauncher.HomescreenFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.HomescreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true" />
