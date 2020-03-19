@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.AppInfo
+import kotlinx.android.synthetic.main.app_icon.view.*
 
 /**
  *
@@ -20,6 +21,7 @@ class AppInfoAdapter(private val context: Context, filledList: List<AppInfo>) : 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
+        //Initialize view if it is null
         val view = if (convertView == null) {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
                     as LayoutInflater
@@ -29,14 +31,14 @@ class AppInfoAdapter(private val context: Context, filledList: List<AppInfo>) : 
         }
 
         //Set the imageView to drawable
-        view.findViewById<ImageView>(R.id.appIconImageView)
+        view.appIconImageView
             .setImageDrawable(appInfoList[position].iconDrawable)
 
         //Set text to icon label text
-        view.findViewById<TextView>(R.id.appIconTextView).text = appInfoList[position].iconLabel
+        view.appIconTextView.text = appInfoList[position].iconLabel
 
         //Set button action to launch app
-        view.findViewById<ConstraintLayout>(R.id.appIconConstraintLayout)
+        view.appIconConstraintLayout
             .setOnClickListener {
                 val intent = context.packageManager
                     .getLaunchIntentForPackage(appInfoList[position].packageName)

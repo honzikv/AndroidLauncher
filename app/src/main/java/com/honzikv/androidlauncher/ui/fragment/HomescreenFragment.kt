@@ -38,9 +38,8 @@ class HomescreenFragment : Fragment() {
         return view
     }
 
-    private fun getAppList(context: Context): List<AppInfo> {
-        return ViewModelProvider(
-            this, InjectorUtils.getSystemDataViewModelFactory()
-        ).get(SystemDataViewModel::class.java).getAppList(context)
-    }
+    private fun getAppList(context: Context): List<AppInfo> = ViewModelProvider(
+        this, InjectorUtils.getSystemDataViewModelFactory()
+    ).get(SystemDataViewModel::class.java).getAppList(context)
+
 }
