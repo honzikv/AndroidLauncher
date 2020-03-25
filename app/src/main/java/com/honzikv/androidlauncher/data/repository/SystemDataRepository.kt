@@ -1,10 +1,8 @@
-package com.honzikv.androidlauncher.data
+package com.honzikv.androidlauncher.data.repository
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.honzikv.androidlauncher.LauncherApplication
-import timber.log.Timber
+import com.honzikv.androidlauncher.data.AppInfo
 
 /**
  * Repository for system info - applist, app intents and such.
@@ -17,8 +15,10 @@ class SystemDataRepository private constructor() {
         private var instance: SystemDataRepository? = null
 
         fun getInstance(): SystemDataRepository {
-            return instance ?: synchronized(this) {
-                instance ?: SystemDataRepository().also { instance = it }
+            return instance
+                ?: synchronized(this) {
+                instance
+                    ?: SystemDataRepository().also { instance = it }
             }
         }
     }

@@ -7,11 +7,8 @@ import androidx.room.Fts4
 import androidx.room.PrimaryKey
 
 @Entity
-/**
- * For quick access while searching
- */
 @Fts4
-data class AppModel(
+data class SystemAppModel(
 
     /**
      * Package name is always unique for every app so it can be used as PK
@@ -21,13 +18,5 @@ data class AppModel(
 
     var icon: Drawable,
 
-    var appName: String,
-
-    @Embedded
-    val folder: FolderModel?,
-
-    /**
-     * Position within dock, -1 for not present in dock
-     */
-    val dockPosition: Int = -1
+    var appName: String
 )

@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.data.database
+package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query

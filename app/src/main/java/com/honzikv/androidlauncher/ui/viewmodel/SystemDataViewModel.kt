@@ -2,7 +2,7 @@ package com.honzikv.androidlauncher.ui.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.honzikv.androidlauncher.data.SystemDataRepository
+import com.honzikv.androidlauncher.data.repository.SystemDataRepository
 
 class SystemDataViewModel(private val systemRepository: SystemDataRepository) : ViewModel() {
 
