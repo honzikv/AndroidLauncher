@@ -42,4 +42,5 @@ class HomescreenFragment : Fragment() {
         this, InjectorUtils.getSystemDataViewModelFactory()
     ).get(SystemDataViewModel::class.java).getAppList(context)
 
+
 }
