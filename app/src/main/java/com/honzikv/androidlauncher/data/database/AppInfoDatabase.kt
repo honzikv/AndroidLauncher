@@ -4,17 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.honzikv.androidlauncher.data.database.dao.AppDao
 import com.honzikv.androidlauncher.data.database.dao.DockDao
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
-import com.honzikv.androidlauncher.data.model.SystemAppModel
-import com.honzikv.androidlauncher.data.model.DockModel
-import com.honzikv.androidlauncher.data.model.FolderModel
+import com.honzikv.androidlauncher.data.database.dao.UserAppDao
+import com.honzikv.androidlauncher.data.model.entity.DockEntity
 
 /**
  * Room database to store user edited data about homescreen
  */
-@Database(entities = [SystemAppModel::class, FolderModel::class, DockModel::class], version = 1)
+@Database(
+    entities = [SystemAppModel::class, FolderEntity::class, DockEntity::class, FolderEntity::class],
+    version = 1
+)
 abstract class AppInfoDatabase : RoomDatabase() {
 
     companion object {
@@ -43,4 +44,6 @@ abstract class AppInfoDatabase : RoomDatabase() {
     abstract fun folderDao(): FolderDao
 
     abstract fun dockDao(): DockDao
+
+    abstract fun userAppDao(): UserAppDao
 }

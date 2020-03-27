@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.data.model
+package com.honzikv.androidlauncher.data.model.entity
 
 import android.graphics.Color
 import androidx.room.Entity
@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
  * Effectively dock is a singleton
  */
 @Entity
-data class DockModel(
+data class DockEntity(
 
     @PrimaryKey
     val primaryKey: Int = DOCK_PRIMARY_KEY,

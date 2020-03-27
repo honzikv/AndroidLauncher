@@ -1,10 +1,10 @@
-package com.honzikv.androidlauncher.data.model
+package com.honzikv.androidlauncher.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class FolderModel(
+data class FolderEntity(
     @PrimaryKey(autoGenerate = true)
     val primaryKey: Int = 1,
 
