@@ -2,6 +2,7 @@ package com.honzikv.androidlauncher.dependency
 
 import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
+import com.honzikv.androidlauncher.data.preferences.UserSettings
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenPageRepository
@@ -35,4 +36,8 @@ val daoModule = module {
 
 val viewModelModule = module {
     viewModel { HomescreenViewModel(get(), get(), get()) }
+}
+
+val userSettingsModule = module {
+    single { UserSettings() }
 }

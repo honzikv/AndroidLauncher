@@ -8,10 +8,10 @@ import android.view.ViewGroup
 
 import com.honzikv.androidlauncher.R
 
-class FolderFragment : Fragment() {
+class FolderListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = FolderFragment()
+        fun newInstance() = FolderListFragment()
     }
 
     private lateinit var viewModel: FolderViewModel

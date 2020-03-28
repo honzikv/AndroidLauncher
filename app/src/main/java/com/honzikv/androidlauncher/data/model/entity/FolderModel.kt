@@ -1,14 +1,11 @@
 package com.honzikv.androidlauncher.data.model.entity
 
-import androidx.room.Entity
-import androidx.room.Fts4
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity
-@Fts4
 data class FolderModel(
     @PrimaryKey(autoGenerate = true)
-    val primaryKey: Int = 1,
+    val id: Int = 1,
 
     var page: Int,
 
@@ -19,4 +16,23 @@ data class FolderModel(
     var title: String,
 
     var appList: List<FolderItemModel>
+)
+
+@Entity
+data class DockItemModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 1,
+
+    val systemAppPackageName: String,
+
+    var position: Int = 0
+
+)
+
+data class FolderItemDetails(
+    @Embedded
+    val folder: FolderModel,
+
+    @Relation(parentColumn = "id", entityColumn = "id", entity = DockItemModel::class)
+    val itemList: List<DockItemModel>
 )
