@@ -7,13 +7,14 @@ import androidx.room.RoomDatabase
 import com.honzikv.androidlauncher.data.database.dao.DockDao
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.UserAppDao
-import com.honzikv.androidlauncher.data.model.entity.DockEntity
+import com.honzikv.androidlauncher.data.model.entity.*
 
 /**
  * Room database to store user edited data about homescreen
  */
 @Database(
-    entities = [SystemAppModel::class, FolderEntity::class, DockEntity::class, FolderEntity::class],
+    entities = [FolderModel::class, DockModel::class, FolderItemModel::class, DockItemModel::class,
+        HomescreenPageModel::class],
     version = 1
 )
 abstract class AppInfoDatabase : RoomDatabase() {
@@ -38,8 +39,6 @@ abstract class AppInfoDatabase : RoomDatabase() {
             }
         }
     }
-
-    abstract fun appDao(): AppDao
 
     abstract fun folderDao(): FolderDao
 

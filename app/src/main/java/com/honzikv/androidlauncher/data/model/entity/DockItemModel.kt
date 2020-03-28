@@ -7,13 +7,10 @@ import androidx.room.PrimaryKey
 
 @Fts4
 @Entity
-data class DockItemEntity(
+data class DockItemModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 1,
 
-    val systemAppPackageName: String,
-
-    @ForeignKey(entity = DockEntity::class)
-    val dock: DockEntity
+    val systemAppPackageName: String
 
 )

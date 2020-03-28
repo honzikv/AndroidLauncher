@@ -1,18 +1,22 @@
 package com.honzikv.androidlauncher.data.model.entity
 
 import androidx.room.Entity
+import androidx.room.Fts4
 import androidx.room.PrimaryKey
 
 @Entity
-data class FolderEntity(
+@Fts4
+data class FolderModel(
     @PrimaryKey(autoGenerate = true)
     val primaryKey: Int = 1,
 
-    val page: Int,
+    var page: Int,
 
-    val position: Int,
+    var position: Int,
 
-    val backgroundColor: Int,
+    var backgroundColor: Int,
 
-    val title: String
+    var title: String,
+
+    var appList: List<FolderItemModel>
 )
