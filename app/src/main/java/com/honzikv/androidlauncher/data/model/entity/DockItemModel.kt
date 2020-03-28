@@ -11,6 +11,8 @@ data class DockItemModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 1,
 
-    val systemAppPackageName: String
+    val systemAppPackageName: String,
+
+    var position: Int = 0
 
 )

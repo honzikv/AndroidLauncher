@@ -34,5 +34,5 @@ val daoModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { HomescreenViewModel(get(), get(), get(), get()) }
+    viewModel { HomescreenViewModel(get(), get(), get()) }
 }

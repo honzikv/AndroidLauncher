@@ -22,8 +22,5 @@ class DockModel(
 
     var color: Int = DOCK_DEFAULT_COLOR,
 
-    var opacity: Float = DEFAULT_OPACITY,
-
-    private var appList: MutableList<DockItemModel> = mutableListOf()
-
+    var opacity: Float = DEFAULT_OPACITY
 )
