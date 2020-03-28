@@ -10,22 +10,19 @@ import kotlinx.coroutines.withContext
 /**
  *
  */
-class SystemAppsRepository constructor(
-) {
+class SystemAppsRepository(private val context: Context) {
 
     /**
      * All system apps - displayed in drawer
      */
     private var systemAppList = MutableLiveData<List<DrawerAppModel>>()
 
-    suspend fun getSystemApps(): MutableLiveData<List<DrawerAppModel>> {
-        withContext(Dispatchers.IO) {
-            if (systemAppList.value == null) {
-                systemAppList = MutableLiveData()
-                updateSystemAppList(LauncherApplication.appContext)
-            }
+    fun getSystemApps(): MutableLiveData<List<DrawerAppModel>> {
+        if (systemAppList.value == null) {
+            systemAppList = MutableLiveData()
+            updateSystemAppList(context)
         }
-        return systemAppList as MutableLiveData<List<DrawerAppModel>>
+        return systemAppList
     }
 
 

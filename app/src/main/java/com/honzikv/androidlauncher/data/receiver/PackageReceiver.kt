@@ -6,21 +6,19 @@ import android.content.Context
 import android.content.Intent
 import com.honzikv.androidlauncher.LauncherApplication
 import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.direct
-import org.kodein.di.generic.instance
+import org.koin.core.KoinComponent
+import org.koin.core.get
 
 /**
  * This is basically a subscriber object that triggers system app list update every time app package
  * is changed.
  */
-class PackageReceiver(override val kodein: Kodein) : BroadcastReceiver(), KodeinAware {
+class PackageReceiver() : BroadcastReceiver(), KoinComponent {
 
-    private val systemAppsRepository by kodein.instance<SystemAppsRepository>()
+    private val systemAppsRepository: SystemAppsRepository = get()
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) =
-        systemAppsRepository.updateSystemAppList(LauncherApplication.appContext)
+        systemAppsRepository.updateSystemAppList(get())
 
 }

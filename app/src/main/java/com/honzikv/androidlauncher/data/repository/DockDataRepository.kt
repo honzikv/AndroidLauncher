@@ -1,5 +1,7 @@
 package com.honzikv.androidlauncher.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.data.database.dao.DockDao
 import com.honzikv.androidlauncher.data.model.entity.DockModel
 import kotlinx.coroutines.Dispatchers
@@ -9,13 +11,6 @@ class DockDataRepository constructor(
     private val dockDao: DockDao
 ) {
 
-    private var dock: DockModel? = null
+    val dock = dockDao.getInstance()
 
-    suspend fun getDock(): DockModel {
-        withContext(Dispatchers.IO) {
-            dock = dockDao.getInstance()
-        }
-
-        return dock as DockModel
-    }
 }

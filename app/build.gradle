@@ -62,6 +62,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
-    implementation 'org.kodein.di:kodein-di-generic-jvm:6.5.4'
-
+    implementation "org.koin:koin-android:2.1.5"
+    implementation "org.koin:koin-android-scope:2.1.5"
+    implementation "org.koin:koin-android-viewmodel:2.1.5"
 }
