@@ -28,12 +28,11 @@ data class FolderModel(
 /**
  * User created app shortcut - e.g icon in folder
  */
-@Fts4
 @Entity
 data class FolderItemModel(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int?,
+    var id: Int?,
 
     @ForeignKey(
         entity = FolderModel::class,

@@ -26,7 +26,7 @@ val DEFAULT_PACKAGES =
 const val FOLDER_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
-const val PREFERENCES_NAME = "userPreferences"
+const val APP_PREFERENCES = "userPreferences"
 const val PREFS_INITIALIZED = "prefsInitialized"
 
 /**

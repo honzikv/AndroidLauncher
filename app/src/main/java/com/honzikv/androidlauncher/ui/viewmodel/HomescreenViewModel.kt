@@ -15,7 +15,7 @@ class HomescreenViewModel(
 ) : ViewModel() {
 
     private var currentPage = 0
-
+    get
 
 
 

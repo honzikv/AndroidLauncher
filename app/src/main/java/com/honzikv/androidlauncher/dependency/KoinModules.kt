@@ -1,51 +1,48 @@
 package com.honzikv.androidlauncher.dependency
 
+import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
-import com.honzikv.androidlauncher.data.first.launch.PREFERENCES_NAME
-import com.honzikv.androidlauncher.data.preferences.UserSettings
+import com.honzikv.androidlauncher.data.first.launch.APP_PREFERENCES
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenPageRepository
 import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
+import com.honzikv.androidlauncher.ui.viewmodel.FolderListViewModel
 import com.honzikv.androidlauncher.ui.viewmodel.HomescreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val repositoryModule = module {
-    single { HomescreenPageRepository(get(), get()) }
-    single { DockDataRepository(get()) }
-    single { FolderDataRepository(get()) }
-    single { SystemAppsRepository(androidContext()) }
-}
+val module = module {
 
-val databaseModule = module {
     single {
         Room.databaseBuilder(get(), LauncherDatabase::class.java, "app_database")
             .fallbackToDestructiveMigration()
             .build()
     }
-}
 
-val daoModule = module {
     single { get<LauncherDatabase>().dockDao() }
     single { get<LauncherDatabase>().folderDao() }
     single { get<LauncherDatabase>().homescreenPageDao() }
     single { get<LauncherDatabase>().userAppDao() }
-}
 
-val viewModelModule = module {
+    single { HomescreenPageRepository(get(), get()) }
+    single { DockDataRepository(get()) }
+    single { FolderDataRepository(get()) }
+    single { SystemAppsRepository(androidContext()) }
+
+
     viewModel { HomescreenViewModel(get(), get(), get()) }
-}
+    viewModel { FolderListViewModel(get()) }
 
-val utilsModule = module {
+    single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
+
     single {
         FirstLaunchInitializer(
-            get(), get(), get(), get(), androidContext().getSharedPreferences(
-                PREFERENCES_NAME, 0
-            )
+            get(), get(), get(), get(), get()
         )
+
     }
 }

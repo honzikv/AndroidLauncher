@@ -16,7 +16,6 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //TODO probably launch somewhere else
         lifecycleScope.launch {
             if (!initializer.isAppInitialized()) {
                 initializer.initialize()

@@ -5,7 +5,7 @@ import androidx.room.*
 @Entity
 data class HomescreenPageModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    var id: Int? = null,
 
     var pageNumber: Int = 0,
 

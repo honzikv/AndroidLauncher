@@ -15,20 +15,20 @@ interface FolderDao {
     @Update
     fun updateFolder(folder: FolderModel)
 
-    @Query("SELECT * FROM FolderModel")
-    fun getFolders(): MutableLiveData<List<FolderModel>>
+    @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
+    fun getFoldersOnPageLiveData(page: Int): LiveData<List<FolderModel>>
 
     @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
-    fun getFoldersOnPageLiveData(page: Int) : MutableLiveData<List<FolderModel>>
-
-    @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
-    fun getFoldersOnPage(page: Int) : List<FolderModel>
+    fun getFoldersOnPage(page: Int): List<FolderModel>
 
     @Insert
-    fun addFolder(folder: FolderModel) : Int
+    fun addFolder(folder: FolderModel): Int
 
     @Query("SELECT * FROM FolderModel WHERE id = :folderId")
     fun getFolder(folderId: Int): FolderModel?
+
+    @Query("SELECT * FROM FolderItemModel WHERE folderId = :folderId")
+    fun getFolderItems(folderId: Int): LiveData<List<FolderItemModel>>
 
     @Delete
     fun deleteFolder(folder: FolderModel)
