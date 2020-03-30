@@ -11,6 +11,7 @@ const val DOCK_DEFAULT_COLOR = Color.WHITE
 const val DEFAULT_OPACITY = 0.8f
 
 const val DOCK_APP_LIMIT = 4;
+
 /**
  * Effectively dock is a singleton
  */
@@ -23,4 +24,15 @@ class DockModel(
     var color: Int = DOCK_DEFAULT_COLOR,
 
     var opacity: Float = DEFAULT_OPACITY
+)
+
+@Entity
+data class DockItemModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 1,
+
+    val systemAppPackageName: String,
+
+    var position: Int = 0
+
 )

@@ -1,8 +1,6 @@
 package com.honzikv.androidlauncher.data.repository
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import com.honzikv.androidlauncher.data.model.LauncherAppModel
 
 /**
  *

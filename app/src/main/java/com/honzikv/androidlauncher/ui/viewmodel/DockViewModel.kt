@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.honzikv.androidlauncher.data.model.LauncherAppModel
-import com.honzikv.androidlauncher.data.model.entity.DockItemModel
+import com.honzikv.androidlauncher.data.model.DrawerAppModel
 import com.honzikv.androidlauncher.data.model.entity.DockModel
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ class DockViewModel(
 
     private lateinit var dock: LiveData<DockModel>
 
-    private lateinit var dockItems: MutableLiveData<List<LauncherAppModel>>
+    private lateinit var dockItems: MutableLiveData<List<DrawerAppModel>>
 
     suspend fun getDock(): LiveData<DockModel> {
         withContext(Dispatchers.IO) {
@@ -29,25 +28,25 @@ class DockViewModel(
         return dock
     }
 
-    suspend fun addItem(item: LauncherAppModel) {
+    suspend fun addItem(item: DrawerAppModel) {
 
     }
 
-    suspend fun getDockItems(): LiveData<List<LauncherAppModel>> {
+    suspend fun getDockItems(): LiveData<List<DrawerAppModel>> {
         withContext(Dispatchers.IO) {
             if (!::dockItems.isInitialized) {
                 dockItems = MutableLiveData()
             }
 
             val dockItemsDB = dockDataDataRepository.getDockItems()
-            val mappedList = mutableListOf<LauncherAppModel>()
+            val mappedList = mutableListOf<DrawerAppModel>()
             val packageManager = applicationContext.packageManager
 
             //Mapping database objects to frontend objects
             dockItemsDB.forEach { item ->
                 val appInfo = packageManager.getApplicationInfo(item.systemAppPackageName, 0)
                 mappedList.add(
-                    LauncherAppModel(
+                    DrawerAppModel(
                         item.systemAppPackageName,
                         packageManager.getApplicationLabel(appInfo).toString(),
                         packageManager.getApplicationIcon(item.systemAppPackageName)

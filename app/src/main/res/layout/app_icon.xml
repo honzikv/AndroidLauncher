@@ -3,7 +3,7 @@
     <data>
         <variable
             name="launcherApp"
-            type="com.honzikv.androidlauncher.data.model.LauncherAppModel" />
+            type="com.honzikv.androidlauncher.data.model.DrawerAppModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

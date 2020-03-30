@@ -5,34 +5,57 @@ import androidx.room.*
 @Entity
 data class FolderModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 1,
+    val id: Int? = null,
 
-    var page: Int,
+    @ForeignKey(
+        entity = HomescreenPageModel::class,
+        onDelete = ForeignKey.CASCADE,
+        parentColumns = ["id"],
+        childColumns = ["pageId"]
+    )
+    var pageId: Int? = null,
 
-    var position: Int,
+    var position: Int? = null,
 
     var backgroundColor: Int,
 
     var title: String,
 
-    var appList: List<FolderItemModel>
+    var nextAppPosition: Int = 0
+
 )
 
+/**
+ * User created app shortcut - e.g icon in folder
+ */
+@Fts4
 @Entity
-data class DockItemModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 1,
+data class FolderItemModel(
 
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
+
+    @ForeignKey(
+        entity = FolderModel::class,
+        onDelete = ForeignKey.CASCADE,
+        parentColumns = ["id"],
+        childColumns = ["folderId"]
+    )
+    var folderId: Int,
+
+    /**
+     * Reference to SystemApp via package name
+     */
     val systemAppPackageName: String,
 
-    var position: Int = 0
-
-)
+    var position: Int? = null
+) {
+}
 
 data class FolderItemDetails(
     @Embedded
     val folder: FolderModel,
 
-    @Relation(parentColumn = "id", entityColumn = "id", entity = DockItemModel::class)
+    @Relation(parentColumn = "id", entityColumn = "id", entity = FolderItemModel::class)
     val itemList: List<DockItemModel>
 )

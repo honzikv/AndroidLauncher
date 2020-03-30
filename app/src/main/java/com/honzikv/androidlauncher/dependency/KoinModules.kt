@@ -2,6 +2,8 @@ package com.honzikv.androidlauncher.dependency
 
 import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
+import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
+import com.honzikv.androidlauncher.data.first.launch.PREFERENCES_NAME
 import com.honzikv.androidlauncher.data.preferences.UserSettings
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
@@ -13,7 +15,7 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single { HomescreenPageRepository(get()) }
+    single { HomescreenPageRepository(get(), get()) }
     single { DockDataRepository(get()) }
     single { FolderDataRepository(get()) }
     single { SystemAppsRepository(androidContext()) }
@@ -38,6 +40,12 @@ val viewModelModule = module {
     viewModel { HomescreenViewModel(get(), get(), get()) }
 }
 
-val userSettingsModule = module {
-    single { UserSettings() }
+val utilsModule = module {
+    single {
+        FirstLaunchInitializer(
+            get(), get(), get(), get(), androidContext().getSharedPreferences(
+                PREFERENCES_NAME, 0
+            )
+        )
+    }
 }

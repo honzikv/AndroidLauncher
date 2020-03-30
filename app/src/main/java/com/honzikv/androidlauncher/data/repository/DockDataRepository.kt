@@ -8,11 +8,27 @@ import com.honzikv.androidlauncher.data.model.entity.DockModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DockDataRepository constructor(
+class DockDataRepository(
     private val dockDao: DockDao
 ) {
 
-    suspend fun getDock() : LiveData<DockModel> = dockDao.getInstance()
+    fun getDock(): LiveData<DockModel> {
+        val dock = dockDao.getDock()
+        if (dock.value == null) {
+            createDefaultDock()
+            return dockDao.getDock() as LiveData<DockModel>
+        }
 
-    suspend fun getDockItems() : List<DockItemModel> = dockDao.getItems()
+        return dock as LiveData<DockModel>
+    }
+
+    private fun createDefaultDock() {
+        dockDao.createDock(DockModel())
+    }
+
+    suspend fun getDockItems(): List<DockItemModel> = dockDao.getItems()
+
+    suspend fun createDock(dock: DockModel) {
+        dockDao.createDock(dock)
+    }
 }
