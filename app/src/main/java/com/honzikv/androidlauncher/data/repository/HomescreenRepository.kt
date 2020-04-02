@@ -52,16 +52,13 @@ class HomescreenRepository(
         folderDao.updateFolder(folder)
     }
 
-    fun getPageCount(): Int {
-        TODO("return pageCount")
+
+    fun getAllPages() : LiveData<List<PageModel>> {
+        return allPages
     }
 
-    fun getPage(currentPage: Int): LiveData<PageModel>? {
-        TODO("return page")
-    }
-
-    fun getFolders(currentPage: Int): LiveData<List<FolderModel>> {
-        TODO("return folders")
+    fun getAllFolders(): LiveData<List<PageFolderList>> {
+        return allFolders
     }
 
     fun removeItemFromFolder(item: FolderItemModel, folder: FolderModel) {

@@ -58,7 +58,7 @@ class FirstLaunchInitializer(
         editor.apply()
     }
 
-    private fun createFirstPage(): Int {
+    private suspend fun createFirstPage(): Int {
         return homescreenRepository.addPageAsLast(PageModel())
     }
 
