@@ -49,22 +49,27 @@ data class FolderItemModel(
     val systemAppPackageName: String,
 
     var position: Int? = null
-) {
-    var itemList: MutableList<FolderItemModel>? = null
-}
-
-data class FolderItemDetails(
-    @Embedded
-    val folder: FolderModel,
-
-    @Relation(parentColumn = "id", entityColumn = "id", entity = FolderItemModel::class)
-    val itemList: List<DockItemModel>
 )
+
 
 data class PageFolderList(
     @Embedded
-    val pageModel: PageModel,
+    val page: PageModel,
 
-    @Relation(parentColumn = "id", entityColumn = "id", entity = FolderModel::class)
-    val folderList: List<FolderModel>
+    /**
+     * List of Folders each containing list of their items
+     */
+    @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderModel::class)
+    val folderList: List<FolderWithItems>
+)
+
+data class FolderWithItems(
+    @Embedded
+    val folder: FolderModel,
+
+    /**
+     * List of items in folder
+     */
+    @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
+    val itemList: List<FolderItemModel>
 )

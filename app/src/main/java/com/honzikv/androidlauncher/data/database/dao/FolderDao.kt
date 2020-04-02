@@ -2,6 +2,7 @@ package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.FolderModel
 import com.honzikv.androidlauncher.data.model.entity.PageFolderList
@@ -13,13 +14,16 @@ interface FolderDao {
     fun updateFolderItem(folderItem: FolderItemModel)
 
     @Update
-    fun updateFolder(folder: FolderModel)
+    suspend fun updateFolder(folder: FolderModel)
 
-    @Query("SELECT * FROM PageModel")
+    @Query("SELECT * FROM PageModel ORDER BY pageNumber")
     fun getAllFolders(): LiveData<List<PageFolderList>>
 
     @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
     fun getFolders(page: Int): LiveData<List<FolderModel>>
+
+    @Query("SELECT * FROM FolderModel ORDER BY id")
+    fun getAllItems(): LiveData<List<FolderWithItems>>
 
     @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
     fun getFoldersOnPage(page: Int): List<FolderModel>

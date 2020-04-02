@@ -3,10 +3,7 @@ package com.honzikv.androidlauncher.data.repository
 import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
-import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.PageFolderList
-import com.honzikv.androidlauncher.data.model.entity.PageModel
+import com.honzikv.androidlauncher.data.model.entity.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -17,9 +14,11 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
-    private val allPages: LiveData<List<PageModel>> = pageDao.getAllPages()
+    val allPages: LiveData<List<PageModel>> = pageDao.getAllPages()
 
-    private val allFolders: LiveData<List<PageFolderList>> = folderDao.getAllFolders()
+    val allFolders: LiveData<List<PageFolderList>> = folderDao.getAllFolders()
+
+    val allItems: LiveData<List<FolderWithItems>> = folderDao.getAllItems()
 
     suspend fun addPageAsLast(page: PageModel): Int = withContext(Dispatchers.IO) {
         val pages = pageDao.getAllPagesAsMutable()
@@ -53,16 +52,9 @@ class HomescreenRepository(
     }
 
 
-    fun getAllPages() : LiveData<List<PageModel>> {
-        return allPages
-    }
-
-    fun getAllFolders(): LiveData<List<PageFolderList>> {
-        return allFolders
-    }
-
-    fun removeItemFromFolder(item: FolderItemModel, folder: FolderModel) {
+    suspend fun removeItemFromFolder(item: FolderItemModel, folder: FolderModel) {
         TODO("Not yet implemented")
     }
+
 
 }
