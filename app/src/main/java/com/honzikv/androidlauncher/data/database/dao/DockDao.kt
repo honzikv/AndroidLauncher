@@ -5,7 +5,6 @@ import androidx.room.*
 import com.honzikv.androidlauncher.data.model.entity.DOCK_PRIMARY_KEY
 import com.honzikv.androidlauncher.data.model.entity.DockItemModel
 import com.honzikv.androidlauncher.data.model.entity.DockModel
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class DockDao {

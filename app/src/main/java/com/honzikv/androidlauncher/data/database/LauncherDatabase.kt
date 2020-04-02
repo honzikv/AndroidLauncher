@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.honzikv.androidlauncher.data.database.dao.DockDao
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
-import com.honzikv.androidlauncher.data.database.dao.HomescreenPageDao
+import com.honzikv.androidlauncher.data.database.dao.PageDao
 import com.honzikv.androidlauncher.data.database.dao.UserAppDao
 import com.honzikv.androidlauncher.data.model.entity.*
 
@@ -24,5 +24,5 @@ abstract class LauncherDatabase : RoomDatabase() {
 
     abstract fun userAppDao(): UserAppDao
 
-    abstract fun homescreenPageDao() : HomescreenPageDao
+    abstract fun homescreenPageDao() : PageDao
 }

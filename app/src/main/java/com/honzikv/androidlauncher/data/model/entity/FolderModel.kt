@@ -50,6 +50,7 @@ data class FolderItemModel(
 
     var position: Int? = null
 ) {
+    var itemList: MutableList<FolderItemModel>? = null
 }
 
 data class FolderItemDetails(
@@ -58,4 +59,12 @@ data class FolderItemDetails(
 
     @Relation(parentColumn = "id", entityColumn = "id", entity = FolderItemModel::class)
     val itemList: List<DockItemModel>
+)
+
+data class PageFolderList(
+    @Embedded
+    val pageModel: PageModel,
+
+    @Relation(parentColumn = "id", entityColumn = "id", entity = FolderModel::class)
+    val folderList: List<FolderModel>
 )
