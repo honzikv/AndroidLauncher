@@ -18,8 +18,6 @@ class HomescreenRepository(
 
     val allFolders: LiveData<List<PageFolderList>> = folderDao.getAllFolders()
 
-    val allItems: LiveData<List<FolderWithItems>> = folderDao.getAllItems()
-
     suspend fun addPageAsLast(page: PageModel): Int = withContext(Dispatchers.IO) {
         val pages = pageDao.getAllPagesAsMutable()
         val lastPageNumber = pages[pages.size - 1].pageNumber

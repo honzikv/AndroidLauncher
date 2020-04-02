@@ -10,6 +10,8 @@ import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -44,12 +46,12 @@ class FirstLaunchInitializer(
         return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
 
-    suspend fun initialize() {
+    suspend fun initialize() = withContext(Dispatchers.IO) {
         Timber.i("Initializing default settings")
-        withContext(Dispatchers.IO) {
-            homescreenRepository.addFolderToPage(createFirstPage(), createGoogleFolder())
-            commitInitialized()
-        }
+        val pageDeferred = async { createFirstPage() }
+        val folderDeferred = async { createGoogleFolder() }
+        homescreenRepository.addFolderToPage(pageDeferred.await(), folderDeferred.await())
+        commitInitialized()
     }
 
     private fun commitInitialized() {
@@ -94,4 +96,5 @@ class FirstLaunchInitializer(
             false
         }
     }
+
 }

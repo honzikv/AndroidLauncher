@@ -12,12 +12,10 @@ abstract class DockDao {
     @Query("SELECT * FROM DockModel WHERE primaryKey = $DOCK_PRIMARY_KEY")
     abstract fun getDock(): LiveData<DockModel?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertDock(dockModel: DockModel)
 
     @Query("SELECT * FROM DockItemModel")
-    abstract fun getItems(): List<DockItemModel>
+    abstract fun getItems(): LiveData<List<DockItemModel>>
 
-    @Insert
-    abstract fun createDock(dock: DockModel)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun createDock(dock: DockModel)
 }
