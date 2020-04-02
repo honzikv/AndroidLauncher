@@ -10,10 +10,6 @@ class FolderDataRepository constructor(
     private val folderDao: FolderDao
 ) {
 
-    fun getFolderList(page: Int): MutableLiveData<List<FolderModel>> {
-        return folderDao.getFolders(page)
-    }
-
     fun addFolder(folder: FolderModel): Int = folderDao.addFolder(folder)
 
     fun addAppToFolder(folderItem: FolderItemModel, folder: FolderModel) {
@@ -24,10 +20,5 @@ class FolderDataRepository constructor(
         folderDao.updateFolderItem(folderItem)
     }
 
-    fun getFolder(folderId: Int): FolderModel {
-        return folderDao.getFolder(folderId) ?: throw Resources.NotFoundException()
-    }
-
-    fun getFolderItems(folderId: Int) = folderDao.getFolderItems(folderId)
 
 }
