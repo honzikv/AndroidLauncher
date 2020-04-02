@@ -8,7 +8,7 @@ data class FolderModel(
     val id: Int? = null,
 
     @ForeignKey(
-        entity = HomescreenPageModel::class,
+        entity = PageModel::class,
         onDelete = ForeignKey.CASCADE,
         parentColumns = ["id"],
         childColumns = ["pageId"]
@@ -22,8 +22,9 @@ data class FolderModel(
     var title: String,
 
     var nextAppPosition: Int = 0
-
-)
+) {
+    var itemList: MutableList<FolderItemModel>? = null
+}
 
 /**
  * User created app shortcut - e.g icon in folder

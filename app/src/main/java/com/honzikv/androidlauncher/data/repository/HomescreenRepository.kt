@@ -1,24 +1,27 @@
 package com.honzikv.androidlauncher.data.repository
 
 import android.content.res.Resources
+import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.HomescreenPageDao
-import com.honzikv.androidlauncher.data.model.entity.HomescreenPageModel
+import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
+import com.honzikv.androidlauncher.data.model.entity.FolderModel
+import com.honzikv.androidlauncher.data.model.entity.PageModel
 
 
-class HomescreenPageRepository(
+class HomescreenRepository(
     private val homescreenPageDao: HomescreenPageDao,
     private val folderDao: FolderDao
 ) {
 
-    fun addPageAsLast(page: HomescreenPageModel): Int {
+    fun addPageAsLast(page: PageModel): Int {
         val pages = homescreenPageDao.getAllPagesByPageNumberAsc()
         val lastPageNumber = pages[pages.size - 1].pageNumber
         page.pageNumber = lastPageNumber + 1
         return homescreenPageDao.addPage(page)
     }
 
-    fun removePage(page: HomescreenPageModel) {
+    fun removePage(page: PageModel) {
         val pages = homescreenPageDao.getAllPagesByPageNumberAsc()
         for (i in page.pageNumber..pages.size) {
             pages[i].pageNumber = pages[i].pageNumber - 1
@@ -41,6 +44,22 @@ class HomescreenPageRepository(
 
         homescreenPageDao.updatePage(page)
         folderDao.updateFolder(folder)
+    }
+
+    fun getPageCount(): Int {
+        TODO("return pageCount")
+    }
+
+    fun getPage(currentPage: Int): LiveData<PageModel>? {
+        TODO("return page")
+    }
+
+    fun getFolders(currentPage: Int): LiveData<List<FolderModel>> {
+        TODO("return folders")
+    }
+
+    fun removeItemFromFolder(item: FolderItemModel, folder: FolderModel) {
+        TODO("Not yet implemented")
     }
 
 }

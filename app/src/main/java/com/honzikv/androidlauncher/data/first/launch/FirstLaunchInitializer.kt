@@ -5,10 +5,10 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.HomescreenPageModel
+import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
-import com.honzikv.androidlauncher.data.repository.HomescreenPageRepository
+import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -35,7 +35,7 @@ const val PREFS_INITIALIZED = "prefsInitialized"
 class FirstLaunchInitializer(
     private val dockDataRepository: DockDataRepository,
     private val folderDataRepository: FolderDataRepository,
-    private val homescreenPageRepository: HomescreenPageRepository,
+    private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager,
     private val sharedPreferences: SharedPreferences
 ) {
@@ -47,7 +47,7 @@ class FirstLaunchInitializer(
     suspend fun initialize() {
         Timber.i("Initializing default settings")
         withContext(Dispatchers.IO) {
-            homescreenPageRepository.addFolderToPage(createFirstPage(), createGoogleFolder())
+            homescreenRepository.addFolderToPage(createFirstPage(), createGoogleFolder())
             commitInitialized()
         }
     }
@@ -59,7 +59,7 @@ class FirstLaunchInitializer(
     }
 
     private fun createFirstPage(): Int {
-        return homescreenPageRepository.addPageAsLast(HomescreenPageModel())
+        return homescreenRepository.addPageAsLast(PageModel())
     }
 
     /**

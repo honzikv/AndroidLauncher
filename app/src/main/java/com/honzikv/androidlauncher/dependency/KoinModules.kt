@@ -7,7 +7,7 @@ import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.first.launch.APP_PREFERENCES
 import com.honzikv.androidlauncher.data.repository.DockDataRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
-import com.honzikv.androidlauncher.data.repository.HomescreenPageRepository
+import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
 import com.honzikv.androidlauncher.ui.viewmodel.FolderListViewModel
 import com.honzikv.androidlauncher.ui.viewmodel.HomescreenViewModel
@@ -28,7 +28,7 @@ val module = module {
     single { get<LauncherDatabase>().homescreenPageDao() }
     single { get<LauncherDatabase>().userAppDao() }
 
-    single { HomescreenPageRepository(get(), get()) }
+    single { HomescreenRepository(get(), get()) }
     single { DockDataRepository(get()) }
     single { FolderDataRepository(get()) }
     single { SystemAppsRepository(androidContext()) }
