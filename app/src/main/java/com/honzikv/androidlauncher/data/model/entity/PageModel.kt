@@ -5,7 +5,7 @@ import androidx.room.*
 @Entity
 data class PageModel(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    var id: Long? = null,
 
     var pageNumber: Int = 0,
 

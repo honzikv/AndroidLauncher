@@ -11,17 +11,8 @@ import org.koin.core.context.KoinContextHandler.get
 
 class LauncherActivity : AppCompatActivity() {
 
-    private val initializer: FirstLaunchInitializer by inject()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        lifecycleScope.launch {
-            if (!initializer.isAppInitialized()) {
-                initializer.initialize()
-            }
-        }
-
         setContentView(R.layout.activity_launcher)
     }
 

@@ -7,11 +7,13 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.FolderModel
 import kotlinx.coroutines.runBlocking
 
-class FolderDataRepository constructor(
+class FolderDataRepository(
     private val folderDao: FolderDao
 ) {
 
-    fun addFolder(folder: FolderModel): Int = folderDao.addFolder(folder)
+    suspend fun addFolder(folder: FolderModel) = folderDao.addFolder(folder)
+
+    suspend fun getFolder(folderId: Long) = folderDao.getFolder(folderId)
 
     suspend fun addAppToFolder(folderItem: FolderItemModel, folder: FolderModel) {
         folderItem.folderId = folder.id!!
@@ -19,7 +21,6 @@ class FolderDataRepository constructor(
         folder.nextAppPosition = folder.nextAppPosition.plus(1)
         folderDao.updateFolder(folder)
         folderDao.updateFolderItem(folderItem)
-
     }
 
 

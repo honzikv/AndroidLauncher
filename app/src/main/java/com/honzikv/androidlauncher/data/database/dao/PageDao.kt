@@ -20,12 +20,12 @@ interface PageDao {
     suspend fun getAllPagesAsMutable() : MutableList<PageModel>
 
     @Insert
-    suspend fun addPage(page: PageModel): Int
+    suspend fun addPage(page: PageModel): Long
 
     @Update
     suspend fun updatePageList(pages: List<PageModel>)
 
     @Query("SELECT * FROM PageModel WHERE id = :pageId")
-    suspend fun getPage(pageId: Int): PageModel
+    suspend fun getPage(pageId: Long): PageModel
 
 }

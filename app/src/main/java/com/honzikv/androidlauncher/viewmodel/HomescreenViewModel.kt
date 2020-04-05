@@ -1,11 +1,7 @@
 package com.honzikv.androidlauncher.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
 import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
@@ -19,7 +15,6 @@ class HomescreenViewModel(
     val totalPageCount =
         BackgroundTransformations.map(homescreenRepository.allPages, List<PageModel>::size)
 
-
     val currentPage =
         BackgroundTransformations.map(homescreenRepository.allPages) { list ->
             list[currentPageNumber.value!!]
@@ -29,7 +24,6 @@ class HomescreenViewModel(
         BackgroundTransformations.map(homescreenRepository.allFolders) { list ->
             list[currentPageNumber.value!!].folderList
         }
-
 
     fun moveToNextPage() {
         if (currentPageNumber.value!! < totalPageCount.value!!) {
@@ -41,6 +35,10 @@ class HomescreenViewModel(
         if (currentPageNumber.value!! > 0) {
             currentPageNumber.postValue(currentPageNumber.value!! - 1)
         }
+    }
+
+    suspend fun removePage(page: PageModel) {
+        homescreenRepository.removePage(page)
     }
 
 }

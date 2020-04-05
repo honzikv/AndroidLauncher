@@ -1,14 +1,14 @@
 package com.honzikv.androidlauncher.viewmodel
 
-import com.honzikv.androidlauncher.data.repository.DockDataRepository
+import com.honzikv.androidlauncher.data.repository.DockRepository
 
 class DockViewModel(
-    private val dockDataRepository: DockDataRepository
+    private val dockRepository: DockRepository
 ) {
 
-    val dock = dockDataRepository.dock
+    val dock = dockRepository.dock
 
-    val dockItems = dockDataRepository.dockItems
+    val dockItems = dockRepository.dockItems
 
-    fun addItem()
+    fun addItem(packageName: String) = dockRepository.addItem(packageName)
 }

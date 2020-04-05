@@ -7,22 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.ui.viewmodel.FolderListViewModel
-import com.honzikv.androidlauncher.ui.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
 
 class FolderListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FolderListFragment()
-    }
+    private val homescreenViewModel: HomescreenViewModel by inject()
 
-    private var folderViewModel = inject<FolderListViewModel>()
-
-    private var homescreenViewModel = inject<HomescreenViewModel>()
-
-    private lateinit var folders: List<FolderModel>
+    private val folderList = homescreenViewModel.folderList
 
 
     override fun onCreateView(
@@ -36,5 +28,7 @@ class FolderListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
     }
+
+
 
 }

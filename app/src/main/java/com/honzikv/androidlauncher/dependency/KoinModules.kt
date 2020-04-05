@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.first.launch.APP_PREFERENCES
-import com.honzikv.androidlauncher.data.repository.DockDataRepository
+import com.honzikv.androidlauncher.data.repository.DockRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
@@ -29,7 +29,7 @@ val module = module {
     single { get<LauncherDatabase>().userAppDao() }
 
     single { HomescreenRepository(get(), get()) }
-    single { DockDataRepository(get()) }
+    single { DockRepository(get()) }
     single { FolderDataRepository(get()) }
     single { SystemAppsRepository(androidContext()) }
 

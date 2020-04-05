@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.koin.ext.scope
 
-class DockDataRepository(
+class DockRepository(
     private val dockDao: DockDao
 ) {
 
@@ -31,6 +31,10 @@ class DockDataRepository(
 
     private suspend fun createDefaultDock() =
         withContext(Dispatchers.IO) { dockDao.createDock(DockModel()) }
+
+    fun addItem(packageName: String) {
+
+    }
 
 
 }

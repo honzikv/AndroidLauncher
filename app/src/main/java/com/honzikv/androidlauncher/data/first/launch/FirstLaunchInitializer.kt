@@ -6,12 +6,11 @@ import android.graphics.Color
 import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.FolderModel
 import com.honzikv.androidlauncher.data.model.entity.PageModel
-import com.honzikv.androidlauncher.data.repository.DockDataRepository
+import com.honzikv.androidlauncher.data.repository.DockRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -35,7 +34,6 @@ const val PREFS_INITIALIZED = "prefsInitialized"
  * Class that creates database objects for the first launch
  */
 class FirstLaunchInitializer(
-    private val dockDataRepository: DockDataRepository,
     private val folderDataRepository: FolderDataRepository,
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager,
@@ -58,16 +56,17 @@ class FirstLaunchInitializer(
         val editor = sharedPreferences.edit()
         editor.putBoolean(PREFS_INITIALIZED, true)
         editor.apply()
+        Timber.d("Successfully set default variables")
     }
 
-    private suspend fun createFirstPage(): Int {
+    private suspend fun createFirstPage(): Long {
         return homescreenRepository.addPageAsLast(PageModel())
     }
 
     /**
      * Creates folder with google apps
      */
-    private fun createGoogleFolder(): Int {
+    private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
 
         val folderId = folderDataRepository.addFolder(
             FolderModel(null, null, null, FOLDER_COLOR, FOLDER_NAME)
@@ -86,7 +85,7 @@ class FirstLaunchInitializer(
             folderDataRepository.addAppToFolder(folderItem, folder)
         }
 
-        return folderId
+        return@withContext folderId
     }
 
     private fun isAppInstalled(packageName: String): Boolean {

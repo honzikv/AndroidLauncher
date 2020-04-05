@@ -5,7 +5,7 @@ import androidx.room.*
 @Entity
 data class FolderModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    val id: Long? = null,
 
     @ForeignKey(
         entity = PageModel::class,
@@ -13,7 +13,7 @@ data class FolderModel(
         parentColumns = ["id"],
         childColumns = ["pageId"]
     )
-    var pageId: Int? = null,
+    var pageId: Long? = null,
 
     var position: Int? = null,
 
@@ -22,9 +22,7 @@ data class FolderModel(
     var title: String,
 
     var nextAppPosition: Int = 0
-) {
-    var itemList: MutableList<FolderItemModel>? = null
-}
+)
 
 /**
  * User created app shortcut - e.g icon in folder
@@ -33,7 +31,7 @@ data class FolderModel(
 data class FolderItemModel(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Int?,
+    var id: Long?,
 
     @ForeignKey(
         entity = FolderModel::class,
@@ -41,7 +39,7 @@ data class FolderItemModel(
         parentColumns = ["id"],
         childColumns = ["folderId"]
     )
-    var folderId: Int,
+    var folderId: Long,
 
     /**
      * Reference to SystemApp via package name

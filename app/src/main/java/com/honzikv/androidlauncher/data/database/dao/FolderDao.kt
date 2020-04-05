@@ -19,23 +19,11 @@ interface FolderDao {
     @Query("SELECT * FROM PageModel ORDER BY pageNumber")
     fun getAllFolders(): LiveData<List<PageFolderList>>
 
-    @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
-    fun getFolders(page: Int): LiveData<List<FolderModel>>
-
-    @Query("SELECT * FROM FolderModel ORDER BY id")
-    fun getAllItems(): LiveData<List<FolderWithItems>>
-
-    @Query("SELECT * FROM FolderModel WHERE pageId = :page ORDER BY position ASC")
-    fun getFoldersOnPage(page: Int): List<FolderModel>
-
     @Insert
-    fun addFolder(folder: FolderModel): Int
+    suspend fun addFolder(folder: FolderModel): Long
 
     @Query("SELECT * FROM FolderModel WHERE id = :folderId")
-    suspend fun getFolder(folderId: Int): FolderModel
-
-    @Query("SELECT * FROM FolderItemModel WHERE folderId = :folderId")
-    fun getFolderItems(folderId: Int): LiveData<List<FolderItemModel>>
+    suspend fun getFolder(folderId: Long): FolderModel
 
     @Delete
     fun deleteFolder(folder: FolderModel)
