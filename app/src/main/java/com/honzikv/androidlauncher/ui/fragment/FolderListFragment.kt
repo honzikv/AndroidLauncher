@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 
 import com.honzikv.androidlauncher.R
+import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
 
@@ -14,20 +16,21 @@ class FolderListFragment : Fragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
-    private val folderList = homescreenViewModel.folderList
-
+    private lateinit var folders: LiveData<List<FolderWithItems>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        initialize()
         return inflater.inflate(R.layout.folder_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun initialize() {
+        folders = homescreenViewModel.folderList
+        TODO("Not yet implemented")
     }
+
 
 
 

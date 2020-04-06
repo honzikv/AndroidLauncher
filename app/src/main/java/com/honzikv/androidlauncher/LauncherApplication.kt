@@ -13,8 +13,7 @@ import org.koin.core.context.startKoin
 import timber.log.Timber
 
 /**
- * For much cleaner code this project uses KOIN injection framework to minimize boilerplate code
- * of getting instances of repositories, databases and such.
+ * This project uses KOIN injector
  */
 
 class LauncherApplication : Application() {

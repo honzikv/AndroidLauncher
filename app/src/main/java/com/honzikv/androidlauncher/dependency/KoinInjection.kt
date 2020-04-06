@@ -9,8 +9,7 @@ import com.honzikv.androidlauncher.data.repository.DockRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
-import com.honzikv.androidlauncher.ui.viewmodel.FolderListViewModel
-import com.honzikv.androidlauncher.ui.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -34,14 +33,13 @@ val module = module {
     single { SystemAppsRepository(androidContext()) }
 
 
-    viewModel { HomescreenViewModel(get(), get(), get()) }
-    viewModel { FolderListViewModel(get()) }
+    viewModel { HomescreenViewModel(get()) }
 
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     single {
         FirstLaunchInitializer(
-            get(), get(), get(), get(), get()
+            get(), get(), get(), get()
         )
 
     }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
+ * Source:
  * https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
  */
 object BackgroundTransformations {
