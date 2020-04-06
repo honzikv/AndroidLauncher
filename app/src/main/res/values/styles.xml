@@ -13,6 +13,11 @@
     <style name="BackgroundTheme">
     </style>
 
+    <style name="bold_text_style">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/folder_text_black</item>
+    </style>
 
 
 </resources>
