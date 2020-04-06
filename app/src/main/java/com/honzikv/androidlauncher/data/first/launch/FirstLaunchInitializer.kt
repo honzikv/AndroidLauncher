@@ -64,7 +64,7 @@ class FirstLaunchInitializer(
     }
 
     /**
-     * Creates folder with google apps
+     * Creates folder_header with google apps
      */
     private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
 

@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListAdapter
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.RecyclerView
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
+import com.honzikv.androidlauncher.ui.adapter.FolderListAdapter
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
 
@@ -18,20 +21,25 @@ class FolderListFragment : Fragment() {
 
     private lateinit var folders: LiveData<List<FolderWithItems>>
 
+    private lateinit var recyclerView: RecyclerView
+
+    private lateinit var recyclerAdapter: FolderListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         initialize()
-        return inflater.inflate(R.layout.folder_fragment, container, false)
+        return inflater.inflate(R.layout.folder_list_fragment, container, false)
     }
 
     private fun initialize() {
         folders = homescreenViewModel.folderList
-        TODO("Not yet implemented")
+
     }
 
 
 
 
 }
+

@@ -33,7 +33,7 @@ val module = module {
     single { SystemAppsRepository(androidContext()) }
 
 
-    viewModel { HomescreenViewModel(get()) }
+    viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
 
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 

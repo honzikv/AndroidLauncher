@@ -1,13 +1,18 @@
 package com.honzikv.androidlauncher.viewmodel
 
+import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomescreenViewModel(
-    private val homescreenRepository: HomescreenRepository
+    private val homescreenRepository: HomescreenRepository,
+    private val packageManager: PackageManager
 ) : ViewModel() {
 
     val currentPageNumber = MutableLiveData(0)
@@ -15,15 +20,42 @@ class HomescreenViewModel(
     val totalPageCount =
         BackgroundTransformations.map(homescreenRepository.allPages, List<PageModel>::size)
 
-    val currentPage =
-        BackgroundTransformations.map(homescreenRepository.allPages) { list ->
-            list[currentPageNumber.value!!]
-        }
-
     val folderList: LiveData<List<FolderWithItems>> =
         BackgroundTransformations.map(homescreenRepository.allFolders) { list ->
+            //Return list with folders of current page
             list[currentPageNumber.value!!].folderList
+                .apply { loadItemInfo() }
         }
+
+    private fun List<FolderWithItems>.loadItemInfo() {
+        forEach { folder ->
+            folder.itemList.forEach { item ->
+                //If drawable is null load it
+                if (item.drawable == null || item.label == null) {
+                    try {
+                        //Might throw NameNotFoundException
+                        val appInfo =
+                            packageManager.getApplicationInfo(
+                                item.systemAppPackageName,
+                                0
+                            )
+                        item.drawable = packageManager.getDrawable(
+                            item.systemAppPackageName,
+                            0,
+                            appInfo
+                        )
+                        item.label =
+                            packageManager.getApplicationLabel(appInfo).toString()
+                        //App might have been uninstalled so remove item from db
+                    } catch (nameNotFoundEx: PackageManager.NameNotFoundException) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            homescreenRepository.removeItem(item)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     fun moveToNextPage() {
         if (currentPageNumber.value!! < totalPageCount.value!!) {

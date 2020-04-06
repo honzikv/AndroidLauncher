@@ -31,6 +31,7 @@ class HomescreenRepository(
         for (i in page.pageNumber..pages.size) {
             pages[i].pageNumber = pages[i].pageNumber - 1
         }
+
         pages.removeAt(page.pageNumber - 1)
         pageDao.updatePageList(pages)
         pageDao.deletePage(page)
@@ -51,7 +52,7 @@ class HomescreenRepository(
     }
 
 
-    suspend fun removeItemFromFolder(item: FolderItemModel, folder: FolderModel) {
+    suspend fun removeItem(item: FolderItemModel) {
         TODO("Not yet implemented")
     }
 

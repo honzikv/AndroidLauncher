@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.data.model.entity
 
+import android.graphics.drawable.Drawable
 import androidx.room.*
 
 @Entity
@@ -25,7 +26,7 @@ data class FolderModel(
 )
 
 /**
- * User created app shortcut - e.g icon in folder
+ * User created app shortcut - e.g icon in folder_header
  */
 @Entity
 data class FolderItemModel(
@@ -46,7 +47,13 @@ data class FolderItemModel(
      */
     val systemAppPackageName: String,
 
-    var position: Int? = null
+    var position: Int? = null,
+
+    @Ignore
+    var drawable: Drawable? = null,
+
+    @Ignore
+    var label: String? = null
 )
 
 
@@ -66,7 +73,7 @@ data class FolderWithItems(
     val folder: FolderModel,
 
     /**
-     * List of items in folder
+     * List of items in folder_header
      */
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
     val itemList: List<FolderItemModel>
