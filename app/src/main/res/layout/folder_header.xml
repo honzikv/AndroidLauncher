@@ -23,14 +23,14 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/circle"
-                app:layout_constraintBottom_toBottomOf="@+id/mainText"
+                app:layout_constraintBottom_toBottomOf="@+id/folderName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/mainText"
-                app:layout_constraintTop_toTopOf="@+id/mainText" />
+                app:layout_constraintStart_toEndOf="@+id/folderName"
+                app:layout_constraintTop_toTopOf="@+id/folderName" />
 
             <TextView
-                android:id="@+id/mainText"
+                android:id="@+id/folderName"
                 style="@style/bold_text_style"
                 android:layout_width="331dp"
                 android:layout_height="wrap_content"
@@ -57,8 +57,8 @@
                 android:text="@string/lorem_ipsum"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
-                app:layout_constraintStart_toStartOf="@+id/mainText"
-                app:layout_constraintTop_toBottomOf="@+id/mainText" />
+                app:layout_constraintStart_toStartOf="@+id/folderName"
+                app:layout_constraintTop_toBottomOf="@+id/folderName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

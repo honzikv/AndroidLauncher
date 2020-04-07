@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.honzikv.androidlauncher.R
+import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
@@ -14,14 +16,20 @@ class FolderListAdapter :
     private val folderList: MutableList<FolderWithItems> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == 1) {
-            val binding =
-                FolderHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-            return FolderHeaderViewHolder(binding)
-        } else {
-            FolderDetailViewHolder(
-                FolderDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return when (viewType) {
+            R.layout.folder_header -> FolderHeaderViewHolder(
+                FolderHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> FolderDetailViewHolder(
+                FolderDetailBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             )
         }
     }
@@ -30,19 +38,35 @@ class FolderListAdapter :
     override fun getItemCount(): Int = folderList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentItem = folderList[position]
-
+        val item = folderList[position]
+        when (getItemViewType(position)) {
+            R.layout.folder_detail -> (holder as FolderDetailViewHolder).bind(item)
+            R.layout.folder_header -> (holder as FolderHeaderViewHolder).bind(item)
+        }
     }
+
+    override fun getItemViewType(position: Int) =
+        if (folderList[position].showItems) R.layout.folder_detail else R.layout.folder_header
+
+
 }
 
 class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
     RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(data: FolderWithItems) {
+        binding.folderName.text = data.folder.title
+        binding.subText.text = data.itemList.map(FolderItemDto::label).joinToString(", ")
+    }
 
 }
 
 class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
+    fun bind(data: FolderWithItems) {
+
+    }
 }
 
 interface RecyclerViewOnClickListener {
