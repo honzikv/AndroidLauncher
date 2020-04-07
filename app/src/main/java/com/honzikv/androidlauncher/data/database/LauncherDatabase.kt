@@ -6,13 +6,13 @@ import com.honzikv.androidlauncher.data.database.dao.DockDao
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
 import com.honzikv.androidlauncher.data.database.dao.UserAppDao
-import com.honzikv.androidlauncher.data.model.dto.*
+import com.honzikv.androidlauncher.data.model.entity.*
 
 /**
  * Room database to store user edited data about homescreen
  */
 @Database(
-    entities = [FolderDto::class, DockModel::class, FolderItemDto::class, DockItemModel::class,
+    entities = [FolderDto::class, DockDto::class, FolderItemDto::class, DockItemDto::class,
         PageDto::class],
     version = 1
 )

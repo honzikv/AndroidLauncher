@@ -21,10 +21,10 @@ class DockRepository(
             runBlocking {
                 createDefaultDock()
             }
-            return dockDao.getDock()
+            return dockDao.getDock() as LiveData<DockDto>
         }
 
-        return dock
+        return dock as LiveData<DockDto>
     }
 
     private suspend fun createDefaultDock() =
