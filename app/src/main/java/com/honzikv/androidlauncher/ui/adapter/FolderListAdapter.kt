@@ -3,6 +3,7 @@ package com.honzikv.androidlauncher.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
@@ -64,7 +65,8 @@ class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(data: FolderWithItems) {
-
+        binding.recyclerView.apply {
+        }
     }
 }
 

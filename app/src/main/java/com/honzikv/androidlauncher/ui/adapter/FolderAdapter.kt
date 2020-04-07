@@ -22,12 +22,9 @@ class FolderAdapter(
 
     override fun getItemCount(): Int = folderItems.size
 
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(folderItems[position])
     }
-
-
 }
 
 class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
