@@ -2,29 +2,25 @@ package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
-import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.PageFolderList
+import com.honzikv.androidlauncher.data.model.entity.FolderDto
+import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
+import com.honzikv.androidlauncher.data.model.entity.PageWithFolders
 
 @Dao
 interface FolderDao {
 
     @Update
-    fun updateFolderItem(folderItem: FolderItemModel)
+    fun updateFolderItem(folderItem: FolderItemDto)
 
     @Update
-    suspend fun updateFolder(folder: FolderModel)
-
-    @Query("SELECT * FROM PageModel ORDER BY pageNumber")
-    fun getAllFolders(): LiveData<List<PageFolderList>>
+    suspend fun updateFolder(folder: FolderDto)
 
     @Insert
-    suspend fun addFolder(folder: FolderModel): Long
+    suspend fun addFolder(folder: FolderDto): Long
 
-    @Query("SELECT * FROM FolderModel WHERE id = :folderId")
-    suspend fun getFolder(folderId: Long): FolderModel
+    @Query("SELECT * FROM FolderDto WHERE id = :folderId")
+    suspend fun getFolder(folderId: Long): FolderDto
 
     @Delete
-    fun deleteFolder(folder: FolderModel)
+    fun deleteFolder(folder: FolderDto)
 }

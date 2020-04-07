@@ -16,7 +16,7 @@ const val DOCK_APP_LIMIT = 4;
  * Effectively dock is a singleton
  */
 @Entity
-class DockModel(
+class DockDto(
 
     @PrimaryKey
     val primaryKey: Int = DOCK_PRIMARY_KEY,
@@ -27,7 +27,7 @@ class DockModel(
 )
 
 @Entity
-data class DockItemModel(
+data class DockItemDto(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 1,
 

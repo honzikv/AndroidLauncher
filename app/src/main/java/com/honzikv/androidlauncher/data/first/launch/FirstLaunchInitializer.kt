@@ -3,10 +3,9 @@ package com.honzikv.androidlauncher.data.first.launch
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
-import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.PageModel
-import com.honzikv.androidlauncher.data.repository.DockRepository
+import com.honzikv.androidlauncher.data.model.entity.FolderDto
+import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
+import com.honzikv.androidlauncher.data.model.entity.PageDto
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +59,7 @@ class FirstLaunchInitializer(
     }
 
     private suspend fun createFirstPage(): Long {
-        return homescreenRepository.addPageAsLast(PageModel())
+        return homescreenRepository.addPageAsLast(PageDto())
     }
 
     /**
@@ -69,13 +68,13 @@ class FirstLaunchInitializer(
     private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
 
         val folderId = folderDataRepository.addFolder(
-            FolderModel(null, null, null, FOLDER_COLOR, FOLDER_NAME)
+            FolderDto(null, null, null, FOLDER_COLOR, FOLDER_NAME)
         )
 
-        val appList = mutableListOf<FolderItemModel>()
+        val appList = mutableListOf<FolderItemDto>()
         DEFAULT_PACKAGES.forEach { appPackage ->
             if (isAppInstalled(appPackage)) {
-                appList.add(FolderItemModel(null, folderId, appPackage))
+                appList.add(FolderItemDto(null, folderId, appPackage))
             }
         }
 

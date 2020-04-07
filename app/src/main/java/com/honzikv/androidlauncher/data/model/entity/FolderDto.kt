@@ -4,12 +4,12 @@ import android.graphics.drawable.Drawable
 import androidx.room.*
 
 @Entity
-data class FolderModel(
+data class FolderDto(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
     @ForeignKey(
-        entity = PageModel::class,
+        entity = PageDto::class,
         onDelete = ForeignKey.CASCADE,
         parentColumns = ["id"],
         childColumns = ["pageId"]
@@ -29,13 +29,13 @@ data class FolderModel(
  * User created app shortcut - e.g icon in folder_header
  */
 @Entity
-data class FolderItemModel(
+data class FolderItemDto(
 
     @PrimaryKey(autoGenerate = true)
     var id: Long?,
 
     @ForeignKey(
-        entity = FolderModel::class,
+        entity = FolderDto::class,
         onDelete = ForeignKey.CASCADE,
         parentColumns = ["id"],
         childColumns = ["folderId"]
@@ -57,24 +57,26 @@ data class FolderItemModel(
 )
 
 
-data class PageFolderList(
+data class PageWithFolders(
     @Embedded
-    val page: PageModel,
+    val page: PageDto,
 
     /**
      * List of Folders each containing list of their items
      */
-    @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderModel::class)
+    @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderDto::class)
     val folderList: List<FolderWithItems>
 )
 
 data class FolderWithItems(
     @Embedded
-    val folder: FolderModel,
+    val folder: FolderDto,
 
     /**
      * List of items in folder_header
      */
-    @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
-    val itemList: List<FolderItemModel>
+    @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemDto::class)
+    val itemList: List<FolderItemDto>,
+
+    var showItems: Boolean = false
 )

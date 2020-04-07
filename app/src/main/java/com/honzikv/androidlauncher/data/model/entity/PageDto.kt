@@ -3,7 +3,7 @@ package com.honzikv.androidlauncher.data.model.entity
 import androidx.room.*
 
 @Entity
-data class PageModel(
+data class PageDto(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 

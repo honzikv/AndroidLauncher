@@ -3,7 +3,6 @@ package com.honzikv.androidlauncher.data.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.data.model.DrawerAppModel
-import kotlinx.coroutines.withContext
 
 /**
  *
@@ -22,7 +21,6 @@ class SystemAppsRepository(private val context: Context) {
         }
         return systemAppList
     }
-
 
     /**
      * Updates systemApps LiveData with new list of system apps

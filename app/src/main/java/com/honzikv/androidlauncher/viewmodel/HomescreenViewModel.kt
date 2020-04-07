@@ -3,7 +3,8 @@ package com.honzikv.androidlauncher.viewmodel
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
-import com.honzikv.androidlauncher.data.model.entity.PageModel
+import com.honzikv.androidlauncher.data.model.entity.PageDto
+import com.honzikv.androidlauncher.data.model.entity.PageWithFolders
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
 import kotlinx.coroutines.CoroutineScope
@@ -18,10 +19,10 @@ class HomescreenViewModel(
     val currentPageNumber = MutableLiveData(0)
 
     val totalPageCount =
-        BackgroundTransformations.map(homescreenRepository.allPages, List<PageModel>::size)
+        BackgroundTransformations.map(homescreenRepository.allPages, List<PageWithFolders>::size)
 
     val folderList: LiveData<List<FolderWithItems>> =
-        BackgroundTransformations.map(homescreenRepository.allFolders) { list ->
+        BackgroundTransformations.map(homescreenRepository.allPages) { list ->
             //Return list with folders of current page
             list[currentPageNumber.value!!].folderList
                 .apply { loadItemInfo() }
@@ -69,7 +70,7 @@ class HomescreenViewModel(
         }
     }
 
-    suspend fun removePage(page: PageModel) {
+    suspend fun removePage(page: PageDto) {
         homescreenRepository.removePage(page)
     }
 

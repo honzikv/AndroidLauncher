@@ -14,11 +14,10 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
-    val allPages: LiveData<List<PageModel>> = pageDao.getAllPages()
+    val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPages()
 
-    val allFolders: LiveData<List<PageFolderList>> = folderDao.getAllFolders()
 
-    suspend fun addPageAsLast(page: PageModel): Long = withContext(Dispatchers.IO) {
+    suspend fun addPageAsLast(page: PageDto): Long = withContext(Dispatchers.IO) {
         val pages = pageDao.getAllPagesAsMutable()
         val lastPageNumber = pages[pages.size - 1].pageNumber
 
@@ -26,7 +25,7 @@ class HomescreenRepository(
         return@withContext pageDao.addPage(page)
     }
 
-    suspend fun removePage(page: PageModel) {
+    suspend fun removePage(page: PageDto) {
         val pages = pageDao.getAllPagesAsMutable()
         for (i in page.pageNumber..pages.size) {
             pages[i].pageNumber = pages[i].pageNumber - 1
@@ -52,7 +51,7 @@ class HomescreenRepository(
     }
 
 
-    suspend fun removeItem(item: FolderItemModel) {
+    suspend fun removeItem(item: FolderItemDto) {
         TODO("Not yet implemented")
     }
 
