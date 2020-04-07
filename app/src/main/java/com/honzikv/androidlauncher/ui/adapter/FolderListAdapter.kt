@@ -34,7 +34,6 @@ class FolderListAdapter :
         }
     }
 
-
     override fun getItemCount(): Int = folderList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
