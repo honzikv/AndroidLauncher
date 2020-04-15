@@ -2,12 +2,11 @@ package com.honzikv.androidlauncher
 
 import android.app.Application
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
-import com.honzikv.androidlauncher.dependency.*
+import com.honzikv.androidlauncher.injection.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber

@@ -3,17 +3,19 @@ package com.honzikv.androidlauncher.data.model.entity
 import android.graphics.drawable.Drawable
 import androidx.room.*
 
-@Entity
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = PageDto::class,
+            onDelete = ForeignKey.CASCADE,
+            parentColumns = ["id"],
+            childColumns = ["pageId"]
+        )]
+)
 data class FolderDto(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
-    @ForeignKey(
-        entity = PageDto::class,
-        onDelete = ForeignKey.CASCADE,
-        parentColumns = ["id"],
-        childColumns = ["pageId"]
-    )
     var pageId: Long? = null,
 
     var position: Int? = null,
@@ -28,18 +30,20 @@ data class FolderDto(
 /**
  * User created app shortcut - e.g icon in folder_header
  */
-@Entity
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = FolderDto::class,
+            onDelete = ForeignKey.CASCADE,
+            parentColumns = ["id"],
+            childColumns = ["folderId"]
+        )]
+)
 data class FolderItemDto(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Long?,
+    var id: Long? = 0,
 
-    @ForeignKey(
-        entity = FolderDto::class,
-        onDelete = ForeignKey.CASCADE,
-        parentColumns = ["id"],
-        childColumns = ["folderId"]
-    )
     var folderId: Long,
 
     /**
@@ -47,14 +51,16 @@ data class FolderItemDto(
      */
     val systemAppPackageName: String,
 
-    var position: Int? = null,
+    var position: Int? = null
+
+) {
 
     @Ignore
-    var drawable: Drawable? = null,
+    var drawable: Drawable? = null
 
     @Ignore
     var label: String? = null
-)
+}
 
 
 data class PageWithFolders(
@@ -76,7 +82,8 @@ data class FolderWithItems(
      * List of items in folder_header
      */
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemDto::class)
-    val itemList: List<FolderItemDto>,
-
+    val itemList: List<FolderItemDto>
+) {
+    @Ignore
     var showItems: Boolean = false
-)
+}

@@ -1,8 +1,8 @@
 package com.honzikv.androidlauncher.data.repository
 
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
-import com.honzikv.androidlauncher.data.model.dto.FolderItemDto
-import com.honzikv.androidlauncher.data.model.dto.FolderDto
+import com.honzikv.androidlauncher.data.model.entity.FolderDto
+import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 
 class FolderDataRepository(
     private val folderDao: FolderDao

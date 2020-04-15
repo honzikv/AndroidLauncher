@@ -8,6 +8,4 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 @Dao
 interface UserAppDao {
 
-    @Query("SELECT * FROM FolderDto")
-    fun getAll(): LiveData<List<FolderItemDto>>
 }

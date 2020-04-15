@@ -19,6 +19,7 @@ object BackgroundTransformations {
     ): LiveData<Y> {
         val result = MediatorLiveData<Y>()
 
+        //This updates data in the background thread rather than doing it on the UI thread
         result.addSource(source, Observer { x ->
             if (x == null) return@Observer
             CoroutineScope(Dispatchers.Default).launch {

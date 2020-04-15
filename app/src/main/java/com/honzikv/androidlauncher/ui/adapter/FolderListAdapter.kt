@@ -10,11 +10,15 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
+import com.honzikv.androidlauncher.user.settings.UserSettings
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class FolderListAdapter :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
 
     private val folderList: MutableList<FolderWithItems> = mutableListOf()
+
+    private val userSettings: UserSettings by inject()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -49,30 +53,36 @@ class FolderListAdapter :
         if (folderList[position].showItems) R.layout.folder_detail else R.layout.folder_header
 
 
-}
+    inner class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(data: FolderWithItems) {
-        binding.folderName.text = data.folder.title
-        binding.subText.text = data.itemList.map(FolderItemDto::label).joinToString(", ")
-    }
-
-}
-
-class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(data: FolderWithItems) {
-        binding.recyclerView.apply {
+        fun bind(data: FolderWithItems) {
+            binding.recyclerView.apply {
+                layoutManager = GridLayoutManager(context, userSettings.getFolderColsCount())
+                adapter = FolderAdapter(data.itemList)
+            }
         }
     }
+
+    inner class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: FolderWithItems) {
+            binding.folderName.text = data.folder.title
+            binding.subText.text = data.itemList.map(FolderItemDto::label).joinToString(", ")
+            TODO("Bind color")
+        }
+
+    }
+
+    interface RecyclerViewOnClickListener {
+        fun onClick(view: View?, position: Int)
+
+        fun onLongClick(view: View?, position: Int)
+    }
 }
 
-interface RecyclerViewOnClickListener {
-    fun onClick(view: View?, position: Int)
 
-    fun onLongClick(view: View?, position: Int)
-}
+
+
 

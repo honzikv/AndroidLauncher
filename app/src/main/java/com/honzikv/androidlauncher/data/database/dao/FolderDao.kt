@@ -1,10 +1,8 @@
 package com.honzikv.androidlauncher.data.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.honzikv.androidlauncher.data.model.entity.FolderDto
 import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
-import com.honzikv.androidlauncher.data.model.entity.PageWithFolders
 
 @Dao
 interface FolderDao {

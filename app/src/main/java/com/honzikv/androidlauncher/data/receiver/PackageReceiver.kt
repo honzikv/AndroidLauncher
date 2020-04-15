@@ -13,7 +13,7 @@ import org.koin.core.get
  * This is basically a subscriber object that triggers system app list update every time app package
  * is changed.
  */
-class PackageReceiver() : BroadcastReceiver(), KoinComponent {
+class PackageReceiver : BroadcastReceiver(), KoinComponent {
 
     private val systemAppsRepository: SystemAppsRepository = get()
 

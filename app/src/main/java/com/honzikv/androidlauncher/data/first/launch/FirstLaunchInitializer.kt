@@ -8,6 +8,7 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 import com.honzikv.androidlauncher.data.model.entity.PageDto
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
+import com.honzikv.androidlauncher.user.settings.PREFS_INITIALIZED
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -26,8 +27,6 @@ val DEFAULT_PACKAGES =
 const val FOLDER_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
-const val APP_PREFERENCES = "userPreferences"
-const val PREFS_INITIALIZED = "prefsInitialized"
 
 /**
  * Class that creates database objects for the first launch

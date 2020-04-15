@@ -8,7 +8,7 @@ import com.honzikv.androidlauncher.databinding.IconWithTitleBinding
 
 class FolderAdapter(
     private val folderItems: List<FolderItemDto>
-) : RecyclerView.Adapter<ItemViewHolder>() {
+) : RecyclerView.Adapter<FolderAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -25,13 +25,13 @@ class FolderAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(folderItems[position])
     }
-}
 
-class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
-    RecyclerView.ViewHolder(itemBinding.root) {
+    inner class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
 
-    fun bind(folderItem: FolderItemDto) {
-        itemBinding.icon.setImageDrawable(folderItem.drawable)
-        itemBinding.label.text = folderItem.label
+        fun bind(folderItem: FolderItemDto) {
+            itemBinding.icon.setImageDrawable(folderItem.drawable)
+            itemBinding.label.text = folderItem.label
+        }
     }
 }
