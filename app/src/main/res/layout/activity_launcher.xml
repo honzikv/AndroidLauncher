@@ -8,9 +8,9 @@
     tools:context=".ui.activity.LauncherActivity">
 
     <fragment
-        android:id="@+id/homescreenFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.HomescreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true" />
+        android:id="@+id/homescreenPage"
+        android:name="com.honzikv.androidlauncher.ui.fragment.HomescreenPageFragment"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,7 +39,8 @@ class FirstLaunchInitializer(
 ) {
 
     fun isAppInitialized(): Boolean {
-        return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
+        Timber.d("initialized: %s", sharedPreferences.getBoolean(PREFS_INITIALIZED, false))
+            return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
 
     suspend fun initialize() = withContext(Dispatchers.IO) {
