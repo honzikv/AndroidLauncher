@@ -1,13 +1,13 @@
 package com.honzikv.androidlauncher.ui.fragment
 
 import android.os.Bundle
-import android.view.GestureDetector
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.core.view.GestureDetectorCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenPageFragmentBinding
@@ -18,12 +18,13 @@ import timber.log.Timber
 
 class HomescreenPageFragment : Fragment() {
 
+    private lateinit var navController: NavController
+
     private lateinit var binding: HomescreenPageFragmentBinding
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
     private lateinit var onSwipeTouchListener: OnSwipeTouchListener
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +34,11 @@ class HomescreenPageFragment : Fragment() {
         initialize(binding)
         return binding.root
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
     }
 
     private fun initialize(binding: HomescreenPageFragmentBinding) {
@@ -63,6 +69,7 @@ class HomescreenPageFragment : Fragment() {
     }
 
     private fun swipeUpAppMenu() {
+        navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
         Timber.d("swipe up")
     }
 

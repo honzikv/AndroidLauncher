@@ -10,6 +10,7 @@ import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
 import com.honzikv.androidlauncher.user.settings.APP_PREFERENCES
 import com.honzikv.androidlauncher.user.settings.UserSettings
+import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -42,6 +43,8 @@ val module = module {
     }
 
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
+
+    viewModel { AppDrawerViewModel(get()) }
 
     single {
         UserSettings(

@@ -1,6 +1,5 @@
 package com.honzikv.androidlauncher.data.repository
 
-import android.content.Context
 import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +17,6 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
 
     fun getSystemApps(): LiveData<List<DrawerAppModel>> {
         if (systemAppList.value == null) {
-            systemAppList = MutableLiveData()
             updateSystemAppList()
         }
         return systemAppList
@@ -29,11 +27,11 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
      */
     fun updateSystemAppList() {
         val systemPackages = packageManager.getInstalledApplications(0) ?: listOf()
-        val systemAppsList = mutableListOf<DrawerAppModel>()
+        val apps = mutableListOf<DrawerAppModel>()
 
         //Maps each item obtained via package manager to LauncherApp for further use
         systemPackages.forEach { systemAppInfo ->
-            systemAppsList.add(
+            apps.add(
                 DrawerAppModel(
                     systemAppInfo.packageName,
                     systemAppInfo.loadLabel(packageManager).toString(),
@@ -43,9 +41,7 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
         }
 
         //sets new list as LiveData value and sorts it alphabetically
-        systemAppList.value = systemAppsList.apply {
-            sortedWith(compareBy(DrawerAppModel::label))
-        }
+        this.systemAppList.postValue(apps.apply { sortedWith(compareBy(DrawerAppModel::label)) })
     }
 
 

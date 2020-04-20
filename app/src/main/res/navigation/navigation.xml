@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homescreenPageFragment">
 
+    <fragment
+        android:id="@+id/homescreenPageFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.HomescreenPageFragment"
+        android:label="homescreen_page_fragment"
+        tools:layout="@layout/homescreen_page_fragment" >
+        <action
+            android:id="@+id/action_homescreenPageFragment_to_appDrawerFragment"
+            app:destination="@id/appDrawerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appDrawerFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.AppDrawerFragment"
+        android:label="app_drawer_fragment"
+        tools:layout="@layout/app_drawer_fragment" />
 </navigation>
