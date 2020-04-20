@@ -20,11 +20,11 @@ class FolderAdapter(
         )
     }
 
-    override fun getItemCount(): Int = folderItems.size
+    override fun getItemCount() = folderItems.size
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
         holder.bind(folderItems[position])
-    }
+
 
     inner class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {

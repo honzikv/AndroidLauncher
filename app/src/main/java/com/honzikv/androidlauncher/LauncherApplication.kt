@@ -11,10 +11,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-/**
- * This project uses KOIN injector
- */
-
 class LauncherApplication : Application() {
 
     override fun onCreate() {

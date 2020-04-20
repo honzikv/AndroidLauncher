@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.honzikv.androidlauncher.LauncherApplication
-import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
+import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
@@ -15,10 +14,10 @@ import org.koin.core.get
  */
 class PackageReceiver : BroadcastReceiver(), KoinComponent {
 
-    private val systemAppsRepository: SystemAppsRepository = get()
+    private val appDrawerRepository: AppDrawerRepository = get()
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) =
-        systemAppsRepository.updateSystemAppList(get())
+        appDrawerRepository.updateSystemAppList(get())
 
 }

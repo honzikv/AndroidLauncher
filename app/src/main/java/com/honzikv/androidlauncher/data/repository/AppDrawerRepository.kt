@@ -1,23 +1,25 @@
 package com.honzikv.androidlauncher.data.repository
 
 import android.content.Context
+import android.content.pm.PackageManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.data.model.DrawerAppModel
 
 /**
- *
+ * [packageManager] - package manager to obtain all app packages
  */
-class SystemAppsRepository(private val context: Context) {
+class AppDrawerRepository(private val packageManager: PackageManager) {
 
     /**
      * All system apps - displayed in drawer
      */
     private var systemAppList = MutableLiveData<List<DrawerAppModel>>()
 
-    fun getSystemApps(): MutableLiveData<List<DrawerAppModel>> {
+    fun getSystemApps(): LiveData<List<DrawerAppModel>> {
         if (systemAppList.value == null) {
             systemAppList = MutableLiveData()
-            updateSystemAppList(context)
+            updateSystemAppList()
         }
         return systemAppList
     }
@@ -25,8 +27,7 @@ class SystemAppsRepository(private val context: Context) {
     /**
      * Updates systemApps LiveData with new list of system apps
      */
-    fun updateSystemAppList(context: Context) {
-        val packageManager = context.packageManager
+    fun updateSystemAppList() {
         val systemPackages = packageManager.getInstalledApplications(0) ?: listOf()
         val systemAppsList = mutableListOf<DrawerAppModel>()
 

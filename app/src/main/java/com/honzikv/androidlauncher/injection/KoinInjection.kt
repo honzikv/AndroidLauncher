@@ -7,7 +7,7 @@ import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.repository.DockRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
-import com.honzikv.androidlauncher.data.repository.SystemAppsRepository
+import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
 import com.honzikv.androidlauncher.user.settings.APP_PREFERENCES
 import com.honzikv.androidlauncher.user.settings.UserSettings
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
@@ -31,7 +31,7 @@ val module = module {
     single { HomescreenRepository(get(), get()) }
     single { DockRepository(get()) }
     single { FolderDataRepository(get()) }
-    single { SystemAppsRepository(androidContext()) }
+    single { AppDrawerRepository(androidContext().packageManager) }
 
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
