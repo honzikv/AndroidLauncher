@@ -18,6 +18,6 @@ class PackageReceiver : BroadcastReceiver(), KoinComponent {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) =
-        appDrawerRepository.updateSystemAppList(get())
+        appDrawerRepository.updateSystemAppList()
 
 }

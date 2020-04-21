@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -45,12 +46,13 @@ class HomescreenPageFragment : Fragment() {
         binding.constraintLayout.setOnClickListener {
             longPressPopupMenu(binding.constraintLayout)
         }
-        onSwipeTouchListener = object : OnSwipeTouchListener(binding.root.context) {
+        binding.constraintLayout.setOnTouchListener(object :
+            OnSwipeTouchListener(binding.root.context) {
             override fun onSwipeTop() {
                 super.onSwipeTop()
                 swipeUpAppMenu()
             }
-        }
+        })
     }
 
     private fun longPressPopupMenu(view: View) {

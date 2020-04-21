@@ -3,12 +3,16 @@ package com.honzikv.androidlauncher.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.data.model.DrawerAppModel
+import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.AppDrawerIconWithTitleBinding
 
-class AppDrawerAdapter(private val drawerItems: List<DrawerAppModel>) :
+class AppDrawerAdapter(private var drawerItems: List<DrawerApp>) :
     RecyclerView.Adapter<AppDrawerAdapter.ItemViewHolder>() {
 
+    fun updateData(drawerItems: List<DrawerApp>) {
+        this.drawerItems = drawerItems
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -29,9 +33,9 @@ class AppDrawerAdapter(private val drawerItems: List<DrawerAppModel>) :
     inner class ItemViewHolder(private val itemBinding: AppDrawerIconWithTitleBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(drawerAppModel: DrawerAppModel) {
-            itemBinding.icon.setImageDrawable(drawerAppModel.icon)
-            itemBinding.label.text = drawerAppModel.label
+        fun bind(drawerApp: DrawerApp) {
+            itemBinding.icon.setImageDrawable(drawerApp.icon)
+            itemBinding.label.text = drawerApp.label
         }
     }
 }

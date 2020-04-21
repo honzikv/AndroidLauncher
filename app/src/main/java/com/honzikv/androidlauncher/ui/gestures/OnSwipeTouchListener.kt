@@ -19,7 +19,10 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
         private const val SWIPE_VELOCITY_THRESHOLD = 100
     }
 
-    override fun onTouch(v: View?, event: MotionEvent?) = gestureDetector.onTouchEvent(event)
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        v?.performClick()
+        return gestureDetector.onTouchEvent(event)
+    }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
