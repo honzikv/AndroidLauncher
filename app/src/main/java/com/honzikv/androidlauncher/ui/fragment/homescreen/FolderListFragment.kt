@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.fragment
+package com.honzikv.androidlauncher.ui.fragment.homescreen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

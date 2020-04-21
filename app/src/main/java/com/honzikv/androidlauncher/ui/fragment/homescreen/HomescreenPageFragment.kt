@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.fragment
+package com.honzikv.androidlauncher.ui.fragment.homescreen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -42,6 +42,7 @@ class HomescreenPageFragment : Fragment() {
         navController = Navigation.findNavController(view)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: HomescreenPageFragmentBinding) {
         binding.constraintLayout.setOnClickListener {
             longPressPopupMenu(binding.constraintLayout)

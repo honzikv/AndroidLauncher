@@ -8,7 +8,8 @@ import android.view.View
 import kotlin.math.abs
 
 /**
- * Simple open class for creating customized Gesture detector for swiping
+ * Simple open class for creating customized Gesture detector for swiping. This is just a boilerplate
+ * code that allows to implement swipe up, down, right and left gestures
  */
 open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
 
@@ -20,7 +21,6 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        v?.performClick()
         return gestureDetector.onTouchEvent(event)
     }
 

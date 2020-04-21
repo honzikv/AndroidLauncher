@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.AppDrawerFragment">
+    tools:context=".ui.fragment.drawer.AppDrawerFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/appDrawerRecyclerView"
         android:layout_width="313dp"
         android:layout_height="596dp"
         android:layout_marginStart="32dp"
@@ -29,8 +30,8 @@
         android:fontFamily="@font/montserrat"
         android:text="All Applications"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerView2"
+        app:layout_constraintEnd_toEndOf="@+id/appDrawerRecyclerView"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/recyclerView2"
+        app:layout_constraintStart_toStartOf="@+id/appDrawerRecyclerView"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

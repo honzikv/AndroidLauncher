@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homescreenPageFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.HomescreenPageFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.homescreen.HomescreenPageFragment"
         android:label="homescreen_page_fragment"
         tools:layout="@layout/homescreen_page_fragment" >
         <action
@@ -16,7 +16,11 @@
     </fragment>
     <fragment
         android:id="@+id/appDrawerFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.AppDrawerFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.drawer.AppDrawerFragment"
         android:label="app_drawer_fragment"
-        tools:layout="@layout/app_drawer_fragment" />
+        tools:layout="@layout/app_drawer_fragment" >
+        <action
+            android:id="@+id/action_appDrawerFragment_to_homescreenPageFragment"
+            app:destination="@id/homescreenPageFragment" />
+    </fragment>
 </navigation>

@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.AppDrawerIconWithTitleBinding
 
-class AppDrawerAdapter(private var drawerItems: List<DrawerApp>) :
+class AppDrawerAdapter() :
     RecyclerView.Adapter<AppDrawerAdapter.ItemViewHolder>() {
+
+    private var drawerItems: List<DrawerApp> = mutableListOf()
 
     fun updateData(drawerItems: List<DrawerApp>) {
         this.drawerItems = drawerItems
