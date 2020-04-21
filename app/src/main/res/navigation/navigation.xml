@@ -12,7 +12,8 @@
         tools:layout="@layout/homescreen_page_fragment" >
         <action
             android:id="@+id/action_homescreenPageFragment_to_appDrawerFragment"
-            app:destination="@id/appDrawerFragment" />
+            app:destination="@id/appDrawerFragment"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/appDrawerFragment"
@@ -21,6 +22,7 @@
         tools:layout="@layout/app_drawer_fragment" >
         <action
             android:id="@+id/action_appDrawerFragment_to_homescreenPageFragment"
-            app:destination="@id/homescreenPageFragment" />
+            app:destination="@id/homescreenPageFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
 </navigation>

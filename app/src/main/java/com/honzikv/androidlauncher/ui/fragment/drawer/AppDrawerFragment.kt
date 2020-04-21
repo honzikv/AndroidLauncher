@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 
@@ -41,6 +42,7 @@ class AppDrawerFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: AppDrawerFragmentBinding) {
         appDrawerAdapter = AppDrawerAdapter()
+        binding.appDrawerRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.appDrawerRecyclerView.adapter = appDrawerAdapter
 
         appDrawerViewModel.appList.observe(viewLifecycleOwner, {

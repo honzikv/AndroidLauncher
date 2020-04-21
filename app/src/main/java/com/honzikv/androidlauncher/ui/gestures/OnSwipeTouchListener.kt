@@ -20,6 +20,7 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
         private const val SWIPE_VELOCITY_THRESHOLD = 100
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         return gestureDetector.onTouchEvent(event)
     }

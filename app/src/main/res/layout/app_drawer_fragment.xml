@@ -18,7 +18,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allApps" />
+        app:layout_constraintTop_toBottomOf="@+id/allApps"
+        android:scrollbarFadeDuration="@integer/slow_animation_duration"
+        android:scrollbars="horizontal"
+        />
 
     <TextView
         android:id="@+id/allApps"
@@ -28,7 +31,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/montserrat"
-        android:text="All Applications"
+        android:text="@string/all_applications"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/appDrawerRecyclerView"
         app:layout_constraintHorizontal_bias="0.0"
