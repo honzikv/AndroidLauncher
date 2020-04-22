@@ -4,31 +4,26 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.data.model.DrawerApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * [packageManager] - package manager to obtain all app packages
  */
 class AppDrawerRepository(private val packageManager: PackageManager) {
 
-    /**
-     * All system apps - displayed in drawer
-     */
-    private var systemAppList = MutableLiveData<List<DrawerApp>>()
+    private val appList: MutableLiveData<List<DrawerApp>> = MutableLiveData(mutableListOf())
 
-    /**
-     * Lazy get app data from system
-     */
-    fun getSystemApps(): LiveData<List<DrawerApp>> {
-        if (systemAppList.value == null) {
-            updateSystemAppList()
-        }
-        return systemAppList
+    fun getAppList(): LiveData<List<DrawerApp>> {
+        return appList
     }
 
     /**
      * Updates systemApps LiveData with new list of system apps
      */
-    fun updateSystemAppList() {
+    suspend fun reloadAppList() = withContext(Dispatchers.Default) {
         val systemPackages = packageManager.getInstalledApplications(0) ?: listOf()
         val apps = mutableListOf<DrawerApp>()
 
@@ -44,7 +39,9 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
         }
 
         //sets new list as LiveData value and sorts it alphabetically
-        this.systemAppList.postValue(apps.apply { sortedWith(compareBy(DrawerApp::label)) })
+        appList.postValue(apps.apply {
+            sortedWith(compareBy(DrawerApp::label))
+        })
     }
 
 

@@ -16,11 +16,14 @@ class HomescreenViewModel(
     private val packageManager: PackageManager
 ) : ViewModel() {
 
-    val currentPageNumber = MutableLiveData(0)
+    private val currentPageNumber: MutableLiveData<Int> = MutableLiveData(0)
 
-    val totalPageCount =
+    val totalPageCount: LiveData<Int> =
         BackgroundTransformations.map(homescreenRepository.allPages, List<PageWithFolders>::size)
 
+    /**
+     * Folder list for [currentPageNumber]
+     */
     val folderList: LiveData<List<FolderWithItems>> =
         BackgroundTransformations.map(homescreenRepository.allPages) { list ->
             //Return list with folders of current page
@@ -58,13 +61,13 @@ class HomescreenViewModel(
         }
     }
 
-    fun moveToNextPage() {
+    suspend fun moveToNextPage() {
         if (currentPageNumber.value!! < totalPageCount.value!!) {
             currentPageNumber.postValue(currentPageNumber.value!! + 1)
         }
     }
 
-    fun moveToPreviousPage() {
+    suspend fun moveToPreviousPage() {
         if (currentPageNumber.value!! > 0) {
             currentPageNumber.postValue(currentPageNumber.value!! - 1)
         }
@@ -73,5 +76,13 @@ class HomescreenViewModel(
     suspend fun removePage(page: PageDto) {
         homescreenRepository.removePage(page)
     }
+
+    /**
+     * Page number is kept as private property so it cannot be modified when accessed by name
+     */
+    private fun getCurrentPageNumber(): LiveData<Int> {
+        return currentPageNumber as LiveData<Int>
+    }
+
 
 }

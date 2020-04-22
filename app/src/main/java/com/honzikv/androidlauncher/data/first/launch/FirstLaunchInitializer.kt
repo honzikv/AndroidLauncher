@@ -40,14 +40,14 @@ class FirstLaunchInitializer(
 
     fun isAppInitialized(): Boolean {
         Timber.d("initialized: %s", sharedPreferences.getBoolean(PREFS_INITIALIZED, false))
-            return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
+        return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
 
     suspend fun initialize() = withContext(Dispatchers.IO) {
         Timber.i("Initializing default settings")
         val pageDeferred = async { createFirstPage() }
         val folderDeferred = async { createGoogleFolder() }
-        homescreenRepository.addFolderToPage(pageDeferred.await(), folderDeferred.await())
+        homescreenRepository.addFolderToPage(folderDeferred.await(), pageDeferred.await())
         commitInitialized()
     }
 

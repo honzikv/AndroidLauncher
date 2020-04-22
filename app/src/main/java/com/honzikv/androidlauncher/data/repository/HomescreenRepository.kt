@@ -16,10 +16,13 @@ class HomescreenRepository(
 
     val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPages()
 
-
     suspend fun addPageAsLast(page: PageDto): Long = withContext(Dispatchers.IO) {
         val pages = pageDao.getAllPagesAsMutable()
-        val lastPageNumber = pages[pages.size - 1].pageNumber
+        val lastPageNumber = if (pages.isEmpty()) {
+            -1
+        } else {
+            pages[pages.size - 1].pageNumber
+        }
 
         page.pageNumber = lastPageNumber + 1
         return@withContext pageDao.addPage(page)

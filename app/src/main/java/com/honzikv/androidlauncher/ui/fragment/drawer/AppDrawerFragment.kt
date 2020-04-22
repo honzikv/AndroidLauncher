@@ -45,7 +45,7 @@ class AppDrawerFragment : Fragment() {
         binding.appDrawerRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.appDrawerRecyclerView.adapter = appDrawerAdapter
 
-        appDrawerViewModel.appList.observe(viewLifecycleOwner, {
+        appDrawerViewModel.getAppList().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
         })
 
