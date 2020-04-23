@@ -64,6 +64,7 @@ class AppDrawerFragment : Fragment() {
 
         })
 
+
         appDrawerViewModel.getAppList().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
             runAnimationOnRecyclerView(

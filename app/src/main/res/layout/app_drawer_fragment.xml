@@ -44,7 +44,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:animateLayoutChanges="true"
         android:background="@drawable/rounded_rectangle"
         android:clickable="false"
         android:layoutAnimation="@anim/drawer_layout_animation_fall_down"
