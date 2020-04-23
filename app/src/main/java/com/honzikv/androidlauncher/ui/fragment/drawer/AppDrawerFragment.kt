@@ -2,6 +2,7 @@ package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -50,10 +51,9 @@ class AppDrawerFragment : Fragment() {
     private fun initialize(binding: AppDrawerFragmentBinding) {
         appDrawerAdapter = AppDrawerAdapter()
 
-        setHasOptionsMenu(true)
         binding.appDrawerRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.appDrawerRecyclerView.adapter = appDrawerAdapter
-        binding.serachView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+        binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
 
@@ -66,7 +66,10 @@ class AppDrawerFragment : Fragment() {
 
         appDrawerViewModel.getAppList().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
-            runAnimationOnRecyclerView(binding.appDrawerRecyclerView,R.anim.drawer_layout_animation_fall_down)
+            runAnimationOnRecyclerView(
+                binding.appDrawerRecyclerView,
+                R.anim.drawer_layout_animation_fall_down
+            )
         })
 
         navController = findNavController()
