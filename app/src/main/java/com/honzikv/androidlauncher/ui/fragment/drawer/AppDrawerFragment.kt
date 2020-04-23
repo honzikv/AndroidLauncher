@@ -3,10 +3,10 @@ package com.honzikv.androidlauncher.ui.fragment.drawer
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +16,7 @@ import com.honzikv.androidlauncher.R
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.adapter.AppDrawerAdapter
+import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
@@ -49,12 +50,23 @@ class AppDrawerFragment : Fragment() {
     private fun initialize(binding: AppDrawerFragmentBinding) {
         appDrawerAdapter = AppDrawerAdapter()
 
-
+        setHasOptionsMenu(true)
         binding.appDrawerRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.appDrawerRecyclerView.adapter = appDrawerAdapter
+        binding.serachView.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?) = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                appDrawerAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
 
         appDrawerViewModel.getAppList().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
+            runAnimationOnRecyclerView(binding.appDrawerRecyclerView,R.anim.drawer_layout_animation_fall_down)
         })
 
         navController = findNavController()
@@ -67,16 +79,11 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        Blurry.with(context)
-            .radius(25)
-            .sampling(2)
-            .color(Color.argb(66, 0, 255, 255))
-            .capture(binding.imageView)
-            .into(binding.imageView)
     }
 
     private fun returnToHomePageFragment() {
         navController.navigate(R.id.action_appDrawerFragment_to_homescreenPageFragment)
         Timber.d("From drawer to homepage")
     }
+
 }

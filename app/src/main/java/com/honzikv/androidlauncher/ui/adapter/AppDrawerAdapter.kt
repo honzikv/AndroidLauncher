@@ -19,7 +19,7 @@ class AppDrawerAdapter() :
 
     private var drawerItemsAll: List<DrawerApp> = mutableListOf()
 
-    private var drawerItemsDisplay: MutableList<DrawerApp> = mutableListOf()
+    private var drawerItemsFiltered: MutableList<DrawerApp> = mutableListOf()
 
     private val searchFilter = object : Filter() {
 
@@ -29,31 +29,35 @@ class AppDrawerAdapter() :
                 filteredList.addAll(drawerItemsAll)
             } else {
                 val searchConstraint = constraint.toString().toLowerCase(Locale.ROOT)
-                filteredList.addAll(drawerItemsAll.filter {
-                    it.label.toLowerCase(Locale.ROOT) == searchConstraint
+                drawerItemsAll.filterTo(filteredList) {
+                    it.label.toLowerCase(Locale.ROOT).contains(searchConstraint)
                 }
-                    .toList())
+                drawerItemsFiltered = filteredList
             }
 
             return FilterResults().apply { values = filteredList }
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            drawerItemsDisplay.clear()
-            drawerItemsDisplay.addAll(results?.values as Collection<DrawerApp>)
+            drawerItemsFiltered = results?.values as MutableList<DrawerApp>
             notifyDataSetChanged()
         }
     }
 
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as ItemViewHolder
-        val item = drawerItemsAll[viewHolder.adapterPosition]
+        val item = drawerItemsFiltered[viewHolder.adapterPosition]
         val context: Context = get()
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
     fun updateData(drawerItems: List<DrawerApp>) {
         this.drawerItemsAll = drawerItems
+        this.drawerItemsFiltered.apply {
+            clear()
+            addAll(drawerItems)
+        }
         notifyDataSetChanged()
     }
 
@@ -67,10 +71,10 @@ class AppDrawerAdapter() :
         )
     }
 
-    override fun getItemCount() = drawerItemsAll.size
+    override fun getItemCount() = drawerItemsFiltered.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
-        holder.bind(drawerItemsAll[position])
+        holder.bind(drawerItemsFiltered[position])
 
     inner class ItemViewHolder(private val itemBinding: AppDrawerIconWithTitleBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
