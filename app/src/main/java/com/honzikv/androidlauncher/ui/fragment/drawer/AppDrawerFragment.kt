@@ -21,7 +21,6 @@ import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
-import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.app_drawer_fragment.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
