@@ -10,6 +10,7 @@ import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
 import com.honzikv.androidlauncher.user.settings.APP_PREFERENCES
 import com.honzikv.androidlauncher.user.settings.UserSettings
+import com.honzikv.androidlauncher.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.koin.androidContext
@@ -54,5 +55,7 @@ val module = module {
             )
         )
     }
+
+    single { Themer(get()) }
 
 }
