@@ -1,10 +1,11 @@
 package com.honzikv.androidlauncher.viewmodel
 
+import androidx.lifecycle.ViewModel
 import com.honzikv.androidlauncher.data.repository.DockRepository
 
 class DockViewModel(
     private val dockRepository: DockRepository
-) {
+) : ViewModel() {
 
     val dock = dockRepository.dock
 

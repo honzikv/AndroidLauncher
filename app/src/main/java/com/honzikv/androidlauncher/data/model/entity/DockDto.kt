@@ -1,7 +1,9 @@
 package com.honzikv.androidlauncher.data.model.entity
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 const val DOCK_PRIMARY_KEY = 1
@@ -31,8 +33,11 @@ data class DockItemDto(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 1,
 
-    val systemAppPackageName: String,
+    val packageName: String,
 
     var position: Int = 0
 
-)
+) {
+    @Ignore
+    var drawable: Drawable? = null
+}

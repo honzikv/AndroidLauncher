@@ -81,7 +81,7 @@ class HomescreenViewModel(
      * Page number is kept as private property so it cannot be modified when accessed by name
      */
     private fun getCurrentPageNumber(): LiveData<Int> {
-        return currentPageNumber as LiveData<Int>
+        return currentPageNumber
     }
 
 

@@ -44,6 +44,7 @@ android {
 
 }
 
+
 dependencies {
 
 
@@ -64,6 +65,7 @@ dependencies {
     //Blur library to create iOS like blur
     implementation 'at.favre.lib:dali:0.3.5'
 
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -86,4 +88,9 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:2.1.5"
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+
+    implementation 'com.github.bmelnychuk:atv:1.2.9'
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
 }

@@ -7,13 +7,16 @@
 
     <fragment
         android:id="@+id/homescreenPageFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.homescreen.HomescreenPageFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.homescreen.HomescreenFragment"
         android:label="homescreen_page_fragment"
-        tools:layout="@layout/homescreen_page_fragment" >
+        tools:layout="@layout/homescreen_fragment" >
         <action
             android:id="@+id/action_homescreenPageFragment_to_appDrawerFragment"
             app:destination="@id/appDrawerFragment"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_homescreenPageFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/appDrawerFragment"
@@ -25,4 +28,9 @@
             app:destination="@id/homescreenPageFragment"
             app:enterAnim="@android:anim/fade_in" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
 </navigation>

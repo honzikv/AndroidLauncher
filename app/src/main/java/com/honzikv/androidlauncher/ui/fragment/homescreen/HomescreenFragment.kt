@@ -11,17 +11,17 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.databinding.HomescreenPageFragmentBinding
+import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class HomescreenPageFragment : Fragment() {
+class HomescreenFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private lateinit var binding: HomescreenPageFragmentBinding
+    private lateinit var binding: HomescreenFragmentBinding
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
@@ -31,7 +31,7 @@ class HomescreenPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = HomescreenPageFragmentBinding.inflate(inflater)
+        val binding = HomescreenFragmentBinding.inflate(inflater)
         initialize(binding)
         return binding.root
 
@@ -43,7 +43,7 @@ class HomescreenPageFragment : Fragment() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initialize(binding: HomescreenPageFragmentBinding) {
+    private fun initialize(binding: HomescreenFragmentBinding) {
         binding.constraintLayout.setOnClickListener {
             longPressPopupMenu(binding.constraintLayout)
         }
@@ -53,7 +53,16 @@ class HomescreenPageFragment : Fragment() {
                 super.onSwipeTop()
                 swipeUpAppMenu()
             }
+
+            override fun onSwipeBottom() {
+                super.onSwipeBottom()
+                settings()
+            }
         })
+    }
+
+    private fun settings() {
+        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
     }
 
     private fun longPressPopupMenu(view: View) {

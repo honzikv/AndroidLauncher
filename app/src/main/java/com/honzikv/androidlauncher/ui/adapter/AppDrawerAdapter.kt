@@ -1,11 +1,13 @@
 package com.honzikv.androidlauncher.ui.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.AppDrawerIconWithTitleBinding
@@ -20,6 +22,8 @@ class AppDrawerAdapter() :
     private var drawerItemsAll: List<DrawerApp> = mutableListOf()
 
     private var drawerItemsFiltered: MutableList<DrawerApp> = mutableListOf()
+
+    private var labelColor: Int = Color.BLACK
 
     private val searchFilter = object : Filter() {
 
@@ -61,6 +65,10 @@ class AppDrawerAdapter() :
         notifyDataSetChanged()
     }
 
+    fun setLabelColor(color: Int) {
+        this.labelColor = color
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             AppDrawerIconWithTitleBinding.inflate(
@@ -71,28 +79,27 @@ class AppDrawerAdapter() :
         )
     }
 
-    override fun getItemCount() = drawerItemsFiltered.size
+override fun getItemCount() = drawerItemsFiltered.size
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
-        holder.bind(drawerItemsFiltered[position])
+override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
+    holder.bind(drawerItemsFiltered[position])
 
-    inner class ItemViewHolder(private val itemBinding: AppDrawerIconWithTitleBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
+override fun getFilter(): Filter {
+    return searchFilter
+}
 
-        init {
-            itemView.tag = this
-            itemView.setOnClickListener(onClickListener)
-        }
+inner class ItemViewHolder(private val itemBinding: AppDrawerIconWithTitleBinding) :
+    RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(drawerApp: DrawerApp) {
-            itemBinding.icon.setImageDrawable(drawerApp.icon)
-            itemBinding.label.text = drawerApp.label
-        }
+    init {
+        itemView.tag = this
+        itemView.setOnClickListener(onClickListener)
     }
 
-    override fun getFilter(): Filter {
-        return searchFilter
+    fun bind(drawerApp: DrawerApp) {
+        itemBinding.icon.setImageDrawable(drawerApp.icon)
+        itemBinding.label.text = drawerApp.label
+        itemBinding.label.setTextColor(labelColor)
     }
-
-
+}
 }

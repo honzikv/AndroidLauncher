@@ -12,6 +12,7 @@ import com.honzikv.androidlauncher.user.settings.APP_PREFERENCES
 import com.honzikv.androidlauncher.user.settings.UserSettings
 import com.honzikv.androidlauncher.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
+import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -47,6 +48,8 @@ val module = module {
 
     viewModel { AppDrawerViewModel(get()) }
 
+    viewModel { DockViewModel(get()) }
+
     single {
         UserSettings(
             androidContext().getSharedPreferences(
@@ -56,6 +59,6 @@ val module = module {
         )
     }
 
-    single { Themer(get()) }
+    single { Themer(get(), get()) }
 
 }

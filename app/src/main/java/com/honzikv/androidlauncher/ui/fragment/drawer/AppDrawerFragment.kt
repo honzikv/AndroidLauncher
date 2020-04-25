@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.app_drawer_fragment.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class AppDrawerFragment : Fragment() {
+class  AppDrawerFragment : Fragment() {
 
     private val appDrawerViewModel: AppDrawerViewModel by inject()
 
