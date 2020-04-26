@@ -1,27 +1,22 @@
 package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.opengl.Visibility
+import android.content.ClipData
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AnimationUtils
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
-import com.honzikv.androidlauncher.user.theme.Themer
+import com.honzikv.androidlauncher.data.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
-import kotlinx.android.synthetic.main.app_drawer_fragment.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -39,7 +34,6 @@ class  AppDrawerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val binding =
             AppDrawerFragmentBinding.inflate(inflater, container, false)
         initialize(binding)
@@ -62,7 +56,6 @@ class  AppDrawerFragment : Fragment() {
             }
 
         })
-
 
         appDrawerViewModel.getAppList().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)

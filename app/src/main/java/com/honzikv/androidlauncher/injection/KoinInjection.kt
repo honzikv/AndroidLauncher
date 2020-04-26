@@ -8,12 +8,13 @@ import com.honzikv.androidlauncher.data.repository.DockRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
-import com.honzikv.androidlauncher.user.settings.APP_PREFERENCES
-import com.honzikv.androidlauncher.user.settings.UserSettings
-import com.honzikv.androidlauncher.user.theme.Themer
+import com.honzikv.androidlauncher.data.repository.APP_PREFERENCES
+import com.honzikv.androidlauncher.data.repository.UserSettingsRepository
+import com.honzikv.androidlauncher.data.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -36,6 +37,15 @@ val module = module {
     single { FolderDataRepository(get()) }
     single { AppDrawerRepository(androidContext().packageManager) }
 
+    single {
+        UserSettingsRepository(
+            androidContext().getSharedPreferences(
+                APP_PREFERENCES,
+                Context.MODE_PRIVATE
+            )
+        )
+    }
+
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     single {
@@ -50,14 +60,8 @@ val module = module {
 
     viewModel { DockViewModel(get()) }
 
-    single {
-        UserSettings(
-            androidContext().getSharedPreferences(
-                APP_PREFERENCES,
-                Context.MODE_PRIVATE
-            )
-        )
-    }
+    viewModel { SettingsViewModel(get()) }
+
 
     single { Themer(get(), get()) }
 
