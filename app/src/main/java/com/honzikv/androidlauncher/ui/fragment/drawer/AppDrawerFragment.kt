@@ -23,18 +23,6 @@ import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-val darkTheme = ThemeProfileModel(
-    id = null,
-    drawerBackgroundColor = Color.parseColor("#2d3436"),
-    drawerTextFillColor = Color.parseColor("#dfe6e9"),
-    drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
-    drawerSearchTextColor = Color.parseColor("#2d3436"),
-    dockBackgroundColor = Color.parseColor("#636e72"),
-    dockTextColor = Color.parseColor("#b2bec3"),
-    name = "Dark Theme",
-    isSelected = false,
-    isUserProfile = false
-)
 
 class AppDrawerFragment : Fragment() {
 
@@ -96,7 +84,7 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        updateTheme(binding, appDrawerViewModel.currentProfile)
+        updateTheme(binding, appDrawerViewModel.selectedProfile.value!!)
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {

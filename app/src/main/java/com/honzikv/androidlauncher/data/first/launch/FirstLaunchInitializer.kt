@@ -3,14 +3,12 @@ package com.honzikv.androidlauncher.data.first.launch
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
+import com.google.gson.Gson
 import com.honzikv.androidlauncher.data.model.entity.FolderModel
 import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
-import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
-import com.honzikv.androidlauncher.data.repository.FolderDataRepository
-import com.honzikv.androidlauncher.data.repository.HomescreenRepository
-import com.honzikv.androidlauncher.data.repository.PREFS_INITIALIZED
+import com.honzikv.androidlauncher.data.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -29,6 +27,7 @@ val DEFAULT_PACKAGES =
 const val FOLDER_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
+
 /**
  * Class that creates database objects for the first launch
  */
@@ -36,7 +35,7 @@ class FirstLaunchInitializer(
     private val folderDataRepository: FolderDataRepository,
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager,
-    private val userSettingsRepository: AppSettingsRepository,
+    private val appThemeRepository: AppThemeRepository,
     private val sharedPreferences: SharedPreferences
 ) {
 
@@ -108,7 +107,6 @@ class FirstLaunchInitializer(
             drawerSearchTextColor = Color.parseColor("#636e72"),
             dockBackgroundColor = Color.parseColor("#dfe6e9"),
             dockTextColor = Color.parseColor("#2d3436"),
-            isSelected = false,
             isUserProfile = false,
             name = "Light Theme"
         )
@@ -123,7 +121,6 @@ class FirstLaunchInitializer(
             dockBackgroundColor = Color.parseColor("#636e72"),
             dockTextColor = Color.parseColor("#b2bec3"),
             name = "Dark Theme",
-            isSelected = false,
             isUserProfile = false
         )
 
@@ -137,12 +134,13 @@ class FirstLaunchInitializer(
             dockBackgroundColor = Color.parseColor("#706fd3"),
             dockTextColor = Color.parseColor("#d1ccc0"),
             name = "Blue",
-            isSelected = true,
             isUserProfile = false
         )
 
+        sharedPreferences.edit().putString(THEME_PROFILE_FIELD, Gson().toJson(blueTheme))
+
         Timber.d("Default theme profiles created, inserting them into database")
-        userSettingsRepository.addProfiles(listOf(lightTheme, darkTheme, blueTheme))
+        appThemeRepository.addProfile(lightTheme, darkTheme, blueTheme)
         Timber.d("Default theme profiles have been inserted")
     }
 }

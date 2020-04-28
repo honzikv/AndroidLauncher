@@ -32,17 +32,8 @@ const val THEME_PROFILE_FIELD = "themeProfile"
 const val DOCK_APP_LIMIT = 4;
 
 class AppSettingsRepository(
-    private val preferences: SharedPreferences,
-    private val themeProfileDao: ThemeProfileDao
+    private val preferences: SharedPreferences
 ) {
-
-    val currentThemeProfile: LiveData<ThemeProfileModel> =
-        themeProfileDao.getSelectedProfileLiveData()
-
-    val allProfiles: LiveData<List<ThemeProfileModel>> = themeProfileDao.getAllProfiles()
-
-    suspend fun getCurrentThemeProfileSync(): ThemeProfileModel =
-        themeProfileDao.getSelectedProfile()
 
     suspend fun setFolderColsCount(count: Int) {
         preferences.edit().apply {
@@ -93,13 +84,5 @@ class AppSettingsRepository(
             apply()
         }
     }
-
-    suspend fun addProfiles(profiles: List<ThemeProfileModel>) =
-        themeProfileDao.addProfiles(profiles)
-
-    suspend fun addProfile(profile: ThemeProfileModel): Long = themeProfileDao.addProfile(profile)
-
-    suspend fun changeCurrentProfile(profile: ThemeProfileModel) =
-        themeProfileDao.changeSelected(profile)
 
 }

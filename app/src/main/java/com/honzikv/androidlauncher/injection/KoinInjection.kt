@@ -4,12 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
-import com.honzikv.androidlauncher.data.repository.DockRepository
-import com.honzikv.androidlauncher.data.repository.FolderDataRepository
-import com.honzikv.androidlauncher.data.repository.HomescreenRepository
-import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
-import com.honzikv.androidlauncher.data.repository.APP_PREFERENCES
-import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
+import com.honzikv.androidlauncher.data.repository.*
 import com.honzikv.androidlauncher.data.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
@@ -41,6 +36,14 @@ val module = module {
     single { AppDrawerRepository(androidContext().packageManager) }
     single {
         AppSettingsRepository(
+            androidContext().getSharedPreferences(
+                APP_PREFERENCES,
+                Context.MODE_PRIVATE
+            )
+        )
+    }
+    single {
+        AppThemeRepository(
             androidContext().getSharedPreferences(
                 APP_PREFERENCES,
                 Context.MODE_PRIVATE

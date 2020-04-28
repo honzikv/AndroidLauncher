@@ -5,17 +5,13 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.honzikv.androidlauncher.data.model.DrawerApp
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
-import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
-import kotlinx.coroutines.Dispatchers
+import com.honzikv.androidlauncher.data.repository.AppThemeRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class AppDrawerViewModel(
     private val appDrawerRepository: AppDrawerRepository,
-    private val appSettingsRepository: AppSettingsRepository
+    private val appThemeRepository: AppThemeRepository
 ) : ViewModel() {
 
     /**
@@ -29,7 +25,7 @@ class AppDrawerViewModel(
             updateAppDrawerData()
         }
 
-    val selectedProfile = appSettingsRepository.currentThemeProfile
+    val selectedProfile = appThemeRepository.getCurrentTheme()
 
     private fun updateAppDrawerData() =
         viewModelScope.launch { appDrawerRepository.reloadAppList() }

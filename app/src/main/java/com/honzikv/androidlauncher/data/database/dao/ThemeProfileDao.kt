@@ -10,12 +10,6 @@ interface ThemeProfileDao {
     @Query("SELECT * FROM ThemeProfileModel")
     fun getAllProfiles(): LiveData<List<ThemeProfileModel>>
 
-    @Query("SELECT * FROM ThemeProfileModel WHERE isSelected = 1")
-    fun getSelectedProfileLiveData(): LiveData<ThemeProfileModel>
-
-    @Query("SELECT * FROM ThemeProfileModel WHERE isSelected = 1")
-    suspend fun getSelectedProfile(): ThemeProfileModel
-
     @Update
     fun updateProfile(vararg profile: ThemeProfileModel)
 
@@ -30,14 +24,6 @@ interface ThemeProfileDao {
 
     @Insert
     suspend fun addProfiles(profiles: List<ThemeProfileModel>)
-
-    @Transaction
-    suspend fun changeSelected(profile: ThemeProfileModel) {
-        profile.isSelected = true
-        val previous = getSelectedProfile()
-        previous.isSelected = false
-        updateProfile(profile, previous)
-    }
 
     @Transaction
     suspend fun deleteProfile(profile: ThemeProfileModel) {
