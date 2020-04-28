@@ -22,6 +22,8 @@ data class FolderDto(
 
     var backgroundColor: Int,
 
+    var itemColor: Int,
+
     var title: String,
 
     var nextAppPosition: Int = 0

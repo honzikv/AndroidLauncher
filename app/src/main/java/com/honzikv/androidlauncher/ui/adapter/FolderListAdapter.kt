@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,7 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
-import com.honzikv.androidlauncher.data.repository.UserSettingsRepository
+import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -18,7 +17,7 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
 
     private val folderList: MutableList<FolderWithItems> = mutableListOf()
 
-    private val userSettingsRepository: UserSettingsRepository by inject()
+    private val appSettingsRepository: AppSettingsRepository by inject()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -50,30 +49,36 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
     }
 
     override fun getItemViewType(position: Int) =
-        if (folderList[position].showItems) R.layout.folder_detail else R.layout.folder_header
+        if (folderList[position].showItems) {
+            R.layout.folder_detail
+        } else {
+            R.layout.folder_header
+        }
 
-    inner class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            inner class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
+                RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: FolderWithItems) {
-            binding.recyclerView.apply {
-                layoutManager = GridLayoutManager(context, userSettingsRepository.getFolderColsCount())
-                adapter = FolderAdapter(data.itemList)
+                fun bind(data: FolderWithItems) {
+                    binding.recyclerView.apply {
+                        layoutManager =
+                            GridLayoutManager(context, 4) //TODO
+                        adapter = FolderAdapter(data.itemList)
+                    }
+                }
             }
+
+            inner class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
+                RecyclerView.ViewHolder(binding.root) {
+
+                fun bind(data: FolderWithItems) {
+                    binding.folderName.text = data.folder.title
+                    binding.subText.text =
+                        data.itemList.map(FolderItemDto::label).joinToString(", ")
+                    TODO("Bind color")
+                }
+            }
+
         }
-    }
-
-    inner class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(data: FolderWithItems) {
-            binding.folderName.text = data.folder.title
-            binding.subText.text = data.itemList.map(FolderItemDto::label).joinToString(", ")
-            TODO("Bind color")
-        }
-    }
-
-}
 
 
 

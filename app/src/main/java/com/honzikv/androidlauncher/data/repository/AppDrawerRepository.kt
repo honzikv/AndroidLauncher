@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import kotlinx.coroutines.*
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * [packageManager] - package manager to obtain all app packages
@@ -15,9 +16,7 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
 
     private val appList: MutableLiveData<List<DrawerApp>> = MutableLiveData(mutableListOf())
 
-    fun getAppList(): LiveData<List<DrawerApp>> {
-        return appList
-    }
+    fun getAppList(): LiveData<List<DrawerApp>> = appList
 
     /**
      * Updates systemApps LiveData with new list of system apps
@@ -42,9 +41,7 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
         }
 
         //sets new list as LiveData value and sorts it alphabetically
-        appList.postValue(apps.apply {
-            sortedWith(compareBy(DrawerApp::label))
-        })
+        appList.postValue(apps.apply { sortedWith(compareBy(DrawerApp::label)) })
     }
 
 }

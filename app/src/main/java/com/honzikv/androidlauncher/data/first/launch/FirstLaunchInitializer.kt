@@ -68,7 +68,7 @@ class FirstLaunchInitializer(
     private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
 
         val folderId = folderDataRepository.addFolder(
-            FolderDto(null, null, null, FOLDER_COLOR, FOLDER_NAME)
+            FolderDto(null, null, null, FOLDER_COLOR,0, FOLDER_NAME)
         )
 
         val appList = mutableListOf<FolderItemDto>()
