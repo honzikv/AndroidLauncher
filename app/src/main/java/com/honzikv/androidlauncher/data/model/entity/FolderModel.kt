@@ -27,7 +27,9 @@ data class FolderModel(
     var title: String,
 
     var nextAppPosition: Int = 0
-)
+) {
+    override fun toString() = title
+}
 
 /**
  * User created app shortcut - e.g icon in folder_header

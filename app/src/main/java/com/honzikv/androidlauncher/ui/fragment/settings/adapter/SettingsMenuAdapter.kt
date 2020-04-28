@@ -2,6 +2,8 @@ package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.databinding.adapters.SpinnerBindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
@@ -91,8 +93,10 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
 
         fun bind(data: SpinnerItem<T>) {
             binding.textLeft.text = data.textLeft
-            data.items.
+            binding.spinner.adapter = data.adapter
+            binding.spinner.onItemSelectedListener
         }
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
+import android.content.Context
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import com.multilevelview.models.RecyclerViewItem
 import kotlin.reflect.KFunction
@@ -38,7 +40,11 @@ class TextLeftItem(
 
 class SpinnerItem<T>(
     val textLeft: String,
-    val items: LiveData<List<T>>,
+    var items: List<T>,
     val functionOnClick: (T) -> Unit,
+    val context: Context,
     level: Int
-) : RecyclerViewItem(level)
+) : RecyclerViewItem(level) {
+
+    val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
+}

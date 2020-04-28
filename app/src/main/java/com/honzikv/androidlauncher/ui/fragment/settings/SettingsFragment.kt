@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
@@ -14,6 +16,7 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsMenuAdap
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.MultiLevelAdapter
+import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.ext.android.inject
 
@@ -68,10 +71,17 @@ class SettingsFragment : Fragment() {
 
         val selectTheme = SpinnerItem(
             SELECT_THEME,
-            viewModel.allThemes,
+            mutableListOf(),
             viewModel::changeTheme,
+            requireContext(),
             1
         )
+        viewModel.allThemes.observe(viewLifecycleOwner, {
+            selectTheme.items = it
+            selectTheme.adapter.clear()
+            selectTheme.adapter.addAll(selectTheme.items)
+            selectTheme.adapter.notifyDataSetChanged()
+        })
 
         val swipeDownToOpenNotificationsRadio = SwitchItem(
             SWIPE_DOWN_NOTIFICATIONS,
