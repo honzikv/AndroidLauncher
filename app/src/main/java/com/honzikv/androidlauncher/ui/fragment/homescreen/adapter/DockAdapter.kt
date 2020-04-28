@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.adapter
+package com.honzikv.androidlauncher.ui.fragment.homescreen.adapter
 
 import android.content.Context
 import android.graphics.Color

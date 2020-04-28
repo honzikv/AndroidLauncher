@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.adapter
+package com.honzikv.androidlauncher.ui.fragment.drawer.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.AppDrawerIconWithTitleBinding

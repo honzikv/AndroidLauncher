@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
-import com.honzikv.androidlauncher.ui.adapter.FolderListAdapter
+import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.FolderListAdapter
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
 

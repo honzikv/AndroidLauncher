@@ -25,7 +25,7 @@ class AppDrawerViewModel(
             updateAppDrawerData()
         }
 
-    val selectedProfile = appThemeRepository.getCurrentTheme()
+    val currentTheme = appThemeRepository.getCurrentTheme()
 
     private fun updateAppDrawerData() =
         viewModelScope.launch { appDrawerRepository.reloadAppList() }

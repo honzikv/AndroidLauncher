@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.adapter
+package com.honzikv.androidlauncher.ui.fragment.homescreen.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

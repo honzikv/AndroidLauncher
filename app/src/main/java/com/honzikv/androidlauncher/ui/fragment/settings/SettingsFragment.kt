@@ -8,20 +8,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.adapter.multilevel.HeaderItem
-import com.honzikv.androidlauncher.ui.adapter.multilevel.RadioButtonItem
-import com.honzikv.androidlauncher.ui.adapter.multilevel.SettingsMenuAdapter
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsMenuAdapter
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.ext.android.inject
 
-const val LOOK_AND_FEEL = "Look and Feel"
-const val LOOK_AND_FEEL_SUB = "Customize theme of your launcher"
-
 class SettingsFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    companion object {
+        const val LOOK_AND_FEEL = "Look and Feel"
+        const val LOOK_AND_FEEL_SUB = "Customize theme of your launcher"
+        const val SELECT_THEME = "Select Theme"
+        const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notification Panel"
+        const val USE_ANIMATIONS = "Use Animations"
+        const val SHOW_DOCK = "Show Dock"
+        const val ONE_HANDED_MODE = "Use One Handed Mode"
+    }
+
+    private val viewModel: SettingsViewModel by inject()
 
     private lateinit var multiLevelAdapter: MultiLevelAdapter
 
@@ -35,30 +43,60 @@ class SettingsFragment : Fragment() {
 
     }
 
-    private fun setupMenu(binding: SettingsFragmentBinding){
+    private fun setupMenu(binding: SettingsFragmentBinding) {
         val itemList = mutableListOf<RecyclerViewItem>()
         itemList.add(createLookAndFeelSubmenu())
 
         binding.multiLevelRecyclerView.layoutManager = LinearLayoutManager(context)
-        multiLevelAdapter = SettingsMenuAdapter(itemList)
+        multiLevelAdapter =
+            SettingsMenuAdapter(
+                itemList
+            )
         binding.multiLevelRecyclerView.adapter = multiLevelAdapter
-        binding.multiLevelRecyclerView.openTill(0,1,2,3)
+        binding.multiLevelRecyclerView.openTill(0, 1, 2, 3)
         binding.multiLevelRecyclerView.setAccordion(true)
     }
 
     private fun createLookAndFeelSubmenu(): RecyclerViewItem {
-        val headerItem = HeaderItem(LOOK_AND_FEEL, LOOK_AND_FEEL_SUB, 0)
-        headerItem.showChildren = true
+        val lookAndFeel =
+            HeaderItem(
+                LOOK_AND_FEEL,
+                LOOK_AND_FEEL_SUB,
+                0
+            )
+        lookAndFeel.showChildren = true
 
-        val radioButtonItem1 =
-            RadioButtonItem("sample", false, { println("sample") },  1)
+        val selectTheme = SpinnerItem(
+            SELECT_THEME,
+            viewModel.allThemes,
+            viewModel::changeTheme,
+            1
+        )
 
-        val radioButtonItem2 =
-            RadioButtonItem("sample2", false, { println("sample") },  1)
+        val swipeDownToOpenNotificationsRadio = SwitchItem(
+            SWIPE_DOWN_NOTIFICATIONS,
+            viewModel.getSwipeDownForNotifications(),
+            { viewModel.setSwipeDownForNotifications(it) },
+            1
+        )
 
-        headerItem.addChildren(listOf(radioButtonItem1, radioButtonItem2))
+        val showDock = SwitchItem(
+            SHOW_DOCK,
+            viewModel.getShowDock(),
+            { viewModel.setShowDock(it) },
+            1
+        )
 
-        return headerItem
+        val oneHandedMode = SwitchItem(
+            ONE_HANDED_MODE,
+            viewModel.getUseOneHandedMode(),
+            { viewModel.setUseOneHandedMode(it) },
+            1
+        )
+
+        lookAndFeel.addChildren(listOf(selectTheme, swipeDownToOpenNotificationsRadio, showDock))
+
+        return lookAndFeel
     }
 
 

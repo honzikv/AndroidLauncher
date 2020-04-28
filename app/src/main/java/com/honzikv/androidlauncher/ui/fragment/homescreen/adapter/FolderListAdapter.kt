@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.adapter
+package com.honzikv.androidlauncher.ui.fragment.homescreen.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -62,7 +62,10 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
                     binding.recyclerView.apply {
                         layoutManager =
                             GridLayoutManager(context, 4) //TODO
-                        adapter = FolderAdapter(data.itemList)
+                        adapter =
+                            FolderAdapter(
+                                data.itemList
+                            )
                     }
                 }
             }

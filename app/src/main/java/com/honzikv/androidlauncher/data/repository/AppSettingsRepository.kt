@@ -14,26 +14,42 @@ const val PREFS_INITIALIZED = "prefsInitialized"
 const val FOLDER_COLS_COUNT_FIELD = "folderColsCount"
 const val FOLDERS_COLS_COUNT_DEFAULT = 4
 
-val DRAWER_COLOR_DEFAULT = Color.parseColor("#d7dbe0")
-
-const val SHOW_DOCK_FIELD = "showDock"
-val SHOW_DOCK_DEFAULT = true
-
-const val MAX_FOLDERS_PER_PAGE = "maxFoldersPerPage"
-
-const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
-
-const val USE_GRID_DRAWER_FIELD = "useGridDrawer"
-
-const val ALWAYS_SHOW_FOLDER_CONTENT_FIELD = "alwaysShowFolderContent"
-
-const val THEME_PROFILE_FIELD = "themeProfile"
-
-const val DOCK_APP_LIMIT = 4;
 
 class AppSettingsRepository(
     private val preferences: SharedPreferences
 ) {
+
+    companion object {
+
+        val DRAWER_COLOR_DEFAULT = Color.parseColor("#d7dbe0")
+
+        const val SHOW_DOCK_FIELD = "showDock"
+
+        const val MAX_FOLDERS_PER_PAGE = "maxFoldersPerPage"
+
+        const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
+
+        const val USE_GRID_DRAWER_FIELD = "useGridDrawer"
+
+        const val ALWAYS_SHOW_FOLDER_CONTENT_FIELD = "alwaysShowFolderContent"
+
+        const val THEME_PROFILE_FIELD = "themeProfile"
+
+        const val DOCK_APP_LIMIT = 4;
+
+        const val USE_ONE_HANDED_MODE = "useOneHandedMode"
+    }
+
+    fun getSwipeDownForNotifications() =
+        preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
+
+    suspend fun setSwipeDownForNotifications(enable: Boolean) =
+        withContext(Dispatchers.Default) {
+            preferences.edit().apply {
+                putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
+                apply()
+            }
+        }
 
     suspend fun setFolderColsCount(count: Int) {
         preferences.edit().apply {
@@ -49,13 +65,7 @@ class AppSettingsRepository(
         }
     }
 
-    suspend fun setSwipeDownForNotificationPanel(enable: Boolean) =
-        withContext(Dispatchers.Default) {
-            preferences.edit().apply {
-                putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
-                apply()
-            }
-        }
+    fun getShowDock() = preferences.getBoolean(SHOW_DOCK_FIELD, true)
 
     suspend fun setShowDock(show: Boolean) = withContext(Dispatchers.Default) {
         preferences.edit().apply {
@@ -63,6 +73,7 @@ class AppSettingsRepository(
             apply()
         }
     }
+
 
     fun setUseGridDrawer(use: Boolean) {
         preferences.edit().apply {
@@ -85,4 +96,12 @@ class AppSettingsRepository(
         }
     }
 
+    fun getUseOneHandedMode() = preferences.getBoolean(USE_ONE_HANDED_MODE, false)
+
+    fun setUseOneHandedMode(use: Boolean) {
+        preferences.edit().apply {
+            putBoolean(USE_ONE_HANDED_MODE, use)
+            apply()
+        }
+    }
 }

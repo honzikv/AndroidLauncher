@@ -1,12 +1,8 @@
 package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
@@ -16,8 +12,8 @@ import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
-import com.honzikv.androidlauncher.ui.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
+import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import org.koin.android.ext.android.inject
@@ -44,9 +40,10 @@ class AppDrawerFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: AppDrawerFragmentBinding) {
-        appDrawerAdapter = AppDrawerAdapter()
+        appDrawerAdapter =
+            AppDrawerAdapter()
 
-        appDrawerViewModel.selectedProfile.observe(viewLifecycleOwner, {
+        appDrawerViewModel.currentTheme.observe(viewLifecycleOwner, {
             updateTheme(binding, it)
         })
 
@@ -84,7 +81,7 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        updateTheme(binding, appDrawerViewModel.selectedProfile.value!!)
+        updateTheme(binding, appDrawerViewModel.currentTheme.value!!)
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
