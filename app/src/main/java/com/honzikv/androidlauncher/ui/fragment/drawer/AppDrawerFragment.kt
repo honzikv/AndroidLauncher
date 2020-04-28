@@ -2,29 +2,43 @@ package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
 import android.content.ClipData
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.R
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
-import com.honzikv.androidlauncher.data.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class  AppDrawerFragment : Fragment() {
+val darkTheme = ThemeProfileModel(
+    id = null,
+    drawerBackgroundColor = Color.parseColor("#2d3436"),
+    drawerTextFillColor = Color.parseColor("#dfe6e9"),
+    drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
+    drawerSearchTextColor = Color.parseColor("#2d3436"),
+    dockBackgroundColor = Color.parseColor("#636e72"),
+    dockTextColor = Color.parseColor("#b2bec3"),
+    name = "Dark Theme",
+    isSelected = false,
+    isUserProfile = false
+)
+
+class AppDrawerFragment : Fragment() {
 
     private val appDrawerViewModel: AppDrawerViewModel by inject()
-
-    private val themer: Themer by inject()
 
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
@@ -44,8 +58,15 @@ class  AppDrawerFragment : Fragment() {
     private fun initialize(binding: AppDrawerFragmentBinding) {
         appDrawerAdapter = AppDrawerAdapter()
 
-        binding.appDrawerRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.appDrawerRecyclerView.adapter = appDrawerAdapter
+        appDrawerViewModel.selectedProfile.observe(viewLifecycleOwner, {
+            updateTheme(binding, it)
+        })
+
+        binding.appDrawerRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = appDrawerAdapter
+        }
+
         binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
@@ -75,6 +96,22 @@ class  AppDrawerFragment : Fragment() {
             }
         })
 
+        updateTheme(binding, appDrawerViewModel.currentProfile)
+    }
+
+    private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
+        appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
+        binding.appDrawerRecyclerView.setBackgroundColor(theme.drawerBackgroundColor)
+        binding.searchView.apply {
+            setBackgroundColor(theme.drawerSearchBackgroundColor)
+            val searchText =
+                context.resources.getIdentifier("android:id/search_src_text", null, null)
+//            findViewById<TextView>(searchText).apply {
+//                val textColor = theme.drawerSearchTextColor
+//                setTextColor(textColor)
+//                setHintTextColor(textColor)
+//            }
+        }
     }
 
     private fun returnToHomePageFragment() {

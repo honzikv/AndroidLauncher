@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.data.model.entity.DockItemDto
+import com.honzikv.androidlauncher.data.model.entity.DockItemModel
 import com.honzikv.androidlauncher.databinding.IconWithTitleBinding
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
 class DockAdapter : RecyclerView.Adapter<DockAdapter.ItemViewHolder>(), KoinComponent {
 
-    private var items: List<DockItemDto> = mutableListOf()
+    private var items: List<DockItemModel> = mutableListOf()
 
     private var showLabels = true
 
@@ -26,7 +26,7 @@ class DockAdapter : RecyclerView.Adapter<DockAdapter.ItemViewHolder>(), KoinComp
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
-    fun updateData(items: List<DockItemDto>) {
+    fun updateData(items: List<DockItemModel>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -46,8 +46,8 @@ class DockAdapter : RecyclerView.Adapter<DockAdapter.ItemViewHolder>(), KoinComp
     inner class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(dockItemDto: DockItemDto) {
-            itemBinding.icon.setImageDrawable(dockItemDto.drawable)
+        fun bind(dockItemModel: DockItemModel) {
+            itemBinding.icon.setImageDrawable(dockItemModel.drawable)
         }
 
         init {

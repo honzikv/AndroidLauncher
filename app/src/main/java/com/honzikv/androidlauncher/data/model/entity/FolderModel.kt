@@ -6,13 +6,13 @@ import androidx.room.*
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = PageDto::class,
+            entity = PageModel::class,
             onDelete = ForeignKey.CASCADE,
             parentColumns = ["id"],
             childColumns = ["pageId"]
         )]
 )
-data class FolderDto(
+data class FolderModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
@@ -35,13 +35,13 @@ data class FolderDto(
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = FolderDto::class,
+            entity = FolderModel::class,
             onDelete = ForeignKey.CASCADE,
             parentColumns = ["id"],
             childColumns = ["folderId"]
         )]
 )
-data class FolderItemDto(
+data class FolderItemModel(
 
     @PrimaryKey(autoGenerate = true)
     var id: Long? = 0,
@@ -67,24 +67,24 @@ data class FolderItemDto(
 
 data class PageWithFolders(
     @Embedded
-    val page: PageDto,
+    val page: PageModel,
 
     /**
      * List of Folders each containing list of their items
      */
-    @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderDto::class)
+    @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderModel::class)
     val folderList: List<FolderWithItems>
 )
 
 data class FolderWithItems(
     @Embedded
-    val folder: FolderDto,
+    val folder: FolderModel,
 
     /**
      * List of items in folder_header
      */
-    @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemDto::class)
-    val itemList: List<FolderItemDto>
+    @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
+    val itemList: List<FolderItemModel>
 ) {
     @Ignore
     var showItems: Boolean = false

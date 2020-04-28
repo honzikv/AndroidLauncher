@@ -1,24 +1,48 @@
 package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileDto
+import androidx.room.*
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 @Dao
 interface ThemeProfileDao {
 
-    @Query("SELECT * FROM ThemeProfileDto")
-    fun getAllProfiles() : LiveData<List<ThemeProfileDto>>
+    @Query("SELECT * FROM ThemeProfileModel")
+    fun getAllProfiles(): LiveData<List<ThemeProfileModel>>
 
-    @Query("SELECT * FROM ThemeProfileDto WHERE isSelected")
-    fun getSelectedProfile() : LiveData<ThemeProfileDto>
+    @Query("SELECT * FROM ThemeProfileModel WHERE isSelected = 1")
+    fun getSelectedProfileLiveData(): LiveData<ThemeProfileModel>
+
+    @Query("SELECT * FROM ThemeProfileModel WHERE isSelected = 1")
+    suspend fun getSelectedProfile(): ThemeProfileModel
+
+    @Update
+    fun updateProfile(vararg profile: ThemeProfileModel)
+
+    @Update
+    fun updateProfiles(list: List<ThemeProfileModel>)
 
     @Insert
-    fun addProfile(profile: ThemeProfileDto)
+    suspend fun addProfile(profile: ThemeProfileModel) : Long
 
     @Delete
-    fun deleteProfile(profile: ThemeProfileDto)
+    suspend fun delete(profile: ThemeProfileModel)
+
+    @Insert
+    suspend fun addProfiles(profiles: List<ThemeProfileModel>)
+
+    @Transaction
+    suspend fun changeSelected(profile: ThemeProfileModel) {
+        profile.isSelected = true
+        val previous = getSelectedProfile()
+        previous.isSelected = false
+        updateProfile(profile, previous)
+    }
+
+    @Transaction
+    suspend fun deleteProfile(profile: ThemeProfileModel) {
+        if (profile.isUserProfile) {
+            deleteProfile(profile)
+        }
+    }
 }

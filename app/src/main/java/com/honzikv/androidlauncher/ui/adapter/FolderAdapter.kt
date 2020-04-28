@@ -3,11 +3,11 @@ package com.honzikv.androidlauncher.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
+import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.databinding.IconWithTitleBinding
 
 class FolderAdapter(
-    private val folderItems: List<FolderItemDto>
+    private val folderItems: List<FolderItemModel>
 ) : RecyclerView.Adapter<FolderAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -29,7 +29,7 @@ class FolderAdapter(
     inner class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(folderItem: FolderItemDto) {
+        fun bind(folderItem: FolderItemModel) {
             itemBinding.icon.setImageDrawable(folderItem.drawable)
             itemBinding.label.text = folderItem.label
         }

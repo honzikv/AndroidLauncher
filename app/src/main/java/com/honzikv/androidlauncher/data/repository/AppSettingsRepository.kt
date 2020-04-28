@@ -2,7 +2,9 @@ package com.honzikv.androidlauncher.data.repository
 
 import android.content.SharedPreferences
 import android.graphics.Color
+import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -27,14 +29,20 @@ const val ALWAYS_SHOW_FOLDER_CONTENT_FIELD = "alwaysShowFolderContent"
 
 const val THEME_PROFILE_FIELD = "themeProfile"
 
+const val DOCK_APP_LIMIT = 4;
+
 class AppSettingsRepository(
     private val preferences: SharedPreferences,
     private val themeProfileDao: ThemeProfileDao
 ) {
 
-    private var themeProfile = themeProfileDao.getSelectedProfile()
+    val currentThemeProfile: LiveData<ThemeProfileModel> =
+        themeProfileDao.getSelectedProfileLiveData()
 
-    private var allProfiles = themeProfileDao.getAllProfiles()
+    val allProfiles: LiveData<List<ThemeProfileModel>> = themeProfileDao.getAllProfiles()
+
+    suspend fun getCurrentThemeProfileSync(): ThemeProfileModel =
+        themeProfileDao.getSelectedProfile()
 
     suspend fun setFolderColsCount(count: Int) {
         preferences.edit().apply {
@@ -50,12 +58,13 @@ class AppSettingsRepository(
         }
     }
 
-    suspend fun setSwipeDownForNotificationPanel(enable: Boolean) = withContext(Dispatchers.Default) {
-        preferences.edit().apply {
-            putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
-            apply()
+    suspend fun setSwipeDownForNotificationPanel(enable: Boolean) =
+        withContext(Dispatchers.Default) {
+            preferences.edit().apply {
+                putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
+                apply()
+            }
         }
-    }
 
     suspend fun setShowDock(show: Boolean) = withContext(Dispatchers.Default) {
         preferences.edit().apply {
@@ -85,5 +94,12 @@ class AppSettingsRepository(
         }
     }
 
+    suspend fun addProfiles(profiles: List<ThemeProfileModel>) =
+        themeProfileDao.addProfiles(profiles)
+
+    suspend fun addProfile(profile: ThemeProfileModel): Long = themeProfileDao.addProfile(profile)
+
+    suspend fun changeCurrentProfile(profile: ThemeProfileModel) =
+        themeProfileDao.changeSelected(profile)
 
 }

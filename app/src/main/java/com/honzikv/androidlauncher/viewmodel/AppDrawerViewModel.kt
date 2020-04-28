@@ -1,14 +1,21 @@
 package com.honzikv.androidlauncher.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.honzikv.androidlauncher.data.model.DrawerApp
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
 import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class AppDrawerViewModel(
-    private val appDrawerRepository: AppDrawerRepository
+    private val appDrawerRepository: AppDrawerRepository,
+    private val appSettingsRepository: AppSettingsRepository
 ) : ViewModel() {
 
     /**
@@ -22,9 +29,11 @@ class AppDrawerViewModel(
             updateAppDrawerData()
         }
 
+    val selectedProfile = appSettingsRepository.currentThemeProfile
+
     private fun updateAppDrawerData() =
         viewModelScope.launch { appDrawerRepository.reloadAppList() }
 
-    fun getDrawerApps() : LiveData<List<DrawerApp>> = appList
+    fun getDrawerApps(): LiveData<List<DrawerApp>> = appList
 
 }

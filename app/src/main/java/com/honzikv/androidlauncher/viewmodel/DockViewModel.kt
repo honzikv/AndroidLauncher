@@ -7,8 +7,6 @@ class DockViewModel(
     private val dockRepository: DockRepository
 ) : ViewModel() {
 
-    val dock = dockRepository.dock
-
     val dockItems = dockRepository.dockItems
 
     fun addItem(packageName: String) = dockRepository.addItem(packageName)

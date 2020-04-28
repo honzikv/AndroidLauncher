@@ -3,9 +3,11 @@ package com.honzikv.androidlauncher.data.first.launch
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
-import com.honzikv.androidlauncher.data.model.entity.FolderDto
-import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
-import com.honzikv.androidlauncher.data.model.entity.PageDto
+import com.honzikv.androidlauncher.data.model.entity.FolderModel
+import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
+import com.honzikv.androidlauncher.data.model.entity.PageModel
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
 import com.honzikv.androidlauncher.data.repository.FolderDataRepository
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.data.repository.PREFS_INITIALIZED
@@ -27,7 +29,6 @@ val DEFAULT_PACKAGES =
 const val FOLDER_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
-
 /**
  * Class that creates database objects for the first launch
  */
@@ -35,6 +36,7 @@ class FirstLaunchInitializer(
     private val folderDataRepository: FolderDataRepository,
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager,
+    private val userSettingsRepository: AppSettingsRepository,
     private val sharedPreferences: SharedPreferences
 ) {
 
@@ -43,8 +45,9 @@ class FirstLaunchInitializer(
         return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
 
-    suspend fun initialize() = withContext(Dispatchers.IO) {
+    suspend fun initialize() = withContext(Dispatchers.Default) {
         Timber.i("Initializing default settings")
+        createDefaultThemeProfiles()
         val pageDeferred = async { createFirstPage() }
         val folderDeferred = async { createGoogleFolder() }
         homescreenRepository.addFolderToPage(folderDeferred.await(), pageDeferred.await())
@@ -58,23 +61,21 @@ class FirstLaunchInitializer(
         Timber.d("Successfully set default variables")
     }
 
-    private suspend fun createFirstPage(): Long {
-        return homescreenRepository.addPageAsLast(PageDto())
-    }
+    private suspend fun createFirstPage(): Long = homescreenRepository.addPageAsLast(PageModel())
 
     /**
      * Creates folder_header with google apps
      */
     private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
-
+        Timber.d("Creating default google apps folder")
         val folderId = folderDataRepository.addFolder(
-            FolderDto(null, null, null, FOLDER_COLOR,0, FOLDER_NAME)
+            FolderModel(null, null, null, FOLDER_COLOR, 0, FOLDER_NAME)
         )
 
-        val appList = mutableListOf<FolderItemDto>()
+        val appList = mutableListOf<FolderItemModel>()
         DEFAULT_PACKAGES.forEach { appPackage ->
             if (isAppInstalled(appPackage)) {
-                appList.add(FolderItemDto(null, folderId, appPackage))
+                appList.add(FolderItemModel(null, folderId, appPackage))
             }
         }
 
@@ -84,6 +85,7 @@ class FirstLaunchInitializer(
             folderDataRepository.addAppToFolder(folderItem, folder)
         }
 
+        Timber.d("Google folder created")
         return@withContext folderId
     }
 
@@ -95,4 +97,52 @@ class FirstLaunchInitializer(
         }
     }
 
+    private suspend fun createDefaultThemeProfiles() = withContext(Dispatchers.IO) {
+        Timber.d("Creating default theme profiles")
+        //https://flatuicolors.com/palette/us
+        val lightTheme = ThemeProfileModel(
+            id = null,
+            drawerBackgroundColor = Color.parseColor("#dfe6e9"),
+            drawerTextFillColor = Color.parseColor("#2d3436"),
+            drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
+            drawerSearchTextColor = Color.parseColor("#636e72"),
+            dockBackgroundColor = Color.parseColor("#dfe6e9"),
+            dockTextColor = Color.parseColor("#2d3436"),
+            isSelected = false,
+            isUserProfile = false,
+            name = "Light Theme"
+        )
+
+        //https://flatuicolors.com/palette/us
+        val darkTheme = ThemeProfileModel(
+            id = null,
+            drawerBackgroundColor = Color.parseColor("#2d3436"),
+            drawerTextFillColor = Color.parseColor("#dfe6e9"),
+            drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
+            drawerSearchTextColor = Color.parseColor("#2d3436"),
+            dockBackgroundColor = Color.parseColor("#636e72"),
+            dockTextColor = Color.parseColor("#b2bec3"),
+            name = "Dark Theme",
+            isSelected = false,
+            isUserProfile = false
+        )
+
+        //https://flatuicolors.com/palette/es
+        val blueTheme = ThemeProfileModel(
+            id = null,
+            drawerBackgroundColor = Color.parseColor("#2c2c54"),
+            drawerTextFillColor = Color.parseColor("#f7f1e3"),
+            drawerSearchBackgroundColor = Color.parseColor("#40407a"),
+            drawerSearchTextColor = Color.parseColor("#aaa69d"),
+            dockBackgroundColor = Color.parseColor("#706fd3"),
+            dockTextColor = Color.parseColor("#d1ccc0"),
+            name = "Blue",
+            isSelected = true,
+            isUserProfile = false
+        )
+
+        Timber.d("Default theme profiles created, inserting them into database")
+        userSettingsRepository.addProfiles(listOf(lightTheme, darkTheme, blueTheme))
+        Timber.d("Default theme profiles have been inserted")
+    }
 }

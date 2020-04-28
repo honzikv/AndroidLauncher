@@ -9,8 +9,8 @@ import com.honzikv.androidlauncher.data.model.entity.*
  * Room database to store user edited data about homescreen
  */
 @Database(
-    entities = [FolderDto::class, DockDto::class, FolderItemDto::class, DockItemDto::class,
-        PageDto::class, ThemeProfileDto::class],
+    entities = [FolderModel::class, FolderItemModel::class, DockItemModel::class,
+        PageModel::class, ThemeProfileModel::class],
     version = 1
 )
 abstract class LauncherDatabase : RoomDatabase() {

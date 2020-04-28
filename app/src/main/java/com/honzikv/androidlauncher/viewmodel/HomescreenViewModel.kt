@@ -3,7 +3,7 @@ package com.honzikv.androidlauncher.viewmodel
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
-import com.honzikv.androidlauncher.data.model.entity.PageDto
+import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.model.entity.PageWithFolders
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
@@ -73,7 +73,7 @@ class HomescreenViewModel(
         }
     }
 
-    suspend fun removePage(page: PageDto) {
+    suspend fun removePage(page: PageModel) {
         homescreenRepository.removePage(page)
     }
 

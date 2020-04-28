@@ -6,6 +6,7 @@ import com.honzikv.androidlauncher.injection.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -26,7 +27,7 @@ class LauncherApplication : Application() {
         Timber.d("Checking if this is a first start")
         val initializer: FirstLaunchInitializer = get()
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             if (!initializer.isAppInitialized()) {
                 Timber.d("App is not initialized, attempting to create default variables")
                 initializer.initialize()

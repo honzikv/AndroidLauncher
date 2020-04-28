@@ -1,24 +1,24 @@
 package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.room.*
-import com.honzikv.androidlauncher.data.model.entity.FolderDto
-import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
+import com.honzikv.androidlauncher.data.model.entity.FolderModel
+import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 
 @Dao
 interface FolderDao {
 
     @Update
-    fun updateFolderItem(folderItem: FolderItemDto)
+    fun updateFolderItem(folderItem: FolderItemModel)
 
     @Update
-    suspend fun updateFolder(folder: FolderDto)
+    suspend fun updateFolder(folder: FolderModel)
 
     @Insert
-    suspend fun addFolder(folder: FolderDto): Long
+    suspend fun addFolder(folder: FolderModel): Long
 
-    @Query("SELECT * FROM FolderDto WHERE id = :folderId")
-    suspend fun getFolder(folderId: Long): FolderDto
+    @Query("SELECT * FROM FolderModel WHERE id = :folderId")
+    suspend fun getFolder(folderId: Long): FolderModel
 
     @Delete
-    fun deleteFolder(folder: FolderDto)
+    fun deleteFolder(folder: FolderModel)
 }

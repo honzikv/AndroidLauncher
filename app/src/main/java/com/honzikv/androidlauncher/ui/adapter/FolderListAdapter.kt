@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.entity.FolderItemDto
+import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
@@ -73,7 +73,7 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
                 fun bind(data: FolderWithItems) {
                     binding.folderName.text = data.folder.title
                     binding.subText.text =
-                        data.itemList.map(FolderItemDto::label).joinToString(", ")
+                        data.itemList.map(FolderItemModel::label).joinToString(", ")
                     TODO("Bind color")
                 }
             }

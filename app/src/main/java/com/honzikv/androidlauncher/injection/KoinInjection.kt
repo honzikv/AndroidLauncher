@@ -27,11 +27,14 @@ val module = module {
             .build()
     }
 
+    //Daos
     single { get<LauncherDatabase>().dockDao() }
     single { get<LauncherDatabase>().folderDao() }
     single { get<LauncherDatabase>().homescreenPageDao() }
     single { get<LauncherDatabase>().userAppDao() }
+    single { get<LauncherDatabase>().themeProfileDao() }
 
+    //Repos
     single { HomescreenRepository(get(), get()) }
     single { DockRepository(get()) }
     single { FolderDataRepository(get()) }
@@ -49,16 +52,14 @@ val module = module {
 
     single {
         FirstLaunchInitializer(
-            get(), get(), androidContext().packageManager, get()
+            get(), get(), androidContext().packageManager, get(), get()
         )
     }
 
+    //Viewmodels
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
-
-    viewModel { AppDrawerViewModel(get()) }
-
+    viewModel { AppDrawerViewModel(get(), get()) }
     viewModel { DockViewModel(get()) }
-
     viewModel { SettingsViewModel(get()) }
 
     single { Themer(get(), get()) }
