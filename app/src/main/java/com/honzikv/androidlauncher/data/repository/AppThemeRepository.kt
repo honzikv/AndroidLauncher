@@ -41,12 +41,12 @@ class AppThemeRepository(
 
     fun getCurrentTheme(): LiveData<ThemeProfileModel> = currentTheme
 
-    suspend fun changeTheme(theme: ThemeProfileModel) {
+    fun changeTheme(theme: ThemeProfileModel) {
         Timber.d("Attempting to change theme")
         preferences.edit().apply{
             putString(APP_THEME_FIELD, Gson().toJson(theme))
             apply()
-            Timber.d("Theme changed")
+            Timber.d("Theme changed to ${theme.name}")
         }
         currentTheme.postValue(theme)
     }

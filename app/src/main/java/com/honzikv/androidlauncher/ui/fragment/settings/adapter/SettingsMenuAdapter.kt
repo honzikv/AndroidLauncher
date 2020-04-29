@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.SettingsHeaderItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSpinnerItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSwitchItemBinding
+import com.honzikv.androidlauncher.databinding.SettingsTextLeftRightItemBinding
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
 
@@ -29,9 +31,14 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
                 )
             )
 
-//            R.layout.settings_spinner_item
-            else -> SpinnerViewHolder(
+            R.layout.settings_spinner_item -> SpinnerViewHolder(
                 SettingsSpinnerItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+//R.layout.settings_text_left_right_item
+            else -> TextLeftRightViewHolder(
+                SettingsTextLeftRightItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -51,6 +58,9 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
 
             R.layout.settings_spinner_item -> (holder as SpinnerViewHolder)
                 .bind(item as SpinnerItem)
+
+            R.layout.settings_text_left_right_item -> (holder as TextLeftRightViewHolder)
+                .bind(item as TextLeftRightItem)
         }
     }
 
@@ -98,15 +108,25 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
                     position: Int,
                     id: Long
                 ) {
-                    data.functionOnClick(binding.spinner.adapter.getItem(position) as Displayable)
+                    if (position != 0) {
+                        data.functionOnClick(binding.spinner.adapter.getItem(position) as Displayable)
+                    }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
                 }
             }
         }
 
+        inner class TextLeftRightViewHolder(val binding: SettingsTextLeftRightItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(data: TextLeftRightItem) {
+                binding.textLeft.text = data.textLeft
+                binding.textRight.text = data.textRight
+                binding.root.setOnClickListener { data.functionOnClick() }
+            }
+        }
+
     }
-
-
-}

@@ -28,7 +28,6 @@ val DEFAULT_PACKAGES =
 const val FOLDER_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
-
 /**
  * Class that creates database objects for the first launch
  */

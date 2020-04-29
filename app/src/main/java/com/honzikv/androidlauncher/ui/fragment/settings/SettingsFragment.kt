@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsMenuAdapter
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
@@ -50,7 +47,10 @@ class SettingsFragment : Fragment() {
 
     private fun setupMenu(binding: SettingsFragmentBinding) {
         val itemList = mutableListOf<RecyclerViewItem>()
-        itemList.add(createLookAndFeelSubmenu())
+        val lookAndFeelMenu = LookAndFeelMenu(viewModel, requireContext()).apply {
+            itemList.add(getRoot())
+            position = itemList.size
+        }
 
         binding.multiLevelRecyclerView.layoutManager = LinearLayoutManager(context)
         multiLevelAdapter =
@@ -60,65 +60,29 @@ class SettingsFragment : Fragment() {
         binding.multiLevelRecyclerView.adapter = multiLevelAdapter
         binding.multiLevelRecyclerView.openTill(0, 1, 2, 3)
         binding.multiLevelRecyclerView.setAccordion(true)
-    }
 
-    private fun createLookAndFeelSubmenu(): RecyclerViewItem {
-        val lookAndFeel =
-            HeaderItem(
-                LOOK_AND_FEEL,
-                LOOK_AND_FEEL_SUB,
-                0
-            )
-        lookAndFeel.showChildren = true
-
-        val selectTheme = SpinnerItem(
-            SELECT_THEME,
-            mutableListOf(),
-            { viewModel.changeTheme(it as ThemeProfileModel) },
-            requireContext(),
-            1
-        )
         viewModel.allThemes.observe(viewLifecycleOwner, {
-            selectTheme.items = it
+            val selectTheme = lookAndFeelMenu.selectTheme
+
+            val newItems = mutableListOf<Displayable>(object : Displayable {
+                override fun toString(): String {
+                    return "Choose a Theme"
+                }
+            })
+            newItems.addAll(it)
+            selectTheme.items = newItems
             selectTheme.adapter.clear()
             selectTheme.adapter.addAll(selectTheme.items)
             selectTheme.adapter.notifyDataSetChanged()
         })
 
-        Timber.d("size = ${viewModel.allThemes.value?.size}")
-
-        val swipeDownToOpenNotificationsRadio = SwitchItem(
-            SWIPE_DOWN_NOTIFICATIONS,
-            viewModel.getSwipeDownForNotifications(),
-            { viewModel.setSwipeDownForNotifications(it) },
-            1
-        )
-
-        val showDock = SwitchItem(
-            SHOW_DOCK,
-            viewModel.getShowDock(),
-            { viewModel.setShowDock(it) },
-            1
-        )
-
-        val oneHandedMode = SwitchItem(
-            ONE_HANDED_MODE,
-            viewModel.getUseOneHandedMode(),
-            { viewModel.setUseOneHandedMode(it) },
-            1
-        )
-
-        lookAndFeel.addChildren(
-            listOf(
-                selectTheme,
-                swipeDownToOpenNotificationsRadio,
-                showDock,
-                oneHandedMode
-            )
-        )
-
-        return lookAndFeel
+        viewModel.currentTheme.observe(viewLifecycleOwner, {
+            val currentTheme = lookAndFeelMenu.currentTheme
+            currentTheme.textRight = it.name
+            multiLevelAdapter.notifyItemChanged(lookAndFeelMenu.position)
+        })
     }
+
 
 
 }
