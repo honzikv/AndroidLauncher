@@ -2,6 +2,8 @@ package com.honzikv.androidlauncher.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.Displayable
+
 @Entity
 data class ThemeProfileModel(
 
@@ -23,4 +25,7 @@ data class ThemeProfileModel(
     var name: String,
 
     val isUserProfile: Boolean = true
-)
+) : Displayable {
+
+    override fun toString() = name
+}

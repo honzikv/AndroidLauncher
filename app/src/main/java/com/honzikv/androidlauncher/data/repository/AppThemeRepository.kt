@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import timber.log.Timber
 
 val DEFAULT_THEME = ThemeProfileModel(
     id = null,
@@ -41,14 +42,17 @@ class AppThemeRepository(
     fun getCurrentTheme(): LiveData<ThemeProfileModel> = currentTheme
 
     suspend fun changeTheme(theme: ThemeProfileModel) {
+        Timber.d("Attempting to change theme")
         preferences.edit().apply{
-            putString(APP_THEME_FIELD, Gson().toJson(DEFAULT_THEME))
+            putString(APP_THEME_FIELD, Gson().toJson(theme))
             apply()
+            Timber.d("Theme changed")
         }
         currentTheme.postValue(theme)
     }
 
-    suspend fun addProfile(vararg profile: ThemeProfileModel) {
-
+    suspend fun addProfile(vararg profile: ThemeProfileModel) = profile.forEach {
+        val profileId = themeProfileDao.addProfile(it)
+        Timber.d("New profile added, id=$profileId")
     }
 }

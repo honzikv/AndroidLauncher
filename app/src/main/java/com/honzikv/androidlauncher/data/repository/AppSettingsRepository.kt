@@ -7,6 +7,7 @@ import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 const val APP_PREFERENCES = "userPreferences"
 const val PREFS_INITIALIZED = "prefsInitialized"
@@ -43,13 +44,14 @@ class AppSettingsRepository(
     fun getSwipeDownForNotifications() =
         preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
-    suspend fun setSwipeDownForNotifications(enable: Boolean) =
-        withContext(Dispatchers.Default) {
-            preferences.edit().apply {
-                putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
-                apply()
-            }
+    fun setSwipeDownForNotifications(enable: Boolean) {
+        Timber.d("Setting swipe down for notifications to $enable")
+        preferences.edit().apply {
+            putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
+            apply()
+            Timber.d("Swipe down for notifications enabled = $enable")
         }
+    }
 
     suspend fun setFolderColsCount(count: Int) {
         preferences.edit().apply {
@@ -73,7 +75,6 @@ class AppSettingsRepository(
             apply()
         }
     }
-
 
     fun setUseGridDrawer(use: Boolean) {
         preferences.edit().apply {

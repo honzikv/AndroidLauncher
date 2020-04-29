@@ -19,8 +19,6 @@ abstract class LauncherDatabase : RoomDatabase() {
 
     abstract fun dockDao(): DockDao
 
-    abstract fun userAppDao(): UserAppDao
-
     abstract fun homescreenPageDao() : PageDao
 
     abstract fun themeProfileDao(): ThemeProfileDao

@@ -9,6 +9,7 @@ import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
 import com.honzikv.androidlauncher.data.model.entity.PageModel
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.*
+import com.honzikv.androidlauncher.data.repository.AppSettingsRepository.Companion.THEME_PROFILE_FIELD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext

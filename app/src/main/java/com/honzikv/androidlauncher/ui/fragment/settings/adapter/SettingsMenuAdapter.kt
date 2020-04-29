@@ -1,13 +1,11 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.databinding.adapters.SpinnerBindingAdapter
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.SettingsHeaderItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSpinnerItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSwitchItemBinding
@@ -17,32 +15,27 @@ import com.multilevelview.models.RecyclerViewItem
 class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
     MultiLevelAdapter(items) {
 
-    private val themes: MutableList<ThemeProfileModel> = mutableListOf()
-
-    fun setThemes(themes: MutableList<ThemeProfileModel>) {
-        this.themes.apply {
-            clear()
-            addAll(themes)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             R.layout.settings_header_item -> HeaderViewHolder(
                 SettingsHeaderItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+                    LayoutInflater.from(parent.context), parent, false
                 )
             )
 
-            else -> RadioButtonViewHolder(
+            R.layout.settings_switch_item -> SwitchItemViewHolder(
                 SettingsSwitchItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+                    LayoutInflater.from(parent.context), parent, false
                 )
             )
+
+//            R.layout.settings_spinner_item
+            else -> SpinnerViewHolder(
+                SettingsSpinnerItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
         }
     }
 
@@ -53,8 +46,11 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
             R.layout.settings_header_item -> (holder as HeaderViewHolder)
                 .bind(item as HeaderItem)
 
-            R.layout.settings_switch_item -> (holder as RadioButtonViewHolder)
+            R.layout.settings_switch_item -> (holder as SwitchItemViewHolder)
                 .bind(item as SwitchItem)
+
+            R.layout.settings_spinner_item -> (holder as SpinnerViewHolder)
+                .bind(item as SpinnerItem)
         }
     }
 
@@ -63,6 +59,7 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
             is HeaderItem -> R.layout.settings_header_item
             is SwitchItem -> R.layout.settings_switch_item
             is TextLeftRightItem -> R.layout.settings_text_left_right_item
+            is SpinnerItem -> R.layout.settings_spinner_item
             else -> -1
         }
     }
@@ -76,7 +73,7 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         }
     }
 
-    inner class RadioButtonViewHolder(val binding: SettingsSwitchItemBinding) :
+    inner class SwitchItemViewHolder(val binding: SettingsSwitchItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SwitchItem) {
@@ -88,13 +85,25 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         }
     }
 
-    inner class SpinnerViewHolder<T>(val binding: SettingsSpinnerItemBinding) :
+    inner class SpinnerViewHolder(val binding: SettingsSpinnerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: SpinnerItem<T>) {
+        fun bind(data: SpinnerItem) {
             binding.textLeft.text = data.textLeft
             binding.spinner.adapter = data.adapter
-            binding.spinner.onItemSelectedListener
+            binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    data.functionOnClick(binding.spinner.adapter.getItem(position) as Displayable)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
         }
 
     }

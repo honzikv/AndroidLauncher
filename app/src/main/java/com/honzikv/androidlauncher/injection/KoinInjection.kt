@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.repository.*
-import com.honzikv.androidlauncher.data.user.theme.Themer
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
@@ -26,7 +25,6 @@ val module = module {
     single { get<LauncherDatabase>().dockDao() }
     single { get<LauncherDatabase>().folderDao() }
     single { get<LauncherDatabase>().homescreenPageDao() }
-    single { get<LauncherDatabase>().userAppDao() }
     single { get<LauncherDatabase>().themeProfileDao() }
 
     //Repos
@@ -63,8 +61,6 @@ val module = module {
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
     viewModel { AppDrawerViewModel(get(), get()) }
     viewModel { DockViewModel(get()) }
-    viewModel { SettingsViewModel(get()) }
-
-    single { Themer(get(), get()) }
+    viewModel { SettingsViewModel(get(), get()) }
 
 }

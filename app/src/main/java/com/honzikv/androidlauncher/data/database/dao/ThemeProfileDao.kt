@@ -7,7 +7,7 @@ import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 @Dao
 interface ThemeProfileDao {
 
-    @Query("SELECT * FROM ThemeProfileModel")
+    @Query("SELECT * FROM ThemeProfileModel ORDER BY id ASC")
     fun getAllProfiles(): LiveData<List<ThemeProfileModel>>
 
     @Update

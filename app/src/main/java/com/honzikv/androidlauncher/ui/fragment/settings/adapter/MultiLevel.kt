@@ -38,10 +38,19 @@ class TextLeftItem(
     level: Int
 ) : RecyclerViewItem(level)
 
-class SpinnerItem<T>(
+/**
+ * Tag interface for spinner
+ */
+interface Displayable {
+}
+
+/**
+ * Spinner item for string list spinner
+ */
+class SpinnerItem(
     val textLeft: String,
-    var items: List<T>,
-    val functionOnClick: (T) -> Unit,
+    var items: List<Displayable>,
+    val functionOnClick: (Displayable) -> Unit,
     val context: Context,
     level: Int
 ) : RecyclerViewItem(level) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
@@ -19,6 +20,7 @@ import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class SettingsFragment : Fragment() {
 
@@ -71,8 +73,8 @@ class SettingsFragment : Fragment() {
 
         val selectTheme = SpinnerItem(
             SELECT_THEME,
-            mutableListOf(),
-            viewModel::changeTheme,
+            viewModel.allThemes.value ?: mutableListOf(),
+            { viewModel.changeTheme(it as ThemeProfileModel) },
             requireContext(),
             1
         )
@@ -82,6 +84,8 @@ class SettingsFragment : Fragment() {
             selectTheme.adapter.addAll(selectTheme.items)
             selectTheme.adapter.notifyDataSetChanged()
         })
+
+        Timber.d("size = ${viewModel.allThemes.value?.size}")
 
         val swipeDownToOpenNotificationsRadio = SwitchItem(
             SWIPE_DOWN_NOTIFICATIONS,
