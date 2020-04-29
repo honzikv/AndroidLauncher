@@ -10,7 +10,10 @@ fun runAnimationOnRecyclerView(recyclerView: RecyclerView, animationResourceId: 
     val context = recyclerView.context
     val controller = AnimationUtils.loadLayoutAnimation(context, animationResourceId)
 
-    recyclerView.layoutAnimation = controller
-    recyclerView.adapter?.notifyDataSetChanged()
-    recyclerView.scheduleLayoutAnimation()
+    recyclerView.apply {
+        layoutAnimation = controller
+        adapter?.notifyDataSetChanged()
+        scheduleLayoutAnimation()
+    }
+
 }

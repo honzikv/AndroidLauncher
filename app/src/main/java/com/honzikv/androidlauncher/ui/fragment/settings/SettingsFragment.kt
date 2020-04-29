@@ -73,7 +73,7 @@ class SettingsFragment : Fragment() {
 
         val selectTheme = SpinnerItem(
             SELECT_THEME,
-            viewModel.allThemes.value ?: mutableListOf(),
+            mutableListOf(),
             { viewModel.changeTheme(it as ThemeProfileModel) },
             requireContext(),
             1
@@ -108,7 +108,14 @@ class SettingsFragment : Fragment() {
             1
         )
 
-        lookAndFeel.addChildren(listOf(selectTheme, swipeDownToOpenNotificationsRadio, showDock))
+        lookAndFeel.addChildren(
+            listOf(
+                selectTheme,
+                swipeDownToOpenNotificationsRadio,
+                showDock,
+                oneHandedMode
+            )
+        )
 
         return lookAndFeel
     }

@@ -27,14 +27,14 @@ class SwitchItem(
 
 class TextLeftRightItem(
     val textLeft: String,
-    val textRight: String,
-    val functionOnClick: Function<Unit>,
+    var textRight: String,
+    val functionOnClick: () -> Unit,
     level: Int
 ) : RecyclerViewItem(level)
 
 class TextLeftItem(
     val textLeft: String,
-    val functionOnClick: Function<Unit>,
+    val functionOnClick: () -> Unit,
     level: Int
 ) : RecyclerViewItem(level)
 
