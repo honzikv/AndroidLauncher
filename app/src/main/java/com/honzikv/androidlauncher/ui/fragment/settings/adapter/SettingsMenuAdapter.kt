@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
+import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.SettingsHeaderItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSpinnerItemBinding
 import com.honzikv.androidlauncher.databinding.SettingsSwitchItemBinding
@@ -16,8 +18,26 @@ import com.honzikv.androidlauncher.databinding.SettingsTextLeftRightItemBinding
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
 
-class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
+class SettingsMenuAdapter(
+    private var items: MutableList<RecyclerViewItem>
+) :
     MultiLevelAdapter(items) {
+
+    fun changeTheme(theme: ThemeProfileModel) {
+        headerBackgroundColor = theme.drawerBackgroundColor
+        headerTextFillColor = theme.drawerTextFillColor
+        childBackgroundColor = theme.drawerSearchBackgroundColor
+        childTextFillColor = theme.drawerSearchTextColor
+    }
+
+    private var headerBackgroundColor: Int = Color.BLACK
+
+    private var headerTextFillColor: Int = Color.WHITE
+
+    private var childBackgroundColor: Int = Color.BLACK
+
+    private var childTextFillColor: Int = Color.WHITE
+
 
     companion object {
         private const val materialMinMargin = 80
@@ -94,6 +114,7 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: HeaderItem) {
+            binding.constraintLayout.setBackgroundColor(headerBackgroundColor)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
             binding.headerText.text = data.headerText
@@ -105,12 +126,20 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SwitchItem) {
+            binding.constraintLayout.setBackgroundColor(childBackgroundColor)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-            binding.radioButton.isChecked = data.isChecked
-            binding.textLeft.text = data.textLeft
-            binding.radioButton.setOnCheckedChangeListener { _, isChecked ->
-                data.functionOnClick(isChecked)
+
+            binding.textLeft.apply {
+                text = data.textLeft
+                setTextColor(childTextFillColor)
+            }
+            binding.radioButton.apply {
+                isChecked = data.isChecked
+                setOnCheckedChangeListener { _, isChecked ->
+                    data.functionOnClick(isChecked)
+                }
+                //Todo color
             }
         }
     }
@@ -119,38 +148,60 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SpinnerItem) {
-            binding.constraintLayout.layoutParams =
-                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-            binding.textLeft.text = data.textLeft
-            binding.spinner.adapter = data.adapter
-            binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (position != 0) {
-                        data.functionOnClick(binding.spinner.adapter.getItem(position) as Displayable)
+            binding.constraintLayout.apply {
+                layoutParams =
+                    getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+                setBackgroundColor(childBackgroundColor)
+            }
+            binding.textLeft.apply {
+                text = data.textLeft
+                setTextColor(childTextFillColor)
+            }
+            binding.spinner.apply {
+                adapter = data.adapter
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (position != 0) {
+                            data.functionOnClick(binding.spinner.adapter.getItem(position) as Displayable)
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
                     }
                 }
+                setBackgroundColor(childBackgroundColor)
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
             }
         }
+
     }
 
     inner class TextLeftRightViewHolder(val binding: SettingsTextLeftRightItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftRightItem) {
-            binding.constraintLayout.layoutParams =
-                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-            binding.textLeft.text = data.textLeft
-            binding.textRight.text = data.textRight
+            binding.constraintLayout.apply {
+                layoutParams =
+                    getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+                setBackgroundColor(childBackgroundColor)
+            }
+            binding.textLeft.apply {
+                text = data.textLeft
+                setTextColor(childTextFillColor)
+            }
+            binding.textRight.apply {
+                text = data.textRight
+                setTextColor(childTextFillColor)
+            }
             binding.root.setOnClickListener { data.functionOnClick() }
         }
+
+
     }
 
 }

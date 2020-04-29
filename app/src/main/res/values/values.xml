@@ -2,4 +2,5 @@
 <resources>
     <integer name="slow_animation_duration">400</integer>
     <integer name="anim_duration_medium">300</integer>
+    <integer name="fast_animation_duration">220</integer>
 </resources>

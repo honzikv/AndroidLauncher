@@ -33,7 +33,7 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by inject()
 
-    private lateinit var multiLevelAdapter: MultiLevelAdapter
+    private lateinit var multiLevelAdapter: SettingsMenuAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +61,15 @@ class SettingsFragment : Fragment() {
         binding.multiLevelRecyclerView.openTill(0, 1, 2, 3)
         binding.multiLevelRecyclerView.setAccordion(true)
 
+        viewModel.currentTheme.observe(viewLifecycleOwner, {
+            multiLevelAdapter.apply {
+                changeTheme(it)
+                notifyDataSetChanged()
+            }
+        })
+
         viewModel.allThemes.observe(viewLifecycleOwner, {
             val selectTheme = lookAndFeelMenu.selectTheme
-
             val newItems = mutableListOf<Displayable>(object : Displayable {
                 override fun toString(): String {
                     return "Choose a Theme"
@@ -82,7 +88,6 @@ class SettingsFragment : Fragment() {
             multiLevelAdapter.notifyItemChanged(lookAndFeelMenu.position)
         })
     }
-
 
 
 }
