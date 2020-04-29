@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.SettingsHeaderItemBinding
@@ -16,6 +18,20 @@ import com.multilevelview.models.RecyclerViewItem
 
 class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
     MultiLevelAdapter(items) {
+
+    companion object {
+        private const val materialMinMargin = 80
+        fun getConstraintLayoutMargin(
+            level: Int,
+            layoutParams: ViewGroup.LayoutParams
+        ): ViewGroup.MarginLayoutParams = (layoutParams as ViewGroup.MarginLayoutParams).apply {
+            topMargin = 0
+            leftMargin = level * materialMinMargin
+            bottomMargin = 0
+            rightMargin = 0
+        }
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -78,6 +94,8 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: HeaderItem) {
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
             binding.headerText.text = data.headerText
             binding.subText.text = data.headerSubText
         }
@@ -87,6 +105,8 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SwitchItem) {
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
             binding.radioButton.isChecked = data.isChecked
             binding.textLeft.text = data.textLeft
             binding.radioButton.setOnCheckedChangeListener { _, isChecked ->
@@ -99,6 +119,8 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SpinnerItem) {
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
             binding.textLeft.text = data.textLeft
             binding.spinner.adapter = data.adapter
             binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -113,20 +135,22 @@ class SettingsMenuAdapter(private var items: MutableList<RecyclerViewItem>) :
                     }
                 }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
         }
-
-        inner class TextLeftRightViewHolder(val binding: SettingsTextLeftRightItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-            fun bind(data: TextLeftRightItem) {
-                binding.textLeft.text = data.textLeft
-                binding.textRight.text = data.textRight
-                binding.root.setOnClickListener { data.functionOnClick() }
-            }
-        }
-
     }
+
+    inner class TextLeftRightViewHolder(val binding: SettingsTextLeftRightItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: TextLeftRightItem) {
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+            binding.textLeft.text = data.textLeft
+            binding.textRight.text = data.textRight
+            binding.root.setOnClickListener { data.functionOnClick() }
+        }
+    }
+
+}
