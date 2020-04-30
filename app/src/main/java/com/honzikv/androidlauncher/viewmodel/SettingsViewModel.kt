@@ -34,4 +34,10 @@ class SettingsViewModel(
 
     fun getShowSearchBar() = settingsRepository.getShowSearchBar()
     fun setShowSearchBar(show: Boolean) = settingsRepository.setShowSearchBar(show)
+
+    fun getShowDrawerAsGrid() = settingsRepository.getShowDrawerAsGrid()
+    fun setShowDrawerAsGrid(show: Boolean) = settingsRepository.setShowDrawerAsGrid(show)
+
+    fun getUseRoundCorners() = settingsRepository.getUseRoundCorners()
+    fun setUseRoundCorners(use: Boolean) = settingsRepository.setUseRoundCorners(use)
 }

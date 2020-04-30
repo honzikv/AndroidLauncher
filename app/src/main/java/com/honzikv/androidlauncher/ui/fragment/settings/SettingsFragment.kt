@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
+import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
@@ -34,22 +35,22 @@ class SettingsFragment : Fragment() {
         val itemList = mutableListOf<RecyclerViewItem>()
         itemList.add(Header("Settings", 0))
 
-        val lookAndFeelMenu = LookAndFeelMenu(
-            viewModel,
-            requireContext()
-        ).apply {
-            itemList.add(getRoot())
+        val lookAndFeelMenu = LookAndFeelMenu(viewModel, requireContext()).apply {
             position = itemList.size
+            itemList.add(getRoot())
         }
 
-        binding.multiLevelRecyclerView.layoutManager = LinearLayoutManager(context)
-        multiLevelAdapter =
-            SettingsMenuAdapter(
-                itemList
-            )
-        binding.multiLevelRecyclerView.adapter = multiLevelAdapter
-        binding.multiLevelRecyclerView.openTill(0, 1, 2, 3)
-        binding.multiLevelRecyclerView.setAccordion(true)
+        val drawerMenu = DrawerMenu(viewModel, requireContext()).apply {
+            position = itemList.size
+            itemList.add(getRoot())
+        }
+
+        multiLevelAdapter = SettingsMenuAdapter(itemList)
+
+        binding.multiLevelRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = multiLevelAdapter
+        }
 
         viewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.multiLevelRecyclerView.setBackgroundColor(it.drawerBackgroundColor)
@@ -68,9 +69,11 @@ class SettingsFragment : Fragment() {
             })
             newItems.addAll(it)
             selectTheme.items = newItems
-            selectTheme.adapter.clear()
-            selectTheme.adapter.addAll(selectTheme.items)
-            selectTheme.adapter.notifyDataSetChanged()
+            selectTheme.adapter.apply {
+                clear()
+                addAll(selectTheme.items)
+                notifyDataSetChanged()
+            }
         })
 
         viewModel.currentTheme.observe(viewLifecycleOwner, {
@@ -79,6 +82,5 @@ class SettingsFragment : Fragment() {
             multiLevelAdapter.notifyItemChanged(lookAndFeelMenu.position)
         })
     }
-
 
 }

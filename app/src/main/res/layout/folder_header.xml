@@ -7,8 +7,6 @@
         android:id="@+id/folderCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         app:cardBackgroundColor="#E2FFFFFF"
         app:cardCornerRadius="@dimen/default_corner_radius">
 

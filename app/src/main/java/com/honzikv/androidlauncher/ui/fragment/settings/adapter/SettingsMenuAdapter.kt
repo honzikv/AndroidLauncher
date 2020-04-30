@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
+import com.honzikv.androidlauncher.ui.constants.MATERIAL_MIN_LENGTH
+import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
 
@@ -30,24 +32,21 @@ class SettingsMenuAdapter(
     private var childTextFillColor: Int = Color.WHITE
 
     companion object {
-        private const val materialMinMargin = 8
-
-        private const val radiusCardView = 32
 
         fun getConstraintLayoutMargin(
             level: Int,
             layoutParams: ViewGroup.LayoutParams
         ): ViewGroup.MarginLayoutParams = (layoutParams as ViewGroup.MarginLayoutParams).apply {
             topMargin = 0
-            leftMargin = 4 * level * materialMinMargin
+            leftMargin = 4 * level * MATERIAL_MIN_LENGTH
             bottomMargin = 0
             rightMargin = 0
         }
 
         fun getCardViewMargin(layoutParams: ViewGroup.LayoutParams) =
             (layoutParams as ViewGroup.MarginLayoutParams).apply {
-                marginStart = materialMinMargin * 4
-                marginEnd = materialMinMargin * 4
+                marginStart = MATERIAL_MIN_LENGTH * 4
+                marginEnd = MATERIAL_MIN_LENGTH * 4
             }
     }
 
@@ -88,7 +87,6 @@ class SettingsMenuAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        println("binding position $position")
         val item = items[position]
         when (getItemViewType(position)) {
             R.layout.settings_header_item -> (holder as HeaderViewHolder)
@@ -135,14 +133,20 @@ class SettingsMenuAdapter(
 
         fun bind(data: HeaderItem) {
             binding.cardView.apply {
-                setCardBackgroundColor(cardBackgroundColor)
-                radius = radiusCardView.toFloat()
+                setCardBackgroundColor(cardViewBackgroundColor)
+                radius = RADIUS_CARD_VIEW
                 layoutParams = getCardViewMargin(layoutParams)
             }
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-            binding.headerText.text = data.headerText
-            binding.subText.text = data.headerSubText
+            binding.headerText.apply {
+                text = data.headerText
+                setTextColor(cardViewTextColor)
+            }
+            binding.subText.apply {
+                text = data.headerSubText
+                setTextColor(cardViewTextColor)
+            }
         }
     }
 
@@ -218,7 +222,6 @@ class SettingsMenuAdapter(
             }
             binding.root.setOnClickListener { data.functionOnClick() }
         }
-
 
     }
 

@@ -25,7 +25,6 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
         const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notification Panel"
         const val SHOW_DOCK = "Show Dock"
 
-        const val SHOW_SEARCH_BAR = "Show Search Bar"
         const val ONE_HANDED_MODE = "Use One Handed Mode"
 
     }
@@ -51,7 +50,7 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
             mutableListOf(),
             { viewModel.changeTheme(it as ThemeProfileModel) },
             context,
-            1
+            lookAndFeel.level + 1
         )
 
     private val swipeDownToOpenNotificationsSwitchItem =
@@ -59,7 +58,7 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
             SWIPE_DOWN_NOTIFICATIONS,
             viewModel.getSwipeDownForNotifications(),
             { viewModel.setSwipeDownForNotifications(it) },
-            1
+            lookAndFeel.level + 1
         )
 
     private val showDock =
@@ -67,22 +66,15 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
             SHOW_DOCK,
             viewModel.getShowDock(),
             { viewModel.setShowDock(it) },
-            1
+            lookAndFeel.level + 1
         )
-
-    private val showSearchBar = SwitchItem(
-        SHOW_SEARCH_BAR,
-        viewModel.getShowSearchBar(),
-        { viewModel.setShowSearchBar(it) },
-        1
-    )
 
     val oneHandedMode =
         SwitchItem(
             ONE_HANDED_MODE,
             viewModel.getUseOneHandedMode(),
             { viewModel.setUseOneHandedMode(it) },
-            1
+            lookAndFeel.level + 1
         )
 
     init {
@@ -92,7 +84,6 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
                 selectTheme,
                 swipeDownToOpenNotificationsSwitchItem,
                 showDock,
-                showSearchBar,
                 oneHandedMode
             )
         )

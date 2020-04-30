@@ -9,9 +9,7 @@ import kotlinx.coroutines.withContext
 class DockRepository(
     private val dockDao: DockDao
 ) {
-
     val dockItems = dockDao.getItems()
-
 
     fun addItem(packageName: String) {
 

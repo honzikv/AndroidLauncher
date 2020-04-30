@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.sharedpreferences.booleanLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -30,8 +31,6 @@ class AppSettingsRepository(
 
         const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
 
-        const val USE_GRID_DRAWER_FIELD = "useGridDrawer"
-
         const val ALWAYS_SHOW_FOLDER_CONTENT_FIELD = "alwaysShowFolderContent"
 
         const val THEME_PROFILE_FIELD = "themeProfile"
@@ -41,6 +40,10 @@ class AppSettingsRepository(
         const val DOCK_APP_LIMIT = 4;
 
         const val USE_ONE_HANDED_MODE = "useOneHandedMode"
+
+        const val SHOW_DRAWER_AS_GRID_FIELD = "showDrawerAsGrid"
+
+        const val USE_ROUND_CORNERS_FIELD = "useRoundCorners"
     }
 
     fun getSwipeDownForNotifications() =
@@ -55,32 +58,11 @@ class AppSettingsRepository(
         }
     }
 
-    suspend fun setFolderColsCount(count: Int) {
-        preferences.edit().apply {
-            putInt(FOLDER_COLS_COUNT_FIELD, count)
-            apply()
-        }
-    }
-
-    suspend fun setMaxFoldersPerPage(count: Int) = withContext(Dispatchers.Default) {
-        preferences.edit().apply {
-            putInt(MAX_FOLDERS_PER_PAGE, count)
-            apply()
-        }
-    }
-
     fun getShowDock() = preferences.getBoolean(SHOW_DOCK_FIELD, true)
 
     suspend fun setShowDock(show: Boolean) = withContext(Dispatchers.Default) {
         preferences.edit().apply {
             putBoolean(SHOW_DOCK_FIELD, show)
-            apply()
-        }
-    }
-
-    fun setUseGridDrawer(use: Boolean) {
-        preferences.edit().apply {
-            putBoolean(USE_GRID_DRAWER_FIELD, use)
             apply()
         }
     }
@@ -115,4 +97,22 @@ class AppSettingsRepository(
             apply()
         }
     }
+
+    fun getShowDrawerAsGrid() = preferences.getBoolean(SHOW_DRAWER_AS_GRID_FIELD, false)
+    fun setShowDrawerAsGrid(show: Boolean) {
+        preferences.edit().apply {
+            putBoolean(SHOW_DRAWER_AS_GRID_FIELD, show)
+            apply()
+        }
+    }
+
+    fun getUseRoundCorners() = preferences.getBoolean(USE_ROUND_CORNERS_FIELD, true)
+    fun setUseRoundCorners(use: Boolean) {
+        preferences.edit().apply {
+            putBoolean(USE_ROUND_CORNERS_FIELD, use)
+            apply()
+        }
+    }
+
+    val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
 }

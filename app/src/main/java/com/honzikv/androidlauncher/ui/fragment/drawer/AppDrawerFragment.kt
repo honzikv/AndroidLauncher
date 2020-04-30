@@ -13,6 +13,7 @@ import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
+import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
@@ -43,6 +44,11 @@ class AppDrawerFragment : Fragment() {
         appDrawerAdapter =
             AppDrawerAdapter()
 
+
+        appDrawerViewModel.useRoundCorners.observe(viewLifecycleOwner, {
+            useRoundCardView(binding, it)
+        })
+
         appDrawerViewModel.currentTheme.observe(viewLifecycleOwner, {
             updateTheme(binding, it)
         })
@@ -55,12 +61,10 @@ class AppDrawerFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 appDrawerAdapter.filter.filter(newText)
                 return false
             }
-
         })
 
         appDrawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
@@ -80,22 +84,22 @@ class AppDrawerFragment : Fragment() {
                 returnToHomePageFragment()
             }
         })
-
-        updateTheme(binding, appDrawerViewModel.currentTheme.value!!)
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
-        binding.appDrawerRecyclerView.setBackgroundColor(theme.drawerBackgroundColor)
-        binding.searchView.apply {
-            setBackgroundColor(theme.drawerSearchBackgroundColor)
-            val searchText =
-                context.resources.getIdentifier("android:id/search_src_text", null, null)
-//            findViewById<TextView>(searchText).apply {
-//                val textColor = theme.drawerSearchTextColor
-//                setTextColor(textColor)
-//                setHintTextColor(textColor)
-//            }
+        binding.appDrawerCardView.setBackgroundColor(theme.drawerBackgroundColor)
+        binding.searchCardView.setBackgroundColor(theme.drawerSearchBackgroundColor)
+    }
+
+    private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
+        if (use) {
+            binding.appDrawerCardView.radius = RADIUS_CARD_VIEW
+            binding.searchCardView.radius = RADIUS_CARD_VIEW
+        }
+        else {
+            binding.appDrawerCardView.radius = 0f
+            binding.searchCardView.radius = 0f
         }
     }
 

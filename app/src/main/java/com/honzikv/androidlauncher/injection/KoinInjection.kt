@@ -59,7 +59,7 @@ val module = module {
 
     //Viewmodels
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
-    viewModel { AppDrawerViewModel(get(), get()) }
+    viewModel { AppDrawerViewModel(get(), get(), get()) }
     viewModel { DockViewModel(get()) }
     viewModel { SettingsViewModel(get(), get()) }
 
