@@ -8,15 +8,19 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.DrawerApp
-import com.honzikv.androidlauncher.databinding.AppDrawerIconWithTitleBinding
+import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
+import com.honzikv.androidlauncher.databinding.IconWithTitleRightBinding
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import java.util.*
 
 
-class AppDrawerAdapter() :
-    RecyclerView.Adapter<AppDrawerAdapter.ItemViewHolder>(), KoinComponent, Filterable {
+class AppDrawerAdapter :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent, Filterable {
+
+    var useGrid = false
 
     private var drawerItemsAll: List<DrawerApp> = mutableListOf()
 
@@ -48,8 +52,16 @@ class AppDrawerAdapter() :
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (useGrid) {
+            R.layout.icon_with_title_below
+        } else {
+            R.layout.icon_with_title_right
+        }
+    }
+
     private val onClickListener = View.OnClickListener { view ->
-        val viewHolder = view?.tag as ItemViewHolder
+        val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = drawerItemsFiltered[viewHolder.adapterPosition]
         val context: Context = get()
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
@@ -68,37 +80,62 @@ class AppDrawerAdapter() :
         this.labelColor = color
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            AppDrawerIconWithTitleBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            R.layout.icon_with_title_right -> IconWithTitleRightViewHolder(
+                IconWithTitleRightBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
             )
-        )
+            else -> IconWithTitleBelowViewHolder(
+                IconWithTitleBelowBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+        }
     }
 
-override fun getItemCount() = drawerItemsFiltered.size
+    override fun getItemCount() = drawerItemsFiltered.size
 
-override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
-    holder.bind(drawerItemsFiltered[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is IconWithTitleBelowViewHolder) {
+            holder.bind(drawerItemsFiltered[position])
+        } else if (holder is IconWithTitleRightViewHolder) {
 
-override fun getFilter(): Filter {
-    return searchFilter
-}
-
-inner class ItemViewHolder(private val itemBinding: AppDrawerIconWithTitleBinding) :
-    RecyclerView.ViewHolder(itemBinding.root) {
-
-    init {
-        itemView.tag = this
-        itemView.setOnClickListener(onClickListener)
+            holder.bind(drawerItemsFiltered[position])
+        }
     }
 
-    fun bind(drawerApp: DrawerApp) {
-        itemBinding.icon.setImageDrawable(drawerApp.icon)
-        itemBinding.label.text = drawerApp.label
-        itemBinding.label.setTextColor(labelColor)
+    override fun getFilter(): Filter {
+        return searchFilter
     }
-}
+
+    inner class IconWithTitleRightViewHolder(private val itemBinding: IconWithTitleRightBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+
+        init {
+            itemView.tag = this
+            itemView.setOnClickListener(onClickListener)
+        }
+
+        fun bind(drawerApp: DrawerApp) {
+            itemBinding.icon.setImageDrawable(drawerApp.icon)
+            itemBinding.label.text = drawerApp.label
+            itemBinding.label.setTextColor(labelColor)
+        }
+    }
+
+    inner class IconWithTitleBelowViewHolder(private val itemBinding: IconWithTitleBelowBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+        init {
+            itemView.tag = this
+            itemView.setOnClickListener(onClickListener)
+        }
+
+        fun bind(drawerApp: DrawerApp) {
+            itemBinding.icon.setImageDrawable(drawerApp.icon)
+            itemBinding.label.text = drawerApp.label
+            itemBinding.label.setTextColor(labelColor)
+        }
+    }
 }

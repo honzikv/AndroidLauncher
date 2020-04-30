@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
-import com.honzikv.androidlauncher.databinding.IconWithTitleBinding
+import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
 
 class FolderAdapter(
     private val folderItems: List<FolderItemModel>
@@ -12,7 +12,7 @@ class FolderAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            IconWithTitleBinding.inflate(
+            IconWithTitleBelowBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -26,7 +26,7 @@ class FolderAdapter(
         holder.bind(folderItems[position])
 
 
-    inner class ItemViewHolder(private val itemBinding: IconWithTitleBinding) :
+    inner class ItemViewHolder(private val itemBinding: IconWithTitleBelowBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(folderItem: FolderItemModel) {

@@ -46,6 +46,10 @@ class AppSettingsRepository(
         const val USE_ROUND_CORNERS_FIELD = "useRoundCorners"
     }
 
+
+    val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
+    val showDrawerAsGrid = preferences.booleanLiveData(SHOW_DRAWER_AS_GRID_FIELD, false)
+
     fun getSwipeDownForNotifications() =
         preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
@@ -114,5 +118,4 @@ class AppSettingsRepository(
         }
     }
 
-    val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
 }

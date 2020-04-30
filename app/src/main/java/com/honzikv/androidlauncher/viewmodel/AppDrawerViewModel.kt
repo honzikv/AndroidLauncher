@@ -28,6 +28,8 @@ class AppDrawerViewModel(
 
     val useRoundCorners = appSettingsRepository.useRoundCorners
 
+    val showDrawerAsGrid = appSettingsRepository.showDrawerAsGrid
+
     private fun updateAppDrawerData() =
         viewModelScope.launch { appDrawerRepository.reloadAppList() }
 

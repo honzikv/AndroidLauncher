@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
@@ -33,6 +34,7 @@ class AppDrawerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        navController = findNavController()
         val binding =
             AppDrawerFragmentBinding.inflate(inflater, container, false)
         initialize(binding)
@@ -43,14 +45,6 @@ class AppDrawerFragment : Fragment() {
     private fun initialize(binding: AppDrawerFragmentBinding) {
         appDrawerAdapter =
             AppDrawerAdapter()
-
-        appDrawerViewModel.useRoundCorners.observe(viewLifecycleOwner, {
-            useRoundCardView(binding, it)
-        })
-
-        appDrawerViewModel.currentTheme.observe(viewLifecycleOwner, {
-            updateTheme(binding, it)
-        })
 
         binding.appDrawerRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -66,16 +60,6 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        appDrawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
-            appDrawerAdapter.updateData(it)
-            runAnimationOnRecyclerView(
-                binding.appDrawerRecyclerView,
-                R.anim.drawer_layout_animation_fall_down
-            )
-        })
-
-        navController = findNavController()
-
         binding.constraintLayout.setOnTouchListener(object :
             OnSwipeTouchListener(binding.root.context) {
             override fun onSwipeBottom() {
@@ -84,8 +68,36 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        binding.appDrawerCardView.radius = RADIUS_CARD_VIEW
-        binding.searchCardView.radius = RADIUS_CARD_VIEW
+        appDrawerViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
+            useRoundCardView(binding, use)
+        })
+
+        appDrawerViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
+            updateTheme(binding, theme)
+        })
+
+        appDrawerViewModel.showDrawerAsGrid.observe(viewLifecycleOwner, { useGrid ->
+            useDrawerAsGrid(binding, useGrid)
+            appDrawerAdapter.useGrid = useGrid
+            appDrawerAdapter.notifyDataSetChanged()
+        })
+
+        appDrawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
+            appDrawerAdapter.updateData(it)
+            runAnimationOnRecyclerView(
+                binding.appDrawerRecyclerView,
+                R.anim.drawer_layout_animation_fall_down
+            )
+        })
+
+    }
+
+    private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {
+        binding.appDrawerRecyclerView.layoutManager = if (use) {
+            GridLayoutManager(context, 5)
+        } else {
+            LinearLayoutManager(context)
+        }
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
@@ -98,8 +110,7 @@ class AppDrawerFragment : Fragment() {
         if (use) {
             binding.appDrawerCardView.radius = RADIUS_CARD_VIEW
             binding.searchCardView.radius = RADIUS_CARD_VIEW
-        }
-        else {
+        } else {
             binding.appDrawerCardView.radius = 0f
             binding.searchCardView.radius = 0f
         }
