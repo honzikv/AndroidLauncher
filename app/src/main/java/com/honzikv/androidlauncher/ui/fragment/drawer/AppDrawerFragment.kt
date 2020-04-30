@@ -44,7 +44,6 @@ class AppDrawerFragment : Fragment() {
         appDrawerAdapter =
             AppDrawerAdapter()
 
-
         appDrawerViewModel.useRoundCorners.observe(viewLifecycleOwner, {
             useRoundCardView(binding, it)
         })
@@ -84,12 +83,15 @@ class AppDrawerFragment : Fragment() {
                 returnToHomePageFragment()
             }
         })
+
+        binding.appDrawerCardView.radius = RADIUS_CARD_VIEW
+        binding.searchCardView.radius = RADIUS_CARD_VIEW
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
-        binding.appDrawerCardView.setBackgroundColor(theme.drawerBackgroundColor)
-        binding.searchCardView.setBackgroundColor(theme.drawerSearchBackgroundColor)
+        binding.appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
+        binding.searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
     }
 
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
