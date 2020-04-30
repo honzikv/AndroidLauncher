@@ -9,11 +9,11 @@
 
     <TextView
         android:id="@+id/allApps"
+        style="@style/text_header_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        style="@style/text_header_bold"
         android:text="@string/all_applications"
         app:layout_constraintBottom_toTopOf="@+id/searchCardView"
         app:layout_constraintEnd_toEndOf="@+id/searchCardView"
@@ -22,48 +22,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/searchCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/searchCardView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/appDrawerCardView"
         app:layout_constraintEnd_toEndOf="@+id/appDrawerCardView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/appDrawerCardView"
         app:layout_constraintTop_toBottomOf="@+id/allApps">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textCursorDrawable="@null"
-        app:iconifiedByDefault="false"
-         />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textCursorDrawable="@null"
+            app:iconifiedByDefault="false" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/appDrawerCardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/appDrawerCardView"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchCardView">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/appDrawerRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:layoutAnimation="@anim/drawer_layout_animation_fall_down"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbarSize="5dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/appDrawerRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:layoutAnimation="@anim/drawer_layout_animation_fall_down"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical" />
     </androidx.cardview.widget.CardView>
 
 
