@@ -32,4 +32,6 @@ class SettingsViewModel(
     fun getUseOneHandedMode() = settingsRepository.getUseOneHandedMode()
     fun setUseOneHandedMode(use: Boolean) = settingsRepository.setUseOneHandedMode(use)
 
+    fun getShowSearchBar() = settingsRepository.getShowSearchBar()
+    fun setShowSearchBar(show: Boolean) = settingsRepository.setShowSearchBar(show)
 }

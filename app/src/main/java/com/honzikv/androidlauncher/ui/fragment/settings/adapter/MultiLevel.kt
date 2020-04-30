@@ -10,13 +10,14 @@ import kotlin.reflect.KFunction
 /**
  * Each header item only shows / hides its children
  */
+
+class Header(val text: String, level: Int) : RecyclerViewItem(level)
+
 class HeaderItem(
     val headerText: String,
     val headerSubText: String,
     level: Int
-) : RecyclerViewItem(level) {
-    var showChildren = true
-}
+) : RecyclerViewItem(level)
 
 class SwitchItem(
     val textLeft: String,

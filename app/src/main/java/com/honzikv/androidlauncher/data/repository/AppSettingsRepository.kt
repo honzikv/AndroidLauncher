@@ -36,6 +36,8 @@ class AppSettingsRepository(
 
         const val THEME_PROFILE_FIELD = "themeProfile"
 
+        const val SHOW_SEARCH_BAR_FIELD = "showSearchBar"
+
         const val DOCK_APP_LIMIT = 4;
 
         const val USE_ONE_HANDED_MODE = "useOneHandedMode"
@@ -102,6 +104,14 @@ class AppSettingsRepository(
     fun setUseOneHandedMode(use: Boolean) {
         preferences.edit().apply {
             putBoolean(USE_ONE_HANDED_MODE, use)
+            apply()
+        }
+    }
+
+    fun getShowSearchBar() = preferences.getBoolean(SHOW_SEARCH_BAR_FIELD, true)
+    fun setShowSearchBar(show: Boolean) {
+        preferences.edit().apply {
+            putBoolean(SHOW_SEARCH_BAR_FIELD, show)
             apply()
         }
     }

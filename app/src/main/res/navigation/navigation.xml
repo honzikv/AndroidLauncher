@@ -16,7 +16,9 @@
             app:exitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_homescreenPageFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
         android:id="@+id/appDrawerFragment"
@@ -32,5 +34,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment"
         android:label="settings_fragment"
-        tools:layout="@layout/settings_fragment" />
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_homescreenPageFragment"
+            app:destination="@id/homescreenPageFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
+    </fragment>
 </navigation>
