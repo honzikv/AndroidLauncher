@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
             itemList.add(getRoot())
         }
 
-        val drawerMenu = DrawerMenu(viewModel, requireContext()).apply {
+        val drawerMenu = DrawerMenu(viewModel).apply {
             position = itemList.size
             itemList.add(getRoot())
         }
@@ -51,6 +51,7 @@ class SettingsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
         }
+
 
         viewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.multiLevelRecyclerView.setBackgroundColor(it.drawerBackgroundColor)
@@ -68,10 +69,9 @@ class SettingsFragment : Fragment() {
                 }
             })
             newItems.addAll(it)
-            selectTheme.items = newItems
             selectTheme.adapter.apply {
                 clear()
-                addAll(selectTheme.items)
+                addAll(newItems)
                 notifyDataSetChanged()
             }
         })
@@ -79,8 +79,9 @@ class SettingsFragment : Fragment() {
         viewModel.currentTheme.observe(viewLifecycleOwner, {
             val currentTheme = lookAndFeelMenu.currentTheme
             currentTheme.textRight = it.name
-            multiLevelAdapter.notifyItemChanged(lookAndFeelMenu.position)
+            multiLevelAdapter.notifyDataSetChanged()
         })
     }
 
 }
+

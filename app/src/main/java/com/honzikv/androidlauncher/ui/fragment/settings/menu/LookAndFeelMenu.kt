@@ -1,9 +1,10 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Context
-import android.widget.Toast
-import android.widget.Toast.makeText
+import androidx.lifecycle.observe
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
+import com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
@@ -11,7 +12,10 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftRightIte
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 
-class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
+class LookAndFeelMenu(
+    viewModel: SettingsViewModel,
+    context: Context
+) {
 
     var position = -1
 
@@ -23,18 +27,11 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
 
         const val SELECT_THEME = "Change Theme"
         const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notification Panel"
-        const val SHOW_DOCK = "Show Dock"
 
         const val ONE_HANDED_MODE = "Use One Handed Mode"
-
     }
 
-    private val lookAndFeel =
-        HeaderItem(
-            LOOK_AND_FEEL,
-            LOOK_AND_FEEL_SUB,
-            0
-        )
+    private val lookAndFeel = HeaderItem(LOOK_AND_FEEL, LOOK_AND_FEEL_SUB, 0)
 
     val currentTheme =
         TextLeftRightItem(
@@ -53,26 +50,19 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
             lookAndFeel.level + 1
         )
 
-    private val swipeDownToOpenNotificationsSwitchItem =
+    val swipeDownToOpenNotificationsSwitchItem =
         SwitchItem(
             SWIPE_DOWN_NOTIFICATIONS,
-            viewModel.getSwipeDownForNotifications(),
+            viewModel.swipeDownForNotifications.value!!,
             { viewModel.setSwipeDownForNotifications(it) },
             lookAndFeel.level + 1
         )
 
-    private val showDock =
-        SwitchItem(
-            SHOW_DOCK,
-            viewModel.getShowDock(),
-            { viewModel.setShowDock(it) },
-            lookAndFeel.level + 1
-        )
 
     val oneHandedMode =
         SwitchItem(
             ONE_HANDED_MODE,
-            viewModel.getUseOneHandedMode(),
+            viewModel.useOneHandedMode.value!!,
             { viewModel.setUseOneHandedMode(it) },
             lookAndFeel.level + 1
         )
@@ -83,7 +73,6 @@ class LookAndFeelMenu(viewModel: SettingsViewModel, context: Context) {
                 currentTheme,
                 selectTheme,
                 swipeDownToOpenNotificationsSwitchItem,
-                showDock,
                 oneHandedMode
             )
         )

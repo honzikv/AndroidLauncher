@@ -1,12 +1,15 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Context
+import androidx.lifecycle.observe
+import com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
+import timber.log.Timber
 
-class DrawerMenu(viewModel: SettingsViewModel, context: Context) {
+class DrawerMenu(viewModel: SettingsViewModel) {
 
     var position = -1
 
@@ -25,7 +28,7 @@ class DrawerMenu(viewModel: SettingsViewModel, context: Context) {
 
     private val showSearchBar = SwitchItem(
         SHOW_SEARCH_BAR,
-        viewModel.getShowSearchBar(),
+        viewModel.showSearchBar.value!!,
         { viewModel.setShowSearchBar(it) },
         1
     )

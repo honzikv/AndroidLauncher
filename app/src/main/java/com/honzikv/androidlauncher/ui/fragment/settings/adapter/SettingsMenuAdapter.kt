@@ -164,7 +164,7 @@ class SettingsMenuAdapter(
             binding.radioButton.apply {
                 isChecked = data.isChecked
                 setOnCheckedChangeListener { _, isChecked ->
-                    data.functionOnClick(isChecked)
+                    data.performClick(isChecked)
                 }
                 //Todo color
             }

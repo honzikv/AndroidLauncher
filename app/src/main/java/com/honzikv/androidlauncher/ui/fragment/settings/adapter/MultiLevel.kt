@@ -11,6 +11,7 @@ import kotlin.reflect.KFunction
  * Each header item only shows / hides its children
  */
 
+
 class Header(val text: String, level: Int) : RecyclerViewItem(level)
 
 class HeaderItem(
@@ -21,10 +22,19 @@ class HeaderItem(
 
 class SwitchItem(
     val textLeft: String,
-    val isChecked: Boolean,
-    val functionOnClick: (Boolean) -> Unit,
+    var isChecked: Boolean,
+    /**
+     * Function on switch that returns if the switch is now ON or Off
+     */
+    private val functionOnClick: (Boolean) -> Unit,
     level: Int
-) : RecyclerViewItem(level)
+) : RecyclerViewItem(level) {
+
+    fun performClick(checked: Boolean) {
+        functionOnClick(checked)
+        isChecked = checked
+    }
+}
 
 class TextLeftRightItem(
     val textLeft: String,
@@ -50,7 +60,7 @@ interface Displayable {
  */
 class SpinnerItem(
     val textLeft: String,
-    var items: List<Displayable>,
+    items: List<Displayable>,
     val functionOnClick: (Displayable) -> Unit,
     val context: Context,
     level: Int

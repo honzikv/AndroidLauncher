@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
 import com.honzikv.androidlauncher.data.sharedpreferences.booleanLiveData
+import com.honzikv.androidlauncher.data.sharedpreferences.intLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 const val APP_PREFERENCES = "userPreferences"
 const val PREFS_INITIALIZED = "prefsInitialized"
@@ -37,21 +39,29 @@ class AppSettingsRepository(
 
         const val SHOW_SEARCH_BAR_FIELD = "showSearchBar"
 
-        const val DOCK_APP_LIMIT = 4;
+        const val DOCK_ITEM_LIMIT_FIELD = "dockItemLimit"
+
+        const val MAX_DOCK_ITEMS = 6
+
+        const val DOCK_ITEM_LIMIT_DEFAULT = 4;
 
         const val USE_ONE_HANDED_MODE = "useOneHandedMode"
 
         const val SHOW_DRAWER_AS_GRID_FIELD = "showDrawerAsGrid"
 
         const val USE_ROUND_CORNERS_FIELD = "useRoundCorners"
+
+        const val SHOW_LABELS_FIELD = "showLabels"
     }
 
-
+    fun getUseRoundCorners() = preferences.getBoolean(USE_ROUND_CORNERS_FIELD, true)
     val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
+
+    fun getShowDrawerAsGrid() = preferences.getBoolean(SHOW_DRAWER_AS_GRID_FIELD, false)
     val showDrawerAsGrid = preferences.booleanLiveData(SHOW_DRAWER_AS_GRID_FIELD, false)
 
-    fun getSwipeDownForNotifications() =
-        preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
+    val swipeDownForNotifications =
+        preferences.booleanLiveData(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
     fun setSwipeDownForNotifications(enable: Boolean) {
         Timber.d("Setting swipe down for notifications to $enable")
@@ -62,8 +72,7 @@ class AppSettingsRepository(
         }
     }
 
-    fun getShowDock() = preferences.getBoolean(SHOW_DOCK_FIELD, true)
-
+    val showDock = preferences.booleanLiveData(SHOW_DOCK_FIELD, true)
     suspend fun setShowDock(show: Boolean) = withContext(Dispatchers.Default) {
         preferences.edit().apply {
             putBoolean(SHOW_DOCK_FIELD, show)
@@ -85,16 +94,16 @@ class AppSettingsRepository(
         }
     }
 
-    fun getUseOneHandedMode() = preferences.getBoolean(USE_ONE_HANDED_MODE, false)
-
+    val useOneHandedMode = preferences.booleanLiveData(USE_ONE_HANDED_MODE, false)
     fun setUseOneHandedMode(use: Boolean) {
+        println("one use = $use")
         preferences.edit().apply {
             putBoolean(USE_ONE_HANDED_MODE, use)
             apply()
         }
     }
 
-    fun getShowSearchBar() = preferences.getBoolean(SHOW_SEARCH_BAR_FIELD, true)
+    val showSearchBar = preferences.booleanLiveData(SHOW_SEARCH_BAR_FIELD, true)
     fun setShowSearchBar(show: Boolean) {
         preferences.edit().apply {
             putBoolean(SHOW_SEARCH_BAR_FIELD, show)
@@ -102,7 +111,6 @@ class AppSettingsRepository(
         }
     }
 
-    fun getShowDrawerAsGrid() = preferences.getBoolean(SHOW_DRAWER_AS_GRID_FIELD, false)
     fun setShowDrawerAsGrid(show: Boolean) {
         preferences.edit().apply {
             putBoolean(SHOW_DRAWER_AS_GRID_FIELD, show)
@@ -110,12 +118,35 @@ class AppSettingsRepository(
         }
     }
 
-    fun getUseRoundCorners() = preferences.getBoolean(USE_ROUND_CORNERS_FIELD, true)
     fun setUseRoundCorners(use: Boolean) {
         preferences.edit().apply {
             putBoolean(USE_ROUND_CORNERS_FIELD, use)
             apply()
         }
     }
+
+    val showDockLabels = preferences.booleanLiveData(SHOW_LABELS_FIELD, false)
+    fun setShowDockLabels(show: Boolean) {
+        preferences.edit().apply {
+            putBoolean(SHOW_LABELS_FIELD, show)
+            apply()
+        }
+    }
+
+    val dockItemLimit = preferences.intLiveData(DOCK_ITEM_LIMIT_FIELD, DOCK_ITEM_LIMIT_DEFAULT)
+
+    @Throws(IllegalArgumentException::class)
+    fun setDockItemLimit(limit: Int) {
+        if (limit <= 0 || limit > MAX_DOCK_ITEMS) {
+            throw IllegalArgumentException("Error number of items needs to be between 1 " +
+                    "and $MAX_DOCK_ITEMS, you've entered $limit")
+        }
+        preferences.edit().apply {
+            putInt(DOCK_ITEM_LIMIT_FIELD, limit)
+            apply()
+        }
+    }
+
+
 
 }
