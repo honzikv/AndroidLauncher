@@ -23,19 +23,15 @@ class DockMenu(viewModel: SettingsViewModel, context: Context) {
     private val showDock =
         SwitchItem(
             SHOW_DOCK,
-            viewModel.showDock.value!!,
-            {
-                viewModel.setShowDock(it)
-            },
+            viewModel.getShowDock(),
+            { viewModel.setShowDock(it) },
             dockMenu.level + 1
         )
 
     private val showLabels = SwitchItem(
         SHOW_LABELS,
-        viewModel.showDockLabels.value!!,
-        {
-            viewModel.setShowDockLabels(it)
-        },
+        viewModel.getShowDockLabels(),
+        { viewModel.setShowDockLabels(it) },
         dockMenu.level + 1
     )
 

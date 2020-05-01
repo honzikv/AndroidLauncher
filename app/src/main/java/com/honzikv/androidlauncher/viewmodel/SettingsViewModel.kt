@@ -21,18 +21,22 @@ class SettingsViewModel(
     }
 
     val swipeDownForNotifications = settingsRepository.swipeDownForNotifications
-    fun setSwipeDownForNotifications(show: Boolean) = viewModelScope.launch {
+    fun getSwipeDownForNotifications() = settingsRepository.getSwipeDownForNotifications()
+    fun setSwipeDownForNotifications(show: Boolean) {
         settingsRepository.setSwipeDownForNotifications(show)
     }
 
     val showDock = settingsRepository.showDock
+    fun getShowDock() = settingsRepository.getShowDock()
     fun setShowDock(show: Boolean) =
         viewModelScope.launch { settingsRepository.setShowDock(show) }
 
     val useOneHandedMode = settingsRepository.useOneHandedMode
     fun setUseOneHandedMode(use: Boolean) = settingsRepository.setUseOneHandedMode(use)
+    fun getUseOneHandedMode() = settingsRepository.getUseOneHandedMode()
 
     val showSearchBar = settingsRepository.showSearchBar
+    fun getShowSearchBar() = settingsRepository.getShowSearchBar()
     fun setShowSearchBar(show: Boolean) = settingsRepository.setShowSearchBar(show)
 
     val showDrawerAsGrid = settingsRepository.showDrawerAsGrid
@@ -41,10 +45,11 @@ class SettingsViewModel(
 
     val useRoundCorners = settingsRepository.useRoundCorners
     fun setUseRoundCorners(use: Boolean) = settingsRepository.setUseRoundCorners(use)
+    fun getUseRoundCorners() = settingsRepository.getUseRoundCorners()
 
     val showDockLabels = settingsRepository.showDockLabels
     fun setShowDockLabels(show: Boolean) = settingsRepository.setShowDockLabels(show)
-    fun getUseRoundCorners() = settingsRepository.getUseRoundCorners()
+    fun getShowDockLabels() = settingsRepository.getShowDockLabels()
 
     val dockItemLimit = settingsRepository.dockItemLimit
 }

@@ -1,10 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Context
-import androidx.lifecycle.observe
 import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
-import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
@@ -50,19 +47,19 @@ class LookAndFeelMenu(
             lookAndFeel.level + 1
         )
 
-    val swipeDownToOpenNotificationsSwitchItem =
+    private val swipeDownToOpenNotificationsSwitchItem =
         SwitchItem(
             SWIPE_DOWN_NOTIFICATIONS,
-            viewModel.swipeDownForNotifications.value!!,
+            viewModel.getSwipeDownForNotifications(),
             { viewModel.setSwipeDownForNotifications(it) },
             lookAndFeel.level + 1
         )
 
 
-    val oneHandedMode =
+    private val oneHandedMode =
         SwitchItem(
             ONE_HANDED_MODE,
-            viewModel.useOneHandedMode.value!!,
+            viewModel.getUseOneHandedMode(),
             { viewModel.setUseOneHandedMode(it) },
             lookAndFeel.level + 1
         )

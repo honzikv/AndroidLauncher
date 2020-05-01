@@ -28,7 +28,7 @@ class DrawerMenu(viewModel: SettingsViewModel) {
 
     private val showSearchBar = SwitchItem(
         SHOW_SEARCH_BAR,
-        viewModel.showSearchBar.value!!,
+        viewModel.getShowSearchBar(),
         { viewModel.setShowSearchBar(it) },
         1
     )
