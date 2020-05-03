@@ -3,15 +3,29 @@ package com.honzikv.androidlauncher.viewmodel
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
+import com.honzikv.androidlauncher.transformation.BackgroundTransformations
+import org.koin.core.KoinComponent
 
 class HomescreenViewModel(
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager
-) : ViewModel() {
+) : ViewModel(), KoinComponent {
 
     private val currentPageNumber: MutableLiveData<Int> = MutableLiveData(0)
 
-    val allPages = homescreenRepository.allPages
+    val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
+        return@map pageList.apply {
+            forEach { pageWithFolders ->
+                pageWithFolders.folderList.forEach { folderWithItems ->
+                    folderWithItems.itemList.forEach { item ->
+                        val info = packageManager.getApplicationInfo(item.systemAppPackageName, 0)
+                        item.label = info.loadLabel(packageManager).toString()
+                        item.drawable = info.loadIcon(packageManager)
+                    }
+                }
+            }
+        }
+    }
 
     val items = homescreenRepository.allItems
 
