@@ -4,10 +4,10 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import com.google.gson.Gson
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
-import com.honzikv.androidlauncher.data.model.entity.PageModel
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.FolderModel
+import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.PageModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.*
 import com.honzikv.androidlauncher.data.repository.AppSettingsRepository.Companion.THEME_PROFILE_FIELD
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,8 @@ val DEFAULT_PACKAGES =
         "com.google.android.apps.translate"
     )
 
-const val FOLDER_COLOR = Color.WHITE
+const val FOLDER_COLOR = Color.BLUE
+const val ITEM_COLOR = Color.WHITE
 const val FOLDER_NAME = "Google Apps"
 
 /**
@@ -50,6 +51,8 @@ class FirstLaunchInitializer(
         val pageDeferred = async { createFirstPage() }
         val folderDeferred = async { createGoogleFolder() }
         homescreenRepository.addFolderToPage(folderDeferred.await(), pageDeferred.await())
+        //todo remove createFirstPage()
+        createFirstPage()
         commitInitialized()
     }
 
@@ -60,7 +63,9 @@ class FirstLaunchInitializer(
         Timber.d("Successfully set default variables")
     }
 
-    private suspend fun createFirstPage(): Long = homescreenRepository.addPageAsLast(PageModel())
+    private suspend fun createFirstPage(): Long = homescreenRepository.addPageAsLast(
+        PageModel()
+    )
 
     /**
      * Creates folder_header with google apps
@@ -68,13 +73,23 @@ class FirstLaunchInitializer(
     private suspend fun createGoogleFolder(): Long = withContext(Dispatchers.IO) {
         Timber.d("Creating default google apps folder")
         val folderId = folderDataRepository.addFolder(
-            FolderModel(null, null, null, FOLDER_COLOR, 0, FOLDER_NAME)
+            FolderModel(
+                itemColor = ITEM_COLOR,
+                backgroundColor = FOLDER_COLOR,
+                title = FOLDER_NAME
+            )
         )
 
         val appList = mutableListOf<FolderItemModel>()
         DEFAULT_PACKAGES.forEach { appPackage ->
             if (isAppInstalled(appPackage)) {
-                appList.add(FolderItemModel(null, folderId, appPackage))
+                Timber.d("This app (${appPackage}) is installed, adding to folder")
+                appList.add(
+                    FolderItemModel(
+                        folderId = folderId,
+                        systemAppPackageName = appPackage
+                    )
+                )
             }
         }
 
@@ -99,17 +114,18 @@ class FirstLaunchInitializer(
     private suspend fun createDefaultThemeProfiles() = withContext(Dispatchers.IO) {
         Timber.d("Creating default theme profiles")
         //https://flatuicolors.com/palette/us
-        val lightTheme = ThemeProfileModel(
-            id = null,
-            drawerBackgroundColor = Color.parseColor("#dfe6e9"),
-            drawerTextFillColor = Color.parseColor("#2d3436"),
-            drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
-            drawerSearchTextColor = Color.parseColor("#636e72"),
-            dockBackgroundColor = Color.parseColor("#dfe6e9"),
-            dockTextColor = Color.parseColor("#2d3436"),
-            isUserProfile = false,
-            name = "Light Theme"
-        )
+        val lightTheme =
+            ThemeProfileModel(
+                id = null,
+                drawerBackgroundColor = Color.parseColor("#dfe6e9"),
+                drawerTextFillColor = Color.parseColor("#2d3436"),
+                drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
+                drawerSearchTextColor = Color.parseColor("#636e72"),
+                dockBackgroundColor = Color.parseColor("#dfe6e9"),
+                dockTextColor = Color.parseColor("#2d3436"),
+                isUserProfile = false,
+                name = "Light Theme"
+            )
 
         //https://flatuicolors.com/palette/us
         val darkTheme = ThemeProfileModel(

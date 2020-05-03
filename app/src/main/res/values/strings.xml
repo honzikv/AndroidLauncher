@@ -10,4 +10,7 @@
     <string name="lorem_ipsum_short">Lorem Ipsum</string>
     <string name="all_applications">All Applications</string>
     <string name="search">Search</string>
+    <string name="uninstall_app">Uninstall App</string>
+    <string name="add_app_to_folder">Add App to Folder</string>
+    <string name="show_app_info">Show App Info</string>
 </resources>

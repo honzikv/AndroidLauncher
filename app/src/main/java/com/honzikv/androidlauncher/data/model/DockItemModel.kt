@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.data.model.entity
+package com.honzikv.androidlauncher.data.model
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable

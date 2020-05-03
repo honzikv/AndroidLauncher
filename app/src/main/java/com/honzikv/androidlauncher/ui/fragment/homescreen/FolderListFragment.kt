@@ -5,40 +5,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.RecyclerView
-
-import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.entity.FolderWithItems
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.honzikv.androidlauncher.data.model.FolderWithItems
+import com.honzikv.androidlauncher.databinding.FolderListFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.FolderListAdapter
-import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
-import org.koin.android.ext.android.inject
 
-class FolderListFragment : Fragment() {
+class FolderListFragment(private var folders: List<FolderWithItems>) : Fragment() {
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private lateinit var folderListAdapter: FolderListAdapter
 
-    private lateinit var folders: LiveData<List<FolderWithItems>>
-
-    private lateinit var recyclerView: RecyclerView
-
-    private lateinit var recyclerAdapter: FolderListAdapter
+    fun setFolders(folders: List<FolderWithItems>) {
+        this.folders = folders
+        folderListAdapter.notifyDataSetChanged()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initialize()
-        return inflater.inflate(R.layout.folder_list_fragment, container, false)
+        val binding = FolderListFragmentBinding.inflate(inflater, container, false)
+        initialize(binding)
+        return binding.root
     }
 
-    private fun initialize() {
-        folders = homescreenViewModel.folderList
-
+    private fun initialize(binding: FolderListFragmentBinding) {
+        folderListAdapter = FolderListAdapter()
+        binding.folderListRecyclerView.apply {
+            val layoutManager = LinearLayoutManager(context)
+            //To display items from bottom
+            layoutManager.stackFromEnd = true
+            adapter = folderListAdapter
+            this.layoutManager = layoutManager
+        }
+        folderListAdapter.setFolderList(folders)
+        folderListAdapter.notifyDataSetChanged()
     }
-
-
-
-
 }
 

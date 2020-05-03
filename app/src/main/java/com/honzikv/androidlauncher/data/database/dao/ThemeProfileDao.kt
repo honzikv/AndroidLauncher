@@ -2,7 +2,7 @@ package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 
 @Dao
 interface ThemeProfileDao {

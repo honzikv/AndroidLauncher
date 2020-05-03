@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.data.model.entity
+package com.honzikv.androidlauncher.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -3,7 +3,9 @@ package com.honzikv.androidlauncher.data.repository
 import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
-import com.honzikv.androidlauncher.data.model.entity.*
+import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.PageModel
+import com.honzikv.androidlauncher.data.model.PageWithFolders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -14,6 +16,7 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
+    val allItems: LiveData<List<FolderItemModel>> = pageDao.getAllItems()
     val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPages()
 
     suspend fun addPageAsLast(page: PageModel): Long = withContext(Dispatchers.IO) {

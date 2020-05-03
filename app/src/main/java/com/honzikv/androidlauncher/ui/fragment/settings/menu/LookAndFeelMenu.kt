@@ -1,7 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Context
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem

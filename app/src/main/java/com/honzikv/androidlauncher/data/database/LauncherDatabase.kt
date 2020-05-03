@@ -3,7 +3,7 @@ package com.honzikv.androidlauncher.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.honzikv.androidlauncher.data.database.dao.*
-import com.honzikv.androidlauncher.data.model.entity.*
+import com.honzikv.androidlauncher.data.model.*
 
 /**
  * Room database to store user edited data about homescreen

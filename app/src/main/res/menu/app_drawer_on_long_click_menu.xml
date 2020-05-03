@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title=""
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <menu>
+
+        <item
+            android:id="@+id/uninstall"
+            android:title="@string/uninstall_app" />
+        <item
+            android:id="@+id/addToFolder"
+            android:title="@string/add_app_to_folder" />
+
+        <item
+            android:id="@+id/appInfo"
+            android:title="@string/show_app_info" />
+    </menu>
+</item>

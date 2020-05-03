@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.lifecycle.observe
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
+import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.HomescreenViewPagerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
@@ -21,11 +24,9 @@ class HomescreenFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private lateinit var binding: HomescreenFragmentBinding
-
     private val homescreenViewModel: HomescreenViewModel by inject()
 
-    private lateinit var onSwipeTouchListener: OnSwipeTouchListener
+    private lateinit var viewPagerAdapter: HomescreenViewPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,6 @@ class HomescreenFragment : Fragment() {
         val binding = HomescreenFragmentBinding.inflate(inflater)
         initialize(binding)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,19 +44,37 @@ class HomescreenFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: HomescreenFragmentBinding) {
-        binding.constraintLayout.setOnClickListener {
-            longPressPopupMenu(binding.constraintLayout)
-        }
-        binding.constraintLayout.setOnTouchListener(object :
-            OnSwipeTouchListener(binding.root.context) {
-            override fun onSwipeTop() {
-                super.onSwipeTop()
-                swipeUpAppMenu()
+        binding.constraintLayout.apply {
+            setOnClickListener {
+                longPressPopupMenu(binding.constraintLayout)
             }
+            setOnTouchListener(object :
+                OnSwipeTouchListener(binding.root.context) {
+                override fun onSwipeTop() {
+                    super.onSwipeTop()
+                    swipeUpAppMenu()
+                }
 
-            override fun onSwipeBottom() {
-                super.onSwipeBottom()
-                settings()
+                override fun onSwipeBottom() {
+                    super.onSwipeBottom()
+                    settings()
+                }
+            })
+        }
+        viewPagerAdapter =
+            HomescreenViewPagerAdapter(childFragmentManager, activity as FragmentActivity)
+        binding.viewPager.adapter = viewPagerAdapter
+
+        homescreenViewModel.allPages.observe(viewLifecycleOwner, {
+            Timber.d("pages update, size = ${it.size}")
+            viewPagerAdapter.setPages(it)
+            viewPagerAdapter.notifyDataSetChanged()
+        })
+
+        homescreenViewModel.items.observe(viewLifecycleOwner, { list ->
+            Timber.d("All items")
+            list.forEach {
+                Timber.d("$it folderId=${it.folderId}")
             }
         })
     }

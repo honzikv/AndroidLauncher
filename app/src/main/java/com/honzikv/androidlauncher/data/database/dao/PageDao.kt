@@ -2,8 +2,9 @@ package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.honzikv.androidlauncher.data.model.entity.PageModel
-import com.honzikv.androidlauncher.data.model.entity.PageWithFolders
+import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.PageModel
+import com.honzikv.androidlauncher.data.model.PageWithFolders
 
 @Dao
 interface PageDao {
@@ -29,5 +30,8 @@ interface PageDao {
 
     @Query("SELECT * FROM PageModel WHERE id = :pageId")
     suspend fun getPage(pageId: Long): PageModel
+
+    @Query("SELECT * FROM FolderItemModel")
+    fun getAllItems(): LiveData<List<FolderItemModel>>
 
 }

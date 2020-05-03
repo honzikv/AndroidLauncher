@@ -2,7 +2,7 @@ package com.honzikv.androidlauncher.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
 import com.honzikv.androidlauncher.data.repository.AppThemeRepository
 import kotlinx.coroutines.launch

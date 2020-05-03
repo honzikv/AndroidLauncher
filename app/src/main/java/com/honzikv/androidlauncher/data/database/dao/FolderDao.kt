@@ -1,8 +1,8 @@
 package com.honzikv.androidlauncher.data.database.dao
 
 import androidx.room.*
-import com.honzikv.androidlauncher.data.model.entity.FolderModel
-import com.honzikv.androidlauncher.data.model.entity.FolderItemModel
+import com.honzikv.androidlauncher.data.model.FolderModel
+import com.honzikv.androidlauncher.data.model.FolderItemModel
 
 @Dao
 interface FolderDao {
@@ -21,4 +21,8 @@ interface FolderDao {
 
     @Delete
     fun deleteFolder(folder: FolderModel)
+
+    @Insert
+    fun addFolderItem(folderItem: FolderItemModel)
+
 }

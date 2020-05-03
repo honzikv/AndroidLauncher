@@ -67,13 +67,19 @@ class AppDrawerAdapter :
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
+    private val onLongClickListener = View.OnLongClickListener { view ->
+        val viewHolder = view?.tag as RecyclerView.ViewHolder
+        val item = drawerItemsFiltered[viewHolder.adapterPosition]
+        val context: Context = get()
+        return@OnLongClickListener true
+    }
+
     fun updateData(drawerItems: List<DrawerApp>) {
         this.drawerItemsAll = drawerItems
         this.drawerItemsFiltered.apply {
             clear()
             addAll(drawerItems)
         }
-        notifyDataSetChanged()
     }
 
     fun setLabelColor(color: Int) {

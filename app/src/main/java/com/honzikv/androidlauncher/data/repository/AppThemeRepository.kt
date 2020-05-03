@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.honzikv.androidlauncher.data.database.dao.ThemeProfileDao
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import timber.log.Timber
 
 val DEFAULT_THEME = ThemeProfileModel(

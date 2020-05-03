@@ -35,10 +35,5 @@ class DockMenu(viewModel: SettingsViewModel, context: Context) {
         dockMenu.level + 1
     )
 
-//    private val itemCount = TextLeftRightItem(
-//        NUMBER_OF_ITEMS,
-//        viewModel.getDockItemLimit(),
-//        {  }
-//    )
 
 }

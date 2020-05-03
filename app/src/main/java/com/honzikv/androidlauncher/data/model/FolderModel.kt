@@ -1,7 +1,8 @@
-package com.honzikv.androidlauncher.data.model.entity
+package com.honzikv.androidlauncher.data.model
 
 import android.graphics.drawable.Drawable
 import androidx.room.*
+import timber.log.Timber
 
 @Entity(
     foreignKeys = [
@@ -46,9 +47,9 @@ data class FolderModel(
 data class FolderItemModel(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = 0,
+    var id: Long? = null,
 
-    var folderId: Long,
+    var folderId: Long? = null,
 
     /**
      * Reference to SystemApp via package name
@@ -72,7 +73,7 @@ data class PageWithFolders(
     val page: PageModel,
 
     /**
-     * List of Folders each containing list of their items
+     * List of folders each containing list of their items
      */
     @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderModel::class)
     val folderList: List<FolderWithItems>
@@ -83,11 +84,15 @@ data class FolderWithItems(
     val folder: FolderModel,
 
     /**
-     * List of items in folder_header
+     * List of items in folder
      */
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
     val itemList: List<FolderItemModel>
 ) {
+    init {
+        Timber.d("Folder with items, itemlist size = ${itemList.size}")
+    }
+
     @Ignore
     var showItems: Boolean = false
 }

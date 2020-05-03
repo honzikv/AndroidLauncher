@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.entity.ThemeProfileModel
+import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
@@ -49,6 +49,10 @@ class AppDrawerFragment : Fragment() {
         binding.appDrawerRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = appDrawerAdapter
+            registerForContextMenu(this)
+            setOnLongClickListener {
+                true
+            }
         }
 
         binding.searchView.setOnQueryTextListener(object :
@@ -88,6 +92,7 @@ class AppDrawerFragment : Fragment() {
                 binding.appDrawerRecyclerView,
                 R.anim.drawer_layout_animation_fall_down
             )
+            appDrawerAdapter.notifyDataSetChanged()
         })
 
     }
@@ -121,4 +126,24 @@ class AppDrawerFragment : Fragment() {
         Timber.d("From drawer to homepage")
     }
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        view: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, view, menuInfo)
+
+        when (view.id) {
+            R.id.appDrawerRecyclerView -> createRecyclerViewPopupMenu(menu, view)
+        }
+    }
+
+    private fun createRecyclerViewPopupMenu(menu: ContextMenu, view: View) {
+        view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        activity?.menuInflater?.inflate(R.menu.app_drawer_on_long_click_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return super.onContextItemSelected(item)
+    }
 }
