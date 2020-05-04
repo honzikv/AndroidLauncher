@@ -8,7 +8,7 @@
     android:layout_margin="@dimen/text_margin"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    app:cardBackgroundColor="#E2FFFFFF"
+    app:cardBackgroundColor="#E2252222"
     app:cardCornerRadius="@dimen/default_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/folderName"
             style="@style/bold_text_style"
-            android:layout_width="331dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
@@ -50,12 +50,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:maxLines="2"
             android:text="@string/lorem_ipsum"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/folderName"
             app:layout_constraintTop_toBottomOf="@+id/folderName" />
 

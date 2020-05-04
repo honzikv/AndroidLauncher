@@ -1,8 +1,10 @@
 package com.honzikv.androidlauncher.ui.fragment.homescreen.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
@@ -11,8 +13,10 @@ import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
-class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
+class FolderListAdapter(context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
      * List of all folders displayed on current page
@@ -28,6 +32,19 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
         val item = folderList[viewHolder.adapterPosition]
         item.showItems = !item.showItems
         notifyItemChanged(viewHolder.adapterPosition)
+    }
+
+    private val onLongClickListener = View.OnLongClickListener { view ->
+//        val viewHolder = view?.tag as RecyclerView.ViewHolder
+//        val item = folderList[viewHolder.adapterPosition]
+//
+//        val bundle = Bundle()
+//        //serialize selected item and save it to bundle passed to fragment
+//        bundle.putString(FOLDER, Gson().toJson(item))
+//        val fragmentManager = fragmentActivity.supportFragmentManager
+//        val folderSettingsFragment = FolderSettingsFragment.newInstance(bundle)
+//        folderSettingsFragment.show(fragmentManager, "Fragment")
+        return@OnLongClickListener true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -64,6 +81,7 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
+            itemView.setOnLongClickListener(onLongClickListener)
         }
 
         fun bind(data: FolderWithItems) {
@@ -73,7 +91,6 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
                 (adapter as FolderAdapter).setLabelColor(data.folder.itemColor)
             }
             binding.folderName.text = data.folder.title
-            //TODO item color
             binding.folderCardView.setBackgroundColor(data.folder.backgroundColor)
         }
     }
@@ -84,6 +101,7 @@ class FolderListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinC
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
+            itemView.setOnLongClickListener(onLongClickListener)
         }
 
         fun bind(data: FolderWithItems) {

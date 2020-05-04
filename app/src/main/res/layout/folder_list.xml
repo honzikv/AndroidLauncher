@@ -6,18 +6,16 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/folderListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/folderListRecyclerView"
+        android:clickable="true"
+        android:focusable="true"
+        android:scrollbarFadeDuration="@integer/slow_animation_duration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scrollbars="horizontal"
-        android:fadeScrollbars="true"
-        android:scrollbarFadeDuration="@integer/slow_animation_duration"
-        app:reverseLayout="true"
-        app:stackFromEnd="true" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

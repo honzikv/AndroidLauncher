@@ -2,6 +2,7 @@ package com.honzikv.androidlauncher.data.repository
 
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.ColorSpace
 import com.honzikv.androidlauncher.data.sharedpreferences.booleanLiveData
 import com.honzikv.androidlauncher.data.sharedpreferences.intLiveData
 import timber.log.Timber
@@ -136,6 +137,5 @@ class AppSettingsRepository(
             apply()
         }
     }
-
 
 }

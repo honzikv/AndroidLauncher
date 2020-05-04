@@ -17,5 +17,8 @@ data class DockItemModel(
 
 ) {
     @Ignore
-    var drawable: Drawable? = null
+    var icon: Drawable? = null
+
+    @Ignore
+    var label: String? = null
 }

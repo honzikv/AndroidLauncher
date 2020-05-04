@@ -5,10 +5,7 @@ import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
 import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.repository.*
-import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
-import com.honzikv.androidlauncher.viewmodel.DockViewModel
-import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
-import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import com.honzikv.androidlauncher.viewmodel.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -62,5 +59,5 @@ val module = module {
     viewModel { AppDrawerViewModel(get(), get(), get()) }
     viewModel { DockViewModel(get()) }
     viewModel { SettingsViewModel(get(), get()) }
-
+    viewModel { FolderSettingsViewModel(get()) }
 }

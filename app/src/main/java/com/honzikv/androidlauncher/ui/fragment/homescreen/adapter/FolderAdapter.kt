@@ -17,6 +17,8 @@ class FolderAdapter(
 
     private var labelColor = Color.BLACK
 
+    val context: Context = get()
+
     fun setLabelColor(color: Int) {
         this.labelColor = color
     }
@@ -24,17 +26,12 @@ class FolderAdapter(
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = folderItems[viewHolder.adapterPosition]
-        val context: Context = get()
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.systemAppPackageName))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            IconWithTitleBelowBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            IconWithTitleBelowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -52,7 +49,7 @@ class FolderAdapter(
         }
 
         fun bind(folderItem: FolderItemModel) {
-            itemBinding.icon.setImageDrawable(folderItem.drawable)
+            itemBinding.icon.setImageDrawable(folderItem.icon)
             itemBinding.label.text = folderItem.label
             itemBinding.label.setTextColor(labelColor)
         }

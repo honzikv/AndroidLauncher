@@ -8,13 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.lifecycle.observe
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.HomescreenViewPagerAdapter
+import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.PageAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
@@ -26,7 +25,9 @@ class HomescreenFragment : Fragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
-    private lateinit var viewPagerAdapter: HomescreenViewPagerAdapter
+    private lateinit var viewPagerAdapter: PageAdapter
+
+    private lateinit var onSwipeTouchListener: OnSwipeTouchListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,47 +45,38 @@ class HomescreenFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: HomescreenFragmentBinding) {
-        binding.constraintLayout.apply {
-            setOnClickListener {
-                longPressPopupMenu(binding.constraintLayout)
+        onSwipeTouchListener = object :
+            OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeTop() {
+                super.onSwipeTop()
+                navigateToAppDrawer()
             }
-            setOnTouchListener(object :
-                OnSwipeTouchListener(binding.root.context) {
-                override fun onSwipeTop() {
-                    super.onSwipeTop()
-                    swipeUpAppMenu()
-                }
 
-                override fun onSwipeBottom() {
-                    super.onSwipeBottom()
-                    settings()
-                }
-            })
+            override fun onSwipeRight() {
+                super.onSwipeBottom()
+                navigateToSettings()
+            }
         }
+
+        binding.constraintLayout.setOnTouchListener(onSwipeTouchListener)
         viewPagerAdapter =
-            HomescreenViewPagerAdapter(childFragmentManager, activity as FragmentActivity)
+            PageAdapter(requireContext(), onSwipeTouchListener)
         binding.viewPager.adapter = viewPagerAdapter
 
         homescreenViewModel.allPages.observe(viewLifecycleOwner, {
-            Timber.d("pages update, size = ${it.size}")
             viewPagerAdapter.setPages(it)
             viewPagerAdapter.notifyDataSetChanged()
         })
 
-        homescreenViewModel.items.observe(viewLifecycleOwner, { list ->
-            Timber.d("All items")
-            list.forEach {
-                Timber.d("$it folderId=${it.folderId}")
-            }
-        })
-    }
-
-    private fun settings() {
-        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
+        binding.constraintLayout.setOnLongClickListener { view ->
+            longPressPopupMenu(view)
+            return@setOnLongClickListener true
+        }
     }
 
     private fun longPressPopupMenu(view: View) {
-        PopupMenu(activity, view).apply {
+        Timber.d("Creating Popup Menu")
+        PopupMenu(context, view).apply {
             setOnMenuItemClickListener { item ->
                 when (item!!.itemId) {
                     R.id.launcherSettings -> TODO("Launcher settings placeholder")
@@ -98,9 +90,16 @@ class HomescreenFragment : Fragment() {
         }
     }
 
-    private fun swipeUpAppMenu() {
-        navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
-        Timber.d("swipe up")
+    private fun navigateToSettings() {
+        Timber.d("Navigating from homescreen fragment to settings fragment")
+        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
     }
+
+
+    private fun navigateToAppDrawer() {
+        Timber.d("Navigating from homescreen fragment to app drawer fragment")
+        navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
+    }
+
 
 }

@@ -2,6 +2,8 @@ package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
+import com.honzikv.androidlauncher.data.model.FolderModel
+import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
 import org.koin.core.KoinComponent
@@ -20,13 +22,12 @@ class HomescreenViewModel(
                     folderWithItems.itemList.forEach { item ->
                         val info = packageManager.getApplicationInfo(item.systemAppPackageName, 0)
                         item.label = info.loadLabel(packageManager).toString()
-                        item.drawable = info.loadIcon(packageManager)
+                        item.icon = info.loadIcon(packageManager)
                     }
                 }
             }
         }
     }
 
-    val items = homescreenRepository.allItems
 
 }

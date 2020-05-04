@@ -28,7 +28,7 @@ data class FolderModel(
     var title: String,
 
     var nextAppPosition: Int = 0
-) {
+)  {
     override fun toString() = title
 }
 
@@ -61,7 +61,7 @@ data class FolderItemModel(
 ) {
 
     @Ignore
-    var drawable: Drawable? = null
+    var icon: Drawable? = null
 
     @Ignore
     var label: String? = null

@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderItemModel
@@ -19,10 +20,13 @@ interface FolderDao {
     @Query("SELECT * FROM FolderModel WHERE id = :folderId")
     suspend fun getFolder(folderId: Long): FolderModel
 
+    @Query("SELECT * FROM FolderModel WHERE id = :folderId")
+    fun getFolderLiveData(folderId: Long): LiveData<FolderModel>
+
     @Delete
-    fun deleteFolder(folder: FolderModel)
+    suspend fun deleteFolder(folder: FolderModel)
 
     @Insert
-    fun addFolderItem(folderItem: FolderItemModel)
+    suspend fun addFolderItem(folderItem: FolderItemModel)
 
 }

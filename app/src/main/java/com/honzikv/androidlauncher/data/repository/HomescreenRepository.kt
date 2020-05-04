@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
 import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.PageModel
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,6 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
-    val allItems: LiveData<List<FolderItemModel>> = pageDao.getAllItems()
     val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPages()
 
     suspend fun addPageAsLast(page: PageModel): Long = withContext(Dispatchers.IO) {
@@ -60,5 +60,10 @@ class HomescreenRepository(
         TODO("Not yet implemented")
     }
 
+    suspend fun getFolder(folderId: Long) = folderDao.getFolder(folderId)
+
+    suspend fun updateFolder(folderModel: FolderModel) = folderDao.updateFolder(folderModel)
+
+    suspend fun deleteFolder(folderModel: FolderModel) = folderDao.deleteFolder(folderModel)
 
 }
