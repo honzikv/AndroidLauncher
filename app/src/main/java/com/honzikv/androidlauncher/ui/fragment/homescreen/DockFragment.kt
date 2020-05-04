@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.observe
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.DockAdapter
+import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class DockFragment : Fragment() {
 
@@ -22,6 +26,10 @@ class DockFragment : Fragment() {
     private val settingsViewModel: SettingsViewModel by inject()
 
     private lateinit var dockAdapter: DockAdapter
+
+    private lateinit var onSwipeTouchListener: OnSwipeTouchListener
+
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +60,30 @@ class DockFragment : Fragment() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerView.adapter = dockAdapter
+
+        navController = findNavController()
+
+        onSwipeTouchListener = object :
+            OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeTop() {
+                super.onSwipeTop()
+                navigateToAppDrawer()
+            }
+
+            override fun onSwipeRight() {
+                super.onSwipeBottom()
+                navigateToSettings()
+            }
+        }
     }
 
+    private fun navigateToSettings() {
+        Timber.d("Navigating from homescreen fragment to settings fragment")
+        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
+    }
+
+    private fun navigateToAppDrawer() {
+        Timber.d("Navigating from homescreen fragment to app drawer fragment")
+        navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
+    }
 }

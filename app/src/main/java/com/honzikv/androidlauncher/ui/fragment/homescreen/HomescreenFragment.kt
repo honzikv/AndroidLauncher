@@ -52,7 +52,7 @@ class HomescreenFragment : Fragment() {
                 navigateToAppDrawer()
             }
 
-            override fun onSwipeRight() {
+            override fun onSwipeBottom() {
                 super.onSwipeBottom()
                 navigateToSettings()
             }
