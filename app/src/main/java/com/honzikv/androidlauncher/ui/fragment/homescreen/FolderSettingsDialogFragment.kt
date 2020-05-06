@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
 import com.honzikv.androidlauncher.data.model.FolderModel
@@ -20,7 +21,7 @@ import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class FolderSettingsFragment() : Fragment() {
+class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
 
     private val folderSettingsViewModel: FolderSettingsViewModel by inject()
 
@@ -31,10 +32,9 @@ class FolderSettingsFragment() : Fragment() {
          * [bundle] containing serialized folderModel
          */
         fun newInstance(bundle: Bundle) =
-            DialogFragment().apply {
+            FolderSettingsDialogFragment().apply {
                 arguments = bundle
-            }.also {
-                Timber.d("Creating new instance of FolderSettingsFragment")
+                Timber.d("Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(FOLDER)}")
             }
     }
 
@@ -42,8 +42,9 @@ class FolderSettingsFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val json = requireArguments().get(FOLDER) as String
         folderModel =
-            Gson().fromJson(savedInstanceState?.get(FOLDER) as String, FolderModel::class.java)
+            Gson().fromJson(json, FolderModel::class.java)
     }
 
     override fun onCreateView(
@@ -51,7 +52,7 @@ class FolderSettingsFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FolderSettingsFragmentBinding.inflate(inflater)
+        val binding = FolderSettingsFragmentBinding.inflate(inflater, container, false)
         initialize(binding)
         return binding.root
     }
@@ -66,7 +67,7 @@ class FolderSettingsFragment() : Fragment() {
                     .colorMode(ColorMode.ARGB)
                     .onColorSelected(object : ColorSelectListener {
                         override fun onColorSelected(color: Int) {
-                            backgroundCircle.setBackgroundColor(color)
+                            backgroundCircle.setColorFilter(color)
                             folderModel.backgroundColor = color
                             folderSettingsViewModel.updateFolder(folderModel)
                         }
@@ -82,10 +83,10 @@ class FolderSettingsFragment() : Fragment() {
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.backgroundColor)
-                    .colorMode(ColorMode.RGB)
+                    .colorMode(ColorMode.HSV)
                     .onColorSelected(object : ColorSelectListener {
                         override fun onColorSelected(color: Int) {
-                            textColorCircle.setBackgroundColor(color)
+                            textColorCircle.setColorFilter(color)
                             folderModel.itemColor = color
                             folderSettingsViewModel.updateFolder(folderModel)
                         }

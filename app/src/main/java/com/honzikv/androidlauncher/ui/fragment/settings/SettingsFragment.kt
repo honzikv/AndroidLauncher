@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
+import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
@@ -35,12 +36,20 @@ class SettingsFragment : Fragment() {
         val itemList = mutableListOf<RecyclerViewItem>()
         itemList.add(Header("Settings", 0))
 
+        //Create a look and feel settings submenu
         val lookAndFeelMenu = LookAndFeelMenu(viewModel, requireContext()).apply {
             position = itemList.size
             itemList.add(getRoot())
         }
 
+        //Create a drawer settings submenu
         val drawerMenu = DrawerMenu(viewModel).apply {
+            position = itemList.size
+            itemList.add(getRoot())
+        }
+
+        //Create a homescreen settings submenu
+        val homescreenMenu = HomescreenMenu(viewModel, requireActivity()).apply {
             position = itemList.size
             itemList.add(getRoot())
         }
@@ -51,7 +60,6 @@ class SettingsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
         }
-
 
         viewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.multiLevelRecyclerView.setBackgroundColor(it.drawerBackgroundColor)

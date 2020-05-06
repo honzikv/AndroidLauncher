@@ -14,6 +14,9 @@ import com.honzikv.androidlauncher.data.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.FolderListBinding
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 
+/**
+ * [context] must be of type FragmentActivity
+ */
 class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchListener) :
     RecyclerView.Adapter<PageAdapter.PageViewHolder>() {
 
@@ -28,7 +31,6 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
     }
 
     override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
-        holder as PageViewHolder
         holder.bind(pages[position])
     }
 
@@ -53,21 +55,6 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
                 layoutManager = LinearLayoutManager(context)
                 (adapter as FolderListAdapter).notifyDataSetChanged()
             }
-        }
-    }
-
-    private fun longPressPopupMenu(view: View) {
-        PopupMenu(context, view).apply {
-            setOnMenuItemClickListener { item ->
-                when (item!!.itemId) {
-                    R.id.launcherSettings -> TODO("Launcher settings placeholder")
-                    R.id.changeWallpaper -> TODO("Change Wallpaper")
-                }
-
-                true
-            }
-            inflate(R.menu.homescreen_long_click_popup_menu)
-            show()
         }
     }
 

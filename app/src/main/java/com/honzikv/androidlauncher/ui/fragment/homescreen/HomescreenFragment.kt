@@ -60,7 +60,7 @@ class HomescreenFragment : Fragment() {
 
         binding.constraintLayout.setOnTouchListener(onSwipeTouchListener)
         viewPagerAdapter =
-            PageAdapter(requireContext(), onSwipeTouchListener)
+            PageAdapter(requireActivity(), onSwipeTouchListener)
         binding.viewPager.adapter = viewPagerAdapter
 
         homescreenViewModel.allPages.observe(viewLifecycleOwner, {

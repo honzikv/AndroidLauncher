@@ -12,9 +12,8 @@ import com.multilevelview.models.RecyclerViewItem
 class LookAndFeelMenu(
     viewModel: SettingsViewModel,
     context: Context
-) {
+) : MultiLevelMenu() {
 
-    var position = -1
 
     companion object {
         const val LOOK_AND_FEEL = "Look and Feel"
@@ -75,6 +74,6 @@ class LookAndFeelMenu(
         )
     }
 
-    fun getRoot() = lookAndFeel as RecyclerViewItem
+    override fun getRoot() = lookAndFeel
 
 }

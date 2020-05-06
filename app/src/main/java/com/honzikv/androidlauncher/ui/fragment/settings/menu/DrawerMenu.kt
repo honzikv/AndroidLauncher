@@ -9,12 +9,11 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 import timber.log.Timber
 
-class DrawerMenu(viewModel: SettingsViewModel) {
+class DrawerMenu(viewModel: SettingsViewModel) : MultiLevelMenu() {
 
-    var position = -1
 
     companion object {
-        const val DRAWER_SETTINGS = "Drawer Settings"
+        const val DRAWER_SETTINGS = "Drawer"
         const val DRAWER_SETTINGS_SUB = "Customize Drawer"
 
         const val SHOW_AS_GRID = "Show Drawer as Grid"
@@ -57,5 +56,5 @@ class DrawerMenu(viewModel: SettingsViewModel) {
         )
     }
 
-    fun getRoot() = drawerSettings as RecyclerViewItem
+    override fun getRoot() = drawerSettings
 }

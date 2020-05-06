@@ -13,4 +13,5 @@
     <string name="uninstall_app">Uninstall App</string>
     <string name="add_app_to_folder">Add App to Folder</string>
     <string name="show_app_info">Show App Info</string>
+    <string name="folder_settings">Folder Settings</string>
 </resources>

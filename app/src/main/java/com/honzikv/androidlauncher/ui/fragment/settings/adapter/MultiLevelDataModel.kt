@@ -11,7 +11,6 @@ import kotlin.reflect.KFunction
  * Each header item only shows / hides its children
  */
 
-
 class Header(val text: String, level: Int) : RecyclerViewItem(level)
 
 class HeaderItem(

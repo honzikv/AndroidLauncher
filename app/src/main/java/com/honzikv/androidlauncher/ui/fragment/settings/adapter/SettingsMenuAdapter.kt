@@ -13,6 +13,7 @@ import com.honzikv.androidlauncher.ui.constants.MATERIAL_MIN_LENGTH
 import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
+import timber.log.Timber
 
 class SettingsMenuAdapter(
     private var items: MutableList<RecyclerViewItem>
@@ -76,9 +77,15 @@ class SettingsMenuAdapter(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
-//R.layout.settings_text_left_right_item
-            else -> TextLeftRightViewHolder(
+
+            R.layout.settings_text_left_right_item -> TextLeftRightViewHolder(
                 SettingsTextLeftRightItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
+            else -> TextLeftViewHolder(
+                SettingsTextLeftItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -103,6 +110,9 @@ class SettingsMenuAdapter(
 
             R.layout.settings_title -> (holder as SettingsTitleViewHolder)
                 .bind(item as Header)
+
+            R.layout.settings_text_left_item -> (holder as TextLeftViewHolder)
+                .bind(item as TextLeftItem)
         }
     }
 
@@ -113,6 +123,7 @@ class SettingsMenuAdapter(
             is SwitchItem -> R.layout.settings_switch_item
             is TextLeftRightItem -> R.layout.settings_text_left_right_item
             is SpinnerItem -> R.layout.settings_spinner_item
+            is TextLeftItem -> R.layout.settings_text_left_item
             else -> -1 //never happens
         }
     }
@@ -223,6 +234,24 @@ class SettingsMenuAdapter(
             binding.root.setOnClickListener { data.functionOnClick() }
         }
 
+    }
+
+    inner class TextLeftViewHolder(val binding: SettingsTextLeftItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: TextLeftItem) {
+            Timber.d("binding")
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+
+            binding.textLeft.apply {
+                Timber.d("text is ${data.textLeft}")
+                text = data.textLeft
+                setTextColor(childTextFillColor)
+            }
+
+            binding.root.setOnClickListener { data.functionOnClick() }
+        }
     }
 
 }
