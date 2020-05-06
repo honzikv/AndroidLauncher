@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.dialog.AppPickerFragmentDialog
+import com.honzikv.androidlauncher.ui.fragment.dialog.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.dialog.CreateFolderDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment.Companion.FOLDER
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
@@ -144,18 +148,27 @@ class SettingsFragment : Fragment() {
         folderWithItems: FolderWithItems,
         level: Int
     ): SettingsFolderItem {
-        val page = SettingsFolderItem(
+        val folder = SettingsFolderItem(
             folderWithItems.folder.title,
             { homescreenViewModel.deleteFolder(folderWithItems.folder) },
             {
-                val fragment = AppPickerFragmentDialog.newInstance()
+                val fragment = AppPickerDialogFragment.newInstance()
                 fragment.show(requireActivity().supportFragmentManager, "addItem")
+            },
+            {
+                val bundle = Bundle()
+                bundle.putString(
+                    FOLDER,
+                    Gson().toJson(folderWithItems.folder, FolderModel::class.java)
+                )
+                val fragment = FolderSettingsDialogFragment.newInstance(bundle)
+                fragment.show(requireActivity().supportFragmentManager, "edit")
             },
             level + 1
         )
 
         val items = mutableListOf<SettingsFolderItem>()
-        return page
+        return folder
     }
 }
 

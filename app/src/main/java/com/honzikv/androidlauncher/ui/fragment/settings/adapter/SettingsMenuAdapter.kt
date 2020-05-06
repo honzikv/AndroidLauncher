@@ -99,7 +99,7 @@ class SettingsMenuAdapter(
                 )
             )
 
-                //R.layout.settings_homescreen_item
+            //R.layout.settings_homescreen_item
             else -> HomescreenItemViewHolder(
                 SettingsHomescreenItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
@@ -298,7 +298,7 @@ class SettingsMenuAdapter(
     }
 
     inner class HomescreenItemViewHolder(val binding: SettingsHomescreenItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: HomescreenItem) {
             when (data) {
@@ -309,11 +309,41 @@ class SettingsMenuAdapter(
 
         fun bindPageData(data: SettingsPageItem) {
             binding.appIcon.visibility = View.GONE
-            binding.textLeft.typeface = Typeface.DEFAULT_BOLD
+            binding.textLeft.apply {
+                typeface = Typeface.DEFAULT_BOLD
+                text = data.pageName
+            }
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+
+            binding.addNewButton.setOnClickListener {
+                data.addFolder()
+            }
+
+            binding.deleteButton.setOnClickListener {
+                data.remove()
+            }
+
         }
 
         fun bindFolderData(data: SettingsFolderItem) {
+            binding.appIcon.visibility = View.GONE
+            binding.textLeft.text = data.folderName
 
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+
+            binding.addNewButton.setOnClickListener {
+                data.addItem()
+            }
+
+            binding.deleteButton.setOnClickListener {
+                data.remove()
+            }
+
+            binding.editButton.setOnClickListener {
+                data.editFolder()
+            }
         }
     }
 

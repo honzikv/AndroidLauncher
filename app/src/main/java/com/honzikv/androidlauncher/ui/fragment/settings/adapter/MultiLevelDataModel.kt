@@ -90,6 +90,7 @@ class SettingsFolderItem(
     val folderName: String,
     val remove: () -> Unit,
     val addItem: () -> Unit,
+    val editFolder: () -> Unit,
     level: Int
 ) : RecyclerViewItem(level), HomescreenItem
 
