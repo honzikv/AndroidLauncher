@@ -70,7 +70,7 @@ class SettingsFragment : Fragment() {
         binding.multiLevelRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
-            //Removes listeners so buttons on views are usable
+            //Removes listeners so buttons react to single click instead of double click
             removeItemClickListeners()
         }
 
@@ -108,7 +108,7 @@ class SettingsFragment : Fragment() {
         })
     }
 
-    fun updateHomescreenItems(
+    private fun updateHomescreenItems(
         homescreenMenu: HomescreenMenu,
         pagesWithFolders: List<PageWithFolders>
     ) {

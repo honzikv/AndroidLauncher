@@ -18,7 +18,7 @@
     </style>
 
     <style name="text_subheader_bold" parent="text_header_bold">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="text_subheader" parent="text_subheader_bold">
@@ -27,7 +27,7 @@
 
     <style name="text_dialog_item">
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:maxLines">1</item>
     </style>
 
