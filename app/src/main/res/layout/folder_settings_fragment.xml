@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.fragment.homescreen.FolderSettingsDialogFragment">
+    tools:context=".ui.fragment.dialog.FolderSettingsDialogFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorDock"
         app:cardCornerRadius="@dimen/card_view_default_radius"
         app:layout_constraintBottom_toBottomOf="parent"

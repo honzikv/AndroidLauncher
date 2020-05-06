@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+            <ImageView
+                android:id="@+id/minimizeIcon"
                 android:layout_width="35dp"
                 android:layout_height="8dp"
                 android:layout_marginStart="8dp"
@@ -26,6 +26,7 @@
                 android:background="@drawable/minimize_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/folderName"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/folderName"
                 app:layout_constraintTop_toTopOf="@+id/folderName" />
 

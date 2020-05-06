@@ -1,11 +1,14 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
@@ -13,7 +16,7 @@ import com.honzikv.androidlauncher.ui.constants.MATERIAL_MIN_LENGTH
 import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.models.RecyclerViewItem
-import timber.log.Timber
+import kotlinx.android.synthetic.main.settings_homescreen_item.view.*
 
 class SettingsMenuAdapter(
     private var items: MutableList<RecyclerViewItem>
@@ -84,8 +87,21 @@ class SettingsMenuAdapter(
                 )
             )
 
-            else -> TextLeftViewHolder(
+            R.layout.settings_text_left_item -> TextLeftViewHolder(
                 SettingsTextLeftItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
+            R.layout.settings_sub_header_item -> SubHeaderViewHolder(
+                SettingsSubHeaderItemBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
+                //R.layout.settings_homescreen_item
+            else -> HomescreenItemViewHolder(
+                SettingsHomescreenItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -113,6 +129,12 @@ class SettingsMenuAdapter(
 
             R.layout.settings_text_left_item -> (holder as TextLeftViewHolder)
                 .bind(item as TextLeftItem)
+
+            R.layout.settings_sub_header_item -> (holder as SubHeaderViewHolder)
+                .bind(item as SubHeaderItem)
+
+            R.layout.settings_homescreen_item -> (holder as HomescreenItemViewHolder)
+                .bind(item as HomescreenItem)
         }
     }
 
@@ -124,6 +146,8 @@ class SettingsMenuAdapter(
             is TextLeftRightItem -> R.layout.settings_text_left_right_item
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
+            is SubHeaderItem -> R.layout.settings_sub_header_item
+            is HomescreenItem -> R.layout.settings_homescreen_item
             else -> -1 //never happens
         }
     }
@@ -240,17 +264,56 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftItem) {
-            Timber.d("binding")
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
             binding.textLeft.apply {
-                Timber.d("text is ${data.textLeft}")
                 text = data.textLeft
                 setTextColor(childTextFillColor)
             }
 
             binding.root.setOnClickListener { data.functionOnClick() }
+        }
+    }
+
+    inner class SubHeaderViewHolder(val binding: SettingsSubHeaderItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: SubHeaderItem) {
+
+            binding.cardView.apply {
+                setCardBackgroundColor(cardViewBackgroundColor)
+                radius = RADIUS_CARD_VIEW
+                layoutParams = getCardViewMargin(layoutParams)
+            }
+
+            binding.constraintLayout.layoutParams =
+                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+
+            binding.textLeft.apply {
+                text = data.textLeft
+                setTextColor(childTextFillColor)
+            }
+        }
+    }
+
+    inner class HomescreenItemViewHolder(val binding: SettingsHomescreenItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: HomescreenItem) {
+            when (data) {
+                is SettingsPageItem -> bindPageData(data)
+                is SettingsFolderItem -> bindFolderData(data)
+            }
+        }
+
+        fun bindPageData(data: SettingsPageItem) {
+            binding.appIcon.visibility = View.GONE
+            binding.textLeft.typeface = Typeface.DEFAULT_BOLD
+        }
+
+        fun bindFolderData(data: SettingsFolderItem) {
+
         }
     }
 

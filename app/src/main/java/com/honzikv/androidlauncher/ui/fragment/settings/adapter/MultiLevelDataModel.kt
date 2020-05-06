@@ -1,6 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
@@ -67,3 +68,34 @@ class SpinnerItem(
 
     val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
 }
+
+class SubHeaderItem(
+    val textLeft: String,
+    level: Int
+) : RecyclerViewItem(level)
+
+/**
+ * Tag interface
+ */
+interface HomescreenItem
+
+class SettingsPageItem(
+    val pageName: String,
+    val remove: () -> Unit,
+    val addFolder: () -> Unit,
+    level: Int
+) : RecyclerViewItem(level), HomescreenItem
+
+class SettingsFolderItem(
+    val folderName: String,
+    val remove: () -> Unit,
+    val addItem: () -> Unit,
+    level: Int
+) : RecyclerViewItem(level), HomescreenItem
+
+class SettingAppItem(
+    val packageName: String,
+    val icon: Drawable,
+    val remove: () -> Unit,
+    level: Int
+) : RecyclerViewItem(level), HomescreenItem

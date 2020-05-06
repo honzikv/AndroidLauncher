@@ -66,4 +66,6 @@ class HomescreenRepository(
 
     suspend fun deleteFolder(folderModel: FolderModel) = folderDao.deleteFolder(folderModel)
 
+    suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
+
 }

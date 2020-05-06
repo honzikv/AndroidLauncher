@@ -15,8 +15,8 @@ import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
-import com.honzikv.androidlauncher.ui.fragment.homescreen.FolderSettingsDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.homescreen.FolderSettingsDialogFragment.Companion.FOLDER
+import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment.Companion.FOLDER
 
 class FolderListAdapter(context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -100,6 +100,7 @@ class FolderListAdapter(context: Context) :
                 setTextColor(data.folder.itemColor)
                 text = data.folder.title
             }
+         //   DrawableCompat.wrap(binding.minimizeIcon.drawable).setTint(data.folder.itemColor)
             binding.folderCardView.setBackgroundColor(data.folder.backgroundColor)
         }
     }
@@ -122,6 +123,7 @@ class FolderListAdapter(context: Context) :
                 text = data.itemList.map(FolderItemModel::label).joinToString(", ")
                 setTextColor(data.folder.itemColor)
             }
+         //   DrawableCompat.wrap(binding.circleIcon.drawable).setTint(data.folder.itemColor)
             binding.folderCardView.setCardBackgroundColor(data.folder.backgroundColor)
         }
     }

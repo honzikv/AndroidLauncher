@@ -59,5 +59,4 @@ val module = module {
     viewModel { AppDrawerViewModel(get(), get(), get()) }
     viewModel { DockViewModel(get()) }
     viewModel { SettingsViewModel(get(), get()) }
-    viewModel { FolderSettingsViewModel(get()) }
 }

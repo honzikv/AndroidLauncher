@@ -1,20 +1,19 @@
-package com.honzikv.androidlauncher.ui.fragment.homescreen
+package com.honzikv.androidlauncher.ui.fragment.dialog
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.fragment.app.DialogFragment
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.databinding.FolderSettingsFragmentBinding
-import com.honzikv.androidlauncher.viewmodel.FolderSettingsViewModel
+import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
@@ -23,7 +22,7 @@ import timber.log.Timber
 
 class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
 
-    private val folderSettingsViewModel: FolderSettingsViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by inject()
 
     companion object {
         const val FOLDER = "folder"
@@ -32,9 +31,12 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
          * [bundle] containing serialized folderModel
          */
         fun newInstance(bundle: Bundle) =
-            FolderSettingsDialogFragment().apply {
+            FolderSettingsDialogFragment()
+                .apply {
                 arguments = bundle
-                Timber.d("Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(FOLDER)}")
+                Timber.d("Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(
+                    FOLDER
+                )}")
             }
     }
 
@@ -60,7 +62,7 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
     private fun initialize(binding: FolderSettingsFragmentBinding) {
         Timber.d("Initializing dialog")
         binding.backgroundColorCircle.also { backgroundCircle ->
-            backgroundCircle.setBackgroundColor(folderModel.backgroundColor)
+            DrawableCompat.wrap(backgroundCircle.drawable).setTint(folderModel.backgroundColor)
             backgroundCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.backgroundColor)
@@ -69,7 +71,7 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
                         override fun onColorSelected(color: Int) {
                             backgroundCircle.setColorFilter(color)
                             folderModel.backgroundColor = color
-                            folderSettingsViewModel.updateFolder(folderModel)
+                            homescreenViewModel.updateFolder(folderModel)
                         }
 
                     })
@@ -79,7 +81,7 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
         }
 
         binding.textColorCircle.also { textColorCircle ->
-            textColorCircle.setBackgroundColor(folderModel.itemColor)
+            DrawableCompat.wrap(textColorCircle.drawable).setTint(folderModel.itemColor)
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.backgroundColor)
@@ -88,7 +90,7 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
                         override fun onColorSelected(color: Int) {
                             textColorCircle.setColorFilter(color)
                             folderModel.itemColor = color
-                            folderSettingsViewModel.updateFolder(folderModel)
+                            homescreenViewModel.updateFolder(folderModel)
                         }
                     })
                     .create()
@@ -108,7 +110,7 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
                 setView(editText)
                 setPositiveButton("Confirm") { _, _ ->
                     folderModel.title = editText.text.toString()
-                    folderSettingsViewModel.updateFolder(folderModel)
+                    homescreenViewModel.updateFolder(folderModel)
                 }
                 setNegativeButton("Cancel") { dialog, _ ->
                     dialog.cancel()

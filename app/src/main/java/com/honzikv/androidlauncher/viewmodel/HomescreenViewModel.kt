@@ -4,8 +4,10 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderWithItems
+import com.honzikv.androidlauncher.data.model.PageModel
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 
 class HomescreenViewModel(
@@ -15,7 +17,7 @@ class HomescreenViewModel(
 
     private val currentPageNumber: MutableLiveData<Int> = MutableLiveData(0)
 
-    val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
+    val allPages = Transformations.map(homescreenRepository.allPages) { pageList ->
         return@map pageList.apply {
             forEach { pageWithFolders ->
                 pageWithFolders.folderList.forEach { folderWithItems ->
@@ -29,5 +31,23 @@ class HomescreenViewModel(
         }
     }
 
+
+    fun updateFolder(folderModel: FolderModel) {
+        viewModelScope.launch {
+            homescreenRepository.updateFolder(folderModel)
+        }
+    }
+
+    fun deleteFolder(folderModel: FolderModel) {
+        viewModelScope.launch {
+            homescreenRepository.deleteFolder(folderModel)
+        }
+    }
+
+    fun deletePage(pageModel: PageModel) {
+        viewModelScope.launch {
+            homescreenRepository.deletePage(pageModel)
+        }
+    }
 
 }
