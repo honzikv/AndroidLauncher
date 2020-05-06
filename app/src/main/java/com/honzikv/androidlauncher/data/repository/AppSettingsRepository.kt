@@ -25,11 +25,7 @@ class AppSettingsRepository(
 
         const val SHOW_DOCK_FIELD = "showDock"
 
-        const val MAX_FOLDERS_PER_PAGE = "maxFoldersPerPage"
-
         const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
-
-        const val ALWAYS_SHOW_FOLDER_CONTENT_FIELD = "alwaysShowFolderContent"
 
         const val THEME_PROFILE_FIELD = "themeProfile"
 

@@ -37,6 +37,7 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:hapticFeedbackEnabled="true"
             android:textCursorDrawable="@null"
             app:iconifiedByDefault="false" />
 
@@ -63,6 +64,7 @@
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical" />
+
     </androidx.cardview.widget.CardView>
 
 

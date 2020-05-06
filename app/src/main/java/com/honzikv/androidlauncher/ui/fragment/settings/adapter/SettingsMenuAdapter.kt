@@ -15,11 +15,13 @@ import com.honzikv.androidlauncher.databinding.*
 import com.honzikv.androidlauncher.ui.constants.MATERIAL_MIN_LENGTH
 import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
+import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
 import kotlinx.android.synthetic.main.settings_homescreen_item.view.*
 
 class SettingsMenuAdapter(
-    private var items: MutableList<RecyclerViewItem>
+    private var items: MutableList<RecyclerViewItem>,
+    private val recyclerView: MultiLevelRecyclerView
 ) :
     MultiLevelAdapter(items) {
 
@@ -54,6 +56,11 @@ class SettingsMenuAdapter(
             }
     }
 
+    fun setOnClickExpand(view: View, holder: RecyclerView.ViewHolder) {
+        view.setOnClickListener {
+            recyclerView.toggleItemsGroup(holder.adapterPosition)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -167,6 +174,8 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: HeaderItem) {
+            setOnClickExpand(binding.root, this)
+
             binding.cardView.apply {
                 setCardBackgroundColor(cardViewBackgroundColor)
                 radius = RADIUS_CARD_VIEW
@@ -189,6 +198,7 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SwitchItem) {
+            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -210,6 +220,7 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SpinnerItem) {
+            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -244,6 +255,7 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftRightItem) {
+            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -264,6 +276,7 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftItem) {
+            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -280,7 +293,7 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SubHeaderItem) {
-
+            setOnClickExpand(binding.cardView, this)
             binding.cardView.apply {
                 setCardBackgroundColor(cardViewBackgroundColor)
                 radius = RADIUS_CARD_VIEW
@@ -301,13 +314,14 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: HomescreenItem) {
+            setOnClickExpand(binding.constraintLayout,this)
             when (data) {
                 is SettingsPageItem -> bindPageData(data)
                 is SettingsFolderItem -> bindFolderData(data)
             }
         }
 
-        fun bindPageData(data: SettingsPageItem) {
+        private fun bindPageData(data: SettingsPageItem) {
             binding.appIcon.visibility = View.GONE
             binding.textLeft.apply {
                 typeface = Typeface.DEFAULT_BOLD
@@ -326,7 +340,7 @@ class SettingsMenuAdapter(
 
         }
 
-        fun bindFolderData(data: SettingsFolderItem) {
+        private fun bindFolderData(data: SettingsFolderItem) {
             binding.appIcon.visibility = View.GONE
             binding.textLeft.text = data.folderName
 

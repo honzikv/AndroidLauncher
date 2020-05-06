@@ -65,11 +65,13 @@ class SettingsFragment : Fragment() {
             itemList.add(getRoot())
         }
 
-        multiLevelAdapter = SettingsMenuAdapter(itemList)
+        multiLevelAdapter = SettingsMenuAdapter(itemList, binding.multiLevelRecyclerView)
 
         binding.multiLevelRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
+            //Removes listeners so buttons on views are usable
+            removeItemClickListeners()
         }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {

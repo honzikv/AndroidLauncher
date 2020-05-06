@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
+ * This should theoretically provide smoother user experience since it will transform data in the background
  * Source:
  * https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
  */
@@ -19,7 +20,6 @@ object BackgroundTransformations {
     ): LiveData<Y> {
         val result = MediatorLiveData<Y>()
 
-        //This updates data in the background thread rather than doing it on the UI thread
         result.addSource(source, Observer { x ->
             if (x == null) return@Observer
             CoroutineScope(Dispatchers.Default).launch {
