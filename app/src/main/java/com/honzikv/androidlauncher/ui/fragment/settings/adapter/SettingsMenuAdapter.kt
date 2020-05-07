@@ -291,9 +291,8 @@ class SettingsMenuAdapter(
 
         fun bind(data: SubHeaderItem) {
             setOnClickExpand(binding.cardView, this)
-            binding.plusDrawable.setOnClickListener {
-                data.functionOnClick()
-            }
+            binding.plusDrawable.setOnClickListener { data.functionOnClick() }
+
             binding.cardView.apply {
                 setCardBackgroundColor(cardViewBackgroundColor)
                 radius = RADIUS_CARD_VIEW
@@ -330,13 +329,9 @@ class SettingsMenuAdapter(
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
-            binding.addNewButton.setOnClickListener {
-                data.addFolder()
-            }
+            binding.addNewButton.setOnClickListener { data.addFolder() }
 
-            binding.deleteButton.setOnClickListener {
-                data.remove()
-            }
+            binding.removeButton.setOnClickListener { data.remove() }
 
         }
 
@@ -347,17 +342,20 @@ class SettingsMenuAdapter(
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
-            binding.addNewButton.setOnClickListener {
-                data.addItem()
-            }
+            binding.addNewButton.setOnClickListener { data.addItem() }
 
-            binding.deleteButton.setOnClickListener {
-                data.remove()
-            }
+            binding.removeButton.setOnClickListener { data.remove() }
 
-            binding.editButton.setOnClickListener {
-                data.editFolder()
-            }
+            binding.editButton.setOnClickListener { data.editFolder() }
+        }
+
+        private fun bindFolderItemData(data: SettingsAppItem) {
+            binding.textLeft.text = data.label
+            binding.appIcon.setImageDrawable(data.icon)
+
+            binding.addNewButton.visibility = View.GONE
+            binding.editButton.visibility = View.GONE
+            binding.removeButton.setOnClickListener { data.remove() }
         }
     }
 

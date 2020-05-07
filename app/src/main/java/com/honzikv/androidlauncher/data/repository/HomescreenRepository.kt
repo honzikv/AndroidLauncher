@@ -80,4 +80,6 @@ class HomescreenRepository(
     suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
 
     suspend fun getLastPageNumber() : Int? = pageDao.getLastPageNumber()
+
+    suspend fun addFolder(folderModel: FolderModel): Long = folderDao.addFolder(folderModel)
 }

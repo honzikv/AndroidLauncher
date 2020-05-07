@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="false"
     tools:context=".ui.fragment.dialog.CreatePageDialogFragment">
 
     <androidx.cardview.widget.CardView
@@ -22,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <CheckBox
                 android:id="@+id/pageAsFirstCheckBox"
                 android:layout_width="wrap_content"
@@ -36,6 +36,7 @@
 
             <TextView
                 android:id="@+id/pageAsFirstText"
+                style="@style/text_dialog_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -43,7 +44,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Add Page as First"
-                style="@style/text_dialog_item"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pageAsFirstCheckBox"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -73,6 +73,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginEnd="16dp"
+        android:clickable="true"
         android:src="@drawable/ic_done_white_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/createPage"
         app:layout_constraintEnd_toEndOf="parent"

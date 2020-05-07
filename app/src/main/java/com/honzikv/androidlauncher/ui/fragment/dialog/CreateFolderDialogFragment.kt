@@ -2,28 +2,42 @@ package com.honzikv.androidlauncher.ui.fragment.dialog
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 
-import com.honzikv.androidlauncher.R
+import com.honzikv.androidlauncher.data.model.FolderModel
+import com.honzikv.androidlauncher.data.model.PageModel
 import com.honzikv.androidlauncher.databinding.CreateFolderDialogFragmentBinding
+import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import me.priyesh.chroma.ChromaDialog
+import me.priyesh.chroma.ColorMode
+import me.priyesh.chroma.ColorSelectListener
+import org.koin.android.ext.android.inject
 
-class CreateFolderDialogFragment : DialogFragment() {
+class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragment() {
+
 
     companion object {
-        fun newInstance() = CreateFolderDialogFragment()
+        const val PAGE = "page"
+
+        fun newInstance(pageWithFolders: PageModel) = CreateFolderDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString(PAGE, Gson().toJson(pageWithFolders))
+            }
+        }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val homescreenViewModel: HomescreenViewModel by inject()
 
-    var backgroundColor = Color.WHITE
-    var backgroundText = Color.DKGRAY
-    var name = ""
+    private lateinit var page: PageModel
+
+    private var backgroundColor = Color.WHITE
+    private var textColor = Color.DKGRAY
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +48,52 @@ class CreateFolderDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    fun initialize(binding: CreateFolderDialogFragmentBinding) {
+    private fun initialize(binding: CreateFolderDialogFragmentBinding) {
+        page = Gson().fromJson(requireArguments()[PAGE] as String, PageModel::class.java)
 
+        binding.confirmButton.setOnClickListener {
+            val folder = FolderModel(
+                backgroundColor = backgroundColor,
+                itemColor = textColor,
+                title = binding.folderEditText.text.toString()
+            )
+            homescreenViewModel.addFolderToPage(folder, page)
+            dismiss()
+        }
+
+        binding.backgroundColorCircle.also { backgroundColorCircle ->
+            DrawableCompat.wrap(backgroundColorCircle.drawable).setTint(backgroundColor)
+            backgroundColorCircle.setOnClickListener {
+                ChromaDialog.Builder()
+                    .initialColor(backgroundColor)
+                    .colorMode(ColorMode.ARGB)
+                    .onColorSelected(object : ColorSelectListener {
+                        override fun onColorSelected(color: Int) {
+                            backgroundColorCircle.setColorFilter(color)
+                            backgroundColor = color
+                        }
+                    })
+                    .create()
+                    .show(parentFragmentManager, "backgroundColorDialog")
+            }
+        }
+
+        binding.textColorCircle.also { textColorCircle ->
+            DrawableCompat.wrap(textColorCircle.drawable).setTint(textColor)
+            textColorCircle.setOnClickListener {
+                ChromaDialog.Builder()
+                    .initialColor(textColor)
+                    .colorMode(ColorMode.HSV)
+                    .onColorSelected(object : ColorSelectListener {
+                        override fun onColorSelected(color: Int) {
+                            textColorCircle.setColorFilter(color)
+                            textColor = color
+                        }
+                    })
+                    .create()
+                    .show(parentFragmentManager, "textColorDialog")
+            }
+        }
     }
 
 }

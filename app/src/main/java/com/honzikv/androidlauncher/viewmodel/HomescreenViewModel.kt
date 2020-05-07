@@ -27,33 +27,29 @@ class HomescreenViewModel(
     }
 
 
-    fun updateFolder(folderModel: FolderModel) {
-        viewModelScope.launch {
-            homescreenRepository.updateFolder(folderModel)
+    fun updateFolder(folderModel: FolderModel) = viewModelScope.launch {
+        homescreenRepository.updateFolder(folderModel)
+    }
+
+    fun deleteFolder(folderModel: FolderModel) = viewModelScope.launch {
+        homescreenRepository.deleteFolder(folderModel)
+    }
+
+    fun deletePage(pageModel: PageModel) = viewModelScope.launch {
+        homescreenRepository.deletePage(pageModel)
+    }
+
+    fun addPage(addFirst: Boolean) = viewModelScope.launch {
+        if (!addFirst) {
+            homescreenRepository.addPageAsLast()
+        } else {
+            homescreenRepository.addPageAsFirst()
         }
     }
 
-    fun deleteFolder(folderModel: FolderModel) {
-        viewModelScope.launch {
-            homescreenRepository.deleteFolder(folderModel)
-        }
-    }
-
-    fun deletePage(pageModel: PageModel) {
-        viewModelScope.launch {
-            homescreenRepository.deletePage(pageModel)
-        }
-    }
-
-    fun addPage(addFirst: Boolean) {
-        viewModelScope.launch {
-            if (!addFirst) {
-                homescreenRepository.addPageAsLast()
-            }
-            else {
-                homescreenRepository.addPageAsFirst()
-            }
-        }
+    fun addFolderToPage(folderModel: FolderModel, pageModel: PageModel) = viewModelScope.launch {
+        val folderId = homescreenRepository.addFolder(folderModel)
+        homescreenRepository.addFolderToPage(folderId, pageModel.id!!)
     }
 
 }

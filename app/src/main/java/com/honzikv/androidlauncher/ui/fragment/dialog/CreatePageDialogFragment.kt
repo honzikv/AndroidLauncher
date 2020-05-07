@@ -12,6 +12,7 @@ import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.CreatePageDialogFragmentBinding
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class CreatePageDialogFragment : BottomSheetDialogFragment() {
 
@@ -27,12 +28,12 @@ class CreatePageDialogFragment : BottomSheetDialogFragment() {
     ): View? {
         val binding = CreatePageDialogFragmentBinding.inflate(inflater)
         initialize(binding)
-
-        return inflater.inflate(R.layout.create_page_dialog_fragment, container, false)
+        return binding.root
     }
 
     private fun initialize(binding: CreatePageDialogFragmentBinding) {
         binding.confirmButton.setOnClickListener {
+            Timber.d("Adding page")
             homescreenViewModel.addPage(binding.pageAsFirstCheckBox.isChecked)
             dismiss()
         }

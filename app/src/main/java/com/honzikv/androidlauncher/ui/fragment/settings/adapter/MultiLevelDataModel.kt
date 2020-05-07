@@ -95,7 +95,8 @@ class SettingsFolderItem(
     level: Int
 ) : RecyclerViewItem(level), HomescreenItem
 
-class SettingAppItem(
+class SettingsAppItem(
+    val label: String,
     val packageName: String,
     val icon: Drawable,
     val remove: () -> Unit,

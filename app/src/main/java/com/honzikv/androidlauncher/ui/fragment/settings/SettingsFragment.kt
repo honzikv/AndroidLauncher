@@ -86,6 +86,7 @@ class SettingsFragment : Fragment() {
 
         settingsViewModel.allThemes.observe(viewLifecycleOwner, {
             val selectTheme = lookAndFeelMenu.selectTheme
+
             val newItems = mutableListOf<Displayable>(object : Displayable {
                 override fun toString(): String {
                     return "Choose a Theme"
@@ -137,7 +138,8 @@ class SettingsFragment : Fragment() {
             "Page ${pageWithFolders.page.pageNumber + 1}",
             { homescreenViewModel.deletePage(pageWithFolders.page) },
             {
-                val fragment = CreateFolderDialogFragment.newInstance()
+
+                val fragment = CreateFolderDialogFragment.newInstance(pageWithFolders.page)
                 fragment.show(requireActivity().supportFragmentManager, "createFolder")
             },
             level + 1
