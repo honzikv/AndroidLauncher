@@ -63,6 +63,8 @@ class SettingsFragment : Fragment() {
         val homescreenMenu = HomescreenMenu(settingsViewModel, requireActivity()).apply {
             position = itemList.size
             itemList.add(getRoot())
+
+
         }
 
         multiLevelAdapter = SettingsMenuAdapter(itemList, binding.multiLevelRecyclerView)

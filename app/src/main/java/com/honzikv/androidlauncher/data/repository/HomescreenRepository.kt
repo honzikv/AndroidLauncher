@@ -1,6 +1,7 @@
 package com.honzikv.androidlauncher.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.room.Transaction
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
 import com.honzikv.androidlauncher.data.model.FolderItemModel
@@ -17,22 +18,32 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
-    val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPages()
+    val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPagesLiveData()
 
-    suspend fun addPageAsLast(page: PageModel): Long = withContext(Dispatchers.IO) {
-        val pages = pageDao.getAllPagesAsMutable()
-        val lastPageNumber = if (pages.isEmpty()) {
-            -1
-        } else {
-            pages[pages.size - 1].pageNumber
+    /**
+     * Adds new empty page to the database
+     * @return id of added page
+     */
+    suspend fun addPageAsLast(): Long = withContext(Dispatchers.IO) {
+        val lastPage = pageDao.getLastPageNumber()
+        return@withContext if (lastPage == null) {
+            pageDao.addPage(PageModel(pageNumber = 0))
+        }
+        else {
+            pageDao.addPage(PageModel(pageNumber = lastPage + 1))
         }
 
-        page.pageNumber = lastPageNumber + 1
-        return@withContext pageDao.addPage(page)
+    }
+
+    suspend fun addPageAsFirst(): Long = withContext(Dispatchers.IO) {
+        val pages = pageDao.getAllPages()
+        pages.forEach { it.pageNumber = it.pageNumber + 1 }
+        pageDao.updatePageList(pages)
+        pageDao.addPage(PageModel())
     }
 
     suspend fun removePage(page: PageModel) {
-        val pages = pageDao.getAllPagesAsMutable()
+        val pages = pageDao.getAllPages()
         for (i in page.pageNumber..pages.size) {
             pages[i].pageNumber = pages[i].pageNumber - 1
         }
@@ -68,4 +79,5 @@ class HomescreenRepository(
 
     suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
 
+    suspend fun getLastPageNumber() : Int? = pageDao.getLastPageNumber()
 }

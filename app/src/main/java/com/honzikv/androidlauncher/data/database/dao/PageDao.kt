@@ -11,7 +11,7 @@ interface PageDao {
 
     @Transaction
     @Query("SELECT * FROM PageModel ORDER BY pageNumber ASC")
-    fun getAllPages(): LiveData<List<PageWithFolders>>
+    fun getAllPagesLiveData(): LiveData<List<PageWithFolders>>
 
     @Update
     suspend fun updatePage(page: PageModel)
@@ -20,7 +20,7 @@ interface PageDao {
     suspend fun deletePage(page: PageModel)
 
     @Query("SELECT * FROM PageModel ORDER BY pageNumber ASC")
-    suspend fun getAllPagesAsMutable() : MutableList<PageModel>
+    suspend fun getAllPages() : MutableList<PageModel>
 
     @Insert
     suspend fun addPage(page: PageModel): Long
@@ -33,5 +33,8 @@ interface PageDao {
 
     @Query("SELECT * FROM FolderItemModel")
     fun getAllItems(): LiveData<List<FolderItemModel>>
+
+    @Query("SELECT MAX(pageNumber) FROM PageModel")
+    fun getLastPageNumber(): Int?
 
 }

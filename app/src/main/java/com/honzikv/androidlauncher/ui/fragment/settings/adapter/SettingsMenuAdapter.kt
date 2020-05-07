@@ -2,13 +2,11 @@ package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
@@ -17,7 +15,6 @@ import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
-import kotlinx.android.synthetic.main.settings_homescreen_item.view.*
 
 class SettingsMenuAdapter(
     private var items: MutableList<RecyclerViewItem>,
@@ -100,8 +97,8 @@ class SettingsMenuAdapter(
                 )
             )
 
-            R.layout.settings_sub_header_item -> SubHeaderViewHolder(
-                SettingsSubHeaderItemBinding.inflate(
+            R.layout.settings_sub_header_icon_right_item -> SubHeaderIconRightViewHolder(
+                SettingsSubHeaderIconRightItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -137,7 +134,7 @@ class SettingsMenuAdapter(
             R.layout.settings_text_left_item -> (holder as TextLeftViewHolder)
                 .bind(item as TextLeftItem)
 
-            R.layout.settings_sub_header_item -> (holder as SubHeaderViewHolder)
+            R.layout.settings_sub_header_icon_right_item -> (holder as SubHeaderIconRightViewHolder)
                 .bind(item as SubHeaderItem)
 
             R.layout.settings_homescreen_item -> (holder as HomescreenItemViewHolder)
@@ -153,7 +150,7 @@ class SettingsMenuAdapter(
             is TextLeftRightItem -> R.layout.settings_text_left_right_item
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
-            is SubHeaderItem -> R.layout.settings_sub_header_item
+            is SubHeaderItem -> R.layout.settings_sub_header_icon_right_item
             is HomescreenItem -> R.layout.settings_homescreen_item
             else -> -1 //never happens
         }
@@ -289,11 +286,14 @@ class SettingsMenuAdapter(
         }
     }
 
-    inner class SubHeaderViewHolder(val binding: SettingsSubHeaderItemBinding) :
+    inner class SubHeaderIconRightViewHolder(val binding: SettingsSubHeaderIconRightItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SubHeaderItem) {
             setOnClickExpand(binding.cardView, this)
+            binding.plusDrawable.setOnClickListener {
+                data.functionOnClick()
+            }
             binding.cardView.apply {
                 setCardBackgroundColor(cardViewBackgroundColor)
                 radius = RADIUS_CARD_VIEW

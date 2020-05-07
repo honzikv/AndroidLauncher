@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.fragment.dialog.CreateFolderDialogFragment">
+    tools:context=".ui.fragment.dialog.CreatePageDialogFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -23,82 +23,45 @@
             android:layout_height="wrap_content">
 
 
-            <EditText
-                android:id="@+id/folderEditText"
+            <CheckBox
+                android:id="@+id/pageAsFirstCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/pageAsFirstText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:ems="10"
-                android:fontFamily="@font/montserrat"
-                android:inputType="textPersonName"
-                android:singleLine="true"
-                android:text="Folder Name"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Add Page as First"
+                style="@style/text_dialog_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/pageAsFirstCheckBox"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/backgroundColor"
-                style="@style/text_dialog_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Background Color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/folderEditText"
-                app:layout_constraintTop_toBottomOf="@+id/folderEditText" />
-
-            <ImageView
-                android:id="@+id/backgroundColorCircle"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/circle"
-                app:layout_constraintBottom_toBottomOf="@+id/backgroundColor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/backgroundColor"
-                app:layout_constraintTop_toTopOf="@+id/backgroundColor" />
-
-            <TextView
-                android:id="@+id/textColor"
-                style="@style/text_dialog_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="Text Color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/backgroundColor"
-                app:layout_constraintTop_toBottomOf="@+id/backgroundColor" />
-
-            <ImageView
-                android:id="@+id/textColorCircle"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/circle"
-                app:layout_constraintBottom_toBottomOf="@+id/textColor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textColor"
-                app:layout_constraintTop_toTopOf="@+id/textColor" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/createPage"
+        style="@style/text_header_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        style="@style/text_header_bold"
-        android:text="Create Folder"
+        android:text="Add New Page"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

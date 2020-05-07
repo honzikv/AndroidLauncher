@@ -48,11 +48,9 @@ class FirstLaunchInitializer(
     suspend fun initialize() = withContext(Dispatchers.Default) {
         Timber.i("Initializing default settings")
         createDefaultThemeProfiles()
-        val pageDeferred = async { createFirstPage() }
+        val pageDeferred = async { homescreenRepository.addPageAsLast() }
         val folderDeferred = async { createGoogleFolder() }
         homescreenRepository.addFolderToPage(folderDeferred.await(), pageDeferred.await())
-        //todo remove createFirstPage()
-        createFirstPage()
         commitInitialized()
     }
 
@@ -63,9 +61,6 @@ class FirstLaunchInitializer(
         Timber.d("Successfully set default variables")
     }
 
-    private suspend fun createFirstPage(): Long = homescreenRepository.addPageAsLast(
-        PageModel()
-    )
 
     /**
      * Creates folder_header with google apps

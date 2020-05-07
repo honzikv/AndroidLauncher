@@ -3,6 +3,7 @@ package com.honzikv.androidlauncher.ui.fragment.settings.menu
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import com.honzikv.androidlauncher.data.model.PageWithFolders
+import com.honzikv.androidlauncher.ui.fragment.dialog.CreatePageDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsPageItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SubHeaderItem
@@ -33,8 +34,14 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         homescreenMenu.level + 1
     )
 
-    val managePages = SubHeaderItem(MANAGE_PAGES, homescreenMenu.level + 1).also {
-    }
+    val managePages = SubHeaderItem(
+        MANAGE_PAGES,
+        {
+            val createPageFragment = CreatePageDialogFragment.newInstance()
+            createPageFragment.show(fragmentActivity.supportFragmentManager, "createPage")
+        },
+        homescreenMenu.level + 1
+    )
 
     init {
         homescreenMenu.addChildren(

@@ -71,6 +71,7 @@ class SpinnerItem(
 
 class SubHeaderItem(
     val textLeft: String,
+    val functionOnClick: () -> Unit,
     level: Int
 ) : RecyclerViewItem(level)
 
