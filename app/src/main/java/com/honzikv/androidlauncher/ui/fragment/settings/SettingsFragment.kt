@@ -24,7 +24,9 @@ import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
+import kotlinx.android.synthetic.main.dock_fragment.*
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class SettingsFragment : Fragment() {
 
@@ -63,8 +65,6 @@ class SettingsFragment : Fragment() {
         val homescreenMenu = HomescreenMenu(settingsViewModel, requireActivity()).apply {
             position = itemList.size
             itemList.add(getRoot())
-
-
         }
 
         multiLevelAdapter = SettingsMenuAdapter(itemList, binding.multiLevelRecyclerView)
@@ -107,6 +107,8 @@ class SettingsFragment : Fragment() {
         })
 
         homescreenViewModel.allPages.observe(viewLifecycleOwner, { pagesWithFolders ->
+            Timber.d("Dataset update")
+            binding.multiLevelRecyclerView.removeAllChildren(listOf(homescreenMenu.managePages))
             updateHomescreenItems(homescreenMenu, pagesWithFolders)
         })
     }
@@ -118,25 +120,24 @@ class SettingsFragment : Fragment() {
 
         val pages = mutableListOf<SettingsPageItem>()
         pagesWithFolders.forEach {
-            pages.add(
-                createPageSubMenu(
-                    it,
-                    homescreenMenu.managePages.level
-                )
-            )
+            pages.add(createPageSubMenu(it, homescreenMenu.managePages.level))
         }
+
         if (homescreenMenu.managePages.hasChildren()) {
             homescreenMenu.managePages.children.clear()
         }
         homescreenMenu.managePages.addChildren(pages as List<RecyclerViewItem>?)
-        multiLevelAdapter.notifyItemChanged(homescreenMenu.position)
+        Timber.d("items = ${multiLevelAdapter.itemCount}")
     }
+
 
     private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageItem {
         //Todo might need list
         val page = SettingsPageItem(
             "Page ${pageWithFolders.page.pageNumber + 1}",
-            { homescreenViewModel.deletePage(pageWithFolders.page) },
+            {
+                homescreenViewModel.deletePage(pageWithFolders.page)
+            },
             {
 
                 val fragment = CreateFolderDialogFragment.newInstance(pageWithFolders.page)
@@ -176,5 +177,6 @@ class SettingsFragment : Fragment() {
         val items = mutableListOf<SettingsFolderItem>()
         return folder
     }
+
 }
 
