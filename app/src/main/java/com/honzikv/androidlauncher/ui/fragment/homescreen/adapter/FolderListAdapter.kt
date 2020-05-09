@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -100,8 +101,8 @@ class FolderListAdapter(context: Context) :
                 setTextColor(data.folder.itemColor)
                 text = data.folder.title
             }
-         //   DrawableCompat.wrap(binding.minimizeIcon.drawable).setTint(data.folder.itemColor)
-            binding.folderCardView.setBackgroundColor(data.folder.backgroundColor)
+            DrawableCompat.wrap(binding.minimizeIcon.drawable).setTint(data.folder.itemColor)
+            binding.folderCardView.setCardBackgroundColor(data.folder.backgroundColor)
         }
     }
 
@@ -123,7 +124,7 @@ class FolderListAdapter(context: Context) :
                 text = data.itemList.map(FolderItemModel::label).joinToString(", ")
                 setTextColor(data.folder.itemColor)
             }
-         //   DrawableCompat.wrap(binding.circleIcon.drawable).setTint(data.folder.itemColor)
+            DrawableCompat.wrap(binding.circleIcon.drawable).setTint(data.folder.itemColor)
             binding.folderCardView.setCardBackgroundColor(data.folder.backgroundColor)
         }
     }

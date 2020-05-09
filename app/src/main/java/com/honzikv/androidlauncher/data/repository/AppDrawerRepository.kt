@@ -41,7 +41,7 @@ class AppDrawerRepository(private val packageManager: PackageManager) {
         }
 
         //sets new list as LiveData value and sorts it alphabetically
-        appList.postValue(apps.apply { sortedWith(compareBy(DrawerApp::label)) })
+        appList.postValue(apps.sortedWith(compareBy(DrawerApp::label)))
     }
 
 }

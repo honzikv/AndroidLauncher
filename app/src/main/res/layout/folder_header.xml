@@ -4,14 +4,17 @@
     android:id="@+id/folderCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardElevation="0dp"
 
-    android:layout_margin="@dimen/text_margin"
+    android:layout_margin="@dimen/card_view_margin"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     app:cardBackgroundColor="#E2252222"
     app:cardCornerRadius="@dimen/default_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:alpha="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,7 +24,7 @@
             android:layout_height="36sp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/circle"
+            android:src="@drawable/circle"
             app:layout_constraintBottom_toBottomOf="@+id/folderName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

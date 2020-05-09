@@ -10,7 +10,7 @@ import com.honzikv.androidlauncher.data.model.PageWithFolders
 interface PageDao {
 
     @Transaction
-    @Query("SELECT * FROM PageModel ORDER BY pageNumber ASC")
+    @Query("SELECT * FROM PageModel")
     fun getAllPagesLiveData(): LiveData<List<PageWithFolders>>
 
     @Update

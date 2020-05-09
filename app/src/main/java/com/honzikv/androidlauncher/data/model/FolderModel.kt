@@ -28,8 +28,36 @@ data class FolderModel(
     var title: String,
 
     var nextAppPosition: Int = 0
-)  {
+) {
     override fun toString() = title
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as FolderModel
+
+        if (id != other.id) return false
+        if (pageId != other.pageId) return false
+        if (position != other.position) return false
+        if (backgroundColor != other.backgroundColor) return false
+        if (itemColor != other.itemColor) return false
+        if (title != other.title) return false
+        if (nextAppPosition != other.nextAppPosition) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + (pageId?.hashCode() ?: 0)
+        result = 31 * result + (position ?: 0)
+        result = 31 * result + backgroundColor
+        result = 31 * result + itemColor
+        result = 31 * result + title.hashCode()
+        result = 31 * result + nextAppPosition
+        return result
+    }
+
 }
 
 /**
@@ -67,7 +95,6 @@ data class FolderItemModel(
     var label: String? = null
 }
 
-
 data class PageWithFolders(
     @Embedded
     val page: PageModel,
@@ -89,8 +116,9 @@ data class FolderWithItems(
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
     val itemList: List<FolderItemModel>
 ) {
-    init {
-        Timber.d("Folder with items, itemlist size = ${itemList.size}")
+    fun restoreState(folderWithItems: FolderWithItems) {
+        Timber.d("setting show items to ${folderWithItems.showItems}")
+        showItems = folderWithItems.showItems
     }
 
     @Ignore

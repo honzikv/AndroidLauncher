@@ -88,6 +88,7 @@ class AppDrawerFragment : Fragment() {
 
         appDrawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
+            Timber.d("Running recycler view animation")
             runAnimationOnRecyclerView(
                 binding.appDrawerRecyclerView,
                 R.anim.drawer_layout_animation_fall_down
@@ -95,6 +96,15 @@ class AppDrawerFragment : Fragment() {
             appDrawerAdapter.notifyDataSetChanged()
         })
 
+        appDrawerViewModel.showSearchBar.observe(viewLifecycleOwner, { show ->
+            if (show) {
+                binding.searchView.visibility = View.VISIBLE
+                binding.searchCardView.visibility = View.VISIBLE
+            } else {
+                binding.searchCardView.visibility = View.GONE
+                binding.searchView.visibility = View.GONE
+            }
+        })
     }
 
     private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {

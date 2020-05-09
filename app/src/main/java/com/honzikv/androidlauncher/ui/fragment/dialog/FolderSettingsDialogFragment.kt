@@ -33,11 +33,13 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
         fun newInstance(bundle: Bundle) =
             FolderSettingsDialogFragment()
                 .apply {
-                arguments = bundle
-                Timber.d("Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(
-                    FOLDER
-                )}")
-            }
+                    arguments = bundle
+                    Timber.d(
+                        "Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(
+                            FOLDER
+                        )}"
+                    )
+                }
     }
 
     private lateinit var folderModel: FolderModel
@@ -120,5 +122,10 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
             }
         }
         Timber.d("Dialog initialized")
+
+        binding.removeFolderText.setOnClickListener {
+            homescreenViewModel.deleteFolder(folderModel)
+            dismiss()
+        }
     }
 }

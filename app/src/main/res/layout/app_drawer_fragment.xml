@@ -60,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="false"
-            android:layoutAnimation="@anim/drawer_layout_animation_fall_down"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical" />
