@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.homescreen.adapter
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +8,12 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.FolderItemModel
-import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
-import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment.Companion.FOLDER
+import com.honzikv.androidlauncher.ui.fragment.dialog.EditFolderSettingsDialogFragment
 
 class FolderListAdapter(context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -43,14 +39,9 @@ class FolderListAdapter(context: Context) :
         val item = folderList[viewHolder.adapterPosition]
         val fragmentActivity = context as FragmentActivity
 
-        val bundle = Bundle().apply {
-            putString(FOLDER, Gson().toJson(item.folder, FolderModel::class.java))
-        }
-        FolderSettingsDialogFragment.newInstance(bundle).apply {
+        EditFolderSettingsDialogFragment.newInstance(item.folder).apply {
             show(fragmentActivity.supportFragmentManager, "folder_edit_settings")
         }
-
-
         return@OnLongClickListener true
     }
 

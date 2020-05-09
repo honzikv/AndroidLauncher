@@ -23,22 +23,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/addNewButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/removeButton"
-        app:layout_constraintEnd_toStartOf="@+id/removeButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textLeft"
-        app:layout_constraintTop_toTopOf="@+id/removeButton"
-        app:srcCompat="@drawable/ic_add_box_white_24dp" />
-
-    <ImageView
         android:id="@+id/removeButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/textLeft"
@@ -50,21 +37,21 @@
 
     <ImageView
         android:id="@+id/editButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/addNewButton"
-        app:layout_constraintEnd_toStartOf="@+id/addNewButton"
+        app:layout_constraintBottom_toBottomOf="@+id/textLeft"
+        app:layout_constraintEnd_toStartOf="@+id/removeButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textLeft"
-        app:layout_constraintTop_toTopOf="@+id/addNewButton"
+        app:layout_constraintTop_toTopOf="@+id/textLeft"
         app:srcCompat="@drawable/ic_edit_white_24dp" />
 
     <ImageView
         android:id="@+id/appIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textLeft"
         app:layout_constraintEnd_toStartOf="@+id/editButton"

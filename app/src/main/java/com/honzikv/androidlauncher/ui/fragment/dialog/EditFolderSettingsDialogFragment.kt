@@ -1,6 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.dialog
 
 import android.app.AlertDialog
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -11,18 +12,25 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
+import androidx.lifecycle.observe
+
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.databinding.FolderSettingsFragmentBinding
+import com.honzikv.androidlauncher.ui.constants.SEMITRANSPARENT_STROKE_COLOR
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import kotlinx.android.synthetic.main.settings_page_item.*
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
+class EditFolderSettingsDialogFragment : BottomSheetDialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
+
+    private val settingsViewModel: SettingsViewModel by inject()
 
     companion object {
         const val FOLDER = "folder"
@@ -30,15 +38,10 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
         /**
          * [bundle] containing serialized folderModel
          */
-        fun newInstance(bundle: Bundle) =
-            FolderSettingsDialogFragment()
+        fun newInstance(folderModel: FolderModel) =
+            EditFolderSettingsDialogFragment()
                 .apply {
-                    arguments = bundle
-                    Timber.d(
-                        "Creating new instance of FolderSettingsFragment\n passed folder = ${bundle.get(
-                            FOLDER
-                        )}"
-                    )
+                    arguments = Bundle().apply { putString(FOLDER, Gson().toJson(folderModel)) }
                 }
     }
 
@@ -62,9 +65,29 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initialize(binding: FolderSettingsFragmentBinding) {
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
+            val cardViewTextColor = theme.drawerTextFillColor
+            val backgroundColor = theme.drawerSearchBackgroundColor
+            val cardViewBackgroundColor = theme.drawerBackgroundColor
+            val textFillColor = theme.drawerTextFillColor
+
+            binding.apply {
+                folderSettings.setTextColor(cardViewTextColor)
+                changeTitleText.setTextColor(cardViewTextColor)
+                constraintLayout.setBackgroundColor(backgroundColor)
+                cardView.setCardBackgroundColor(cardViewBackgroundColor)
+                cardView.elevation = 18f
+                backgroundColorText.setTextColor(textFillColor)
+                textColorText.setTextColor(textFillColor)
+                changeTitleText.setTextColor(textFillColor)
+                removeFolderText.setTextColor(textFillColor)
+            }
+        })
+
+
         Timber.d("Initializing dialog")
         binding.backgroundColorCircle.also { backgroundCircle ->
-            DrawableCompat.wrap(backgroundCircle.drawable).setTint(folderModel.backgroundColor)
+            backgroundCircle.setColorFilter(folderModel.backgroundColor)
             backgroundCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.backgroundColor)
@@ -83,7 +106,10 @@ class FolderSettingsDialogFragment : BottomSheetDialogFragment() {
         }
 
         binding.textColorCircle.also { textColorCircle ->
-            DrawableCompat.wrap(textColorCircle.drawable).setTint(folderModel.itemColor)
+            DrawableCompat.wrap(textColorCircle.drawable).apply {
+                setTint(folderModel.itemColor)
+            }
+            textColorCircle.imageTintList = ColorStateList.valueOf(SEMITRANSPARENT_STROKE_COLOR)
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.backgroundColor)

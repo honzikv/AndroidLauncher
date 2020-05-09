@@ -20,7 +20,7 @@ interface PageDao {
     suspend fun deletePage(page: PageModel)
 
     @Query("SELECT * FROM PageModel ORDER BY pageNumber ASC")
-    suspend fun getAllPages() : MutableList<PageModel>
+    suspend fun getAllPages(): MutableList<PageModel>
 
     @Insert
     suspend fun addPage(page: PageModel): Long
@@ -36,5 +36,11 @@ interface PageDao {
 
     @Query("SELECT MAX(pageNumber) FROM PageModel")
     fun getLastPageNumber(): Int?
+
+    @Query("SELECT * FROM PageModel WHERE id = :pageId")
+    fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders>
+
+    @Query("DELETE FROM PageModel WHERE id = :pageId")
+    suspend fun deletePageWithId(pageId: Long)
 
 }

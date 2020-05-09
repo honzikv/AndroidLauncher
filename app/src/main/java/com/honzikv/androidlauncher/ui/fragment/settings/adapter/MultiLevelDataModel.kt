@@ -75,30 +75,9 @@ class SubHeaderItem(
     level: Int
 ) : RecyclerViewItem(level)
 
-/**
- * Tag interface
- */
-interface HomescreenItem
-
 class SettingsPageItem(
     val pageName: String,
     val remove: () -> Unit,
-    val addFolder: () -> Unit,
+    val moveToPageSettingsFragment: () -> Unit,
     level: Int
-) : RecyclerViewItem(level), HomescreenItem
-
-class SettingsFolderItem(
-    val folderName: String,
-    val remove: () -> Unit,
-    val addItem: () -> Unit,
-    val editFolder: () -> Unit,
-    level: Int
-) : RecyclerViewItem(level), HomescreenItem
-
-class SettingsAppItem(
-    val label: String,
-    val packageName: String,
-    val icon: Drawable,
-    val remove: () -> Unit,
-    level: Int
-) : RecyclerViewItem(level), HomescreenItem
+) : RecyclerViewItem(level)

@@ -7,16 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.honzikv.androidlauncher.data.model.FolderModel
-import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.dialog.AppPickerDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.dialog.CreateFolderDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.dialog.FolderSettingsDialogFragment.Companion.FOLDER
+import com.honzikv.androidlauncher.ui.fragment.dialog.EditPageDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
@@ -24,7 +18,6 @@ import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
-import kotlinx.android.synthetic.main.dock_fragment.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -36,11 +29,13 @@ class SettingsFragment : Fragment() {
 
     private lateinit var multiLevelAdapter: SettingsMenuAdapter
 
+    private lateinit var binding: SettingsFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = SettingsFragmentBinding.inflate(inflater)
+        binding = SettingsFragmentBinding.inflate(inflater)
         setupMenu(binding)
         return binding.root
     }
@@ -107,8 +102,8 @@ class SettingsFragment : Fragment() {
         })
 
         homescreenViewModel.allPages.observe(viewLifecycleOwner, { pagesWithFolders ->
-            Timber.d("Dataset update")
             binding.multiLevelRecyclerView.removeAllChildren(listOf(homescreenMenu.managePages))
+            Timber.d("childrenSize=${homescreenMenu.managePages.children?.size}")
             updateHomescreenItems(homescreenMenu, pagesWithFolders)
         })
     }
@@ -131,52 +126,18 @@ class SettingsFragment : Fragment() {
     }
 
 
-    private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageItem {
-        //Todo might need list
-        val page = SettingsPageItem(
+    private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageItem =
+        SettingsPageItem(
             "Page ${pageWithFolders.page.pageNumber + 1}",
             {
                 homescreenViewModel.deletePage(pageWithFolders.page)
             },
             {
-
-                val fragment = CreateFolderDialogFragment.newInstance(pageWithFolders.page)
-                fragment.show(requireActivity().supportFragmentManager, "createFolder")
+                val fragment = EditPageDialogFragment.newInstance(pageWithFolders.page.id!!)
+                fragment.show(requireActivity().supportFragmentManager, "pageSettingsFragment")
             },
             level + 1
         )
-
-        val folders = mutableListOf<SettingsFolderItem>()
-        pageWithFolders.folderList.forEach { folders.add(createFolderSubMenu(it, page.level)) }
-        return page.apply { addChildren(folders as List<RecyclerViewItem>?) }
-    }
-
-    private fun createFolderSubMenu(
-        folderWithItems: FolderWithItems,
-        level: Int
-    ): SettingsFolderItem {
-        val folder = SettingsFolderItem(
-            folderWithItems.folder.title,
-            { homescreenViewModel.deleteFolder(folderWithItems.folder) },
-            {
-                val fragment = AppPickerDialogFragment.newInstance()
-                fragment.show(requireActivity().supportFragmentManager, "addItem")
-            },
-            {
-                val bundle = Bundle()
-                bundle.putString(
-                    FOLDER,
-                    Gson().toJson(folderWithItems.folder, FolderModel::class.java)
-                )
-                val fragment = FolderSettingsDialogFragment.newInstance(bundle)
-                fragment.show(requireActivity().supportFragmentManager, "edit")
-            },
-            level + 1
-        )
-
-        val items = mutableListOf<SettingsFolderItem>()
-        return folder
-    }
 
 }
 

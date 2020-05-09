@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,9 +102,9 @@ class SettingsMenuAdapter(
                 )
             )
 
-            //R.layout.settings_homescreen_item
-            else -> HomescreenItemViewHolder(
-                SettingsHomescreenItemBinding.inflate(
+            //R.layout.edit_homescreen_container_item
+            else -> PageItemViewHolder(
+                SettingsPageItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -137,8 +136,8 @@ class SettingsMenuAdapter(
             R.layout.settings_sub_header_icon_right_item -> (holder as SubHeaderIconRightViewHolder)
                 .bind(item as SubHeaderItem)
 
-            R.layout.settings_homescreen_item -> (holder as HomescreenItemViewHolder)
-                .bind(item as HomescreenItem)
+            R.layout.settings_page_item -> (holder as PageItemViewHolder)
+                .bind(item as SettingsPageItem)
         }
     }
 
@@ -151,7 +150,7 @@ class SettingsMenuAdapter(
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
             is SubHeaderItem -> R.layout.settings_sub_header_icon_right_item
-            is HomescreenItem -> R.layout.settings_homescreen_item
+            is SettingsPageItem -> R.layout.settings_page_item
             else -> -1 //never happens
         }
     }
@@ -309,54 +308,19 @@ class SettingsMenuAdapter(
         }
     }
 
-    inner class HomescreenItemViewHolder(val binding: SettingsHomescreenItemBinding) :
+    inner class PageItemViewHolder(val binding: SettingsPageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: HomescreenItem) {
-            setOnClickExpand(binding.constraintLayout,this)
-            when (data) {
-                is SettingsPageItem -> bindPageData(data)
-                is SettingsFolderItem -> bindFolderData(data)
-            }
-        }
-
-        private fun bindPageData(data: SettingsPageItem) {
-            binding.appIcon.visibility = View.GONE
-            binding.textLeft.apply {
-                typeface = Typeface.DEFAULT_BOLD
-                text = data.pageName
-            }
+        fun bind(data: SettingsPageItem) {
+            binding.pageName.text = data.pageName
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
-            binding.addNewButton.setOnClickListener { data.addFolder() }
+            binding.editPage.setOnClickListener { data.moveToPageSettingsFragment() }
 
-            binding.removeButton.setOnClickListener { data.remove() }
-
+            binding.deletePage.setOnClickListener { data.remove() }
         }
 
-        private fun bindFolderData(data: SettingsFolderItem) {
-            binding.appIcon.visibility = View.GONE
-            binding.textLeft.text = data.folderName
-
-            binding.constraintLayout.layoutParams =
-                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-
-            binding.addNewButton.setOnClickListener { data.addItem() }
-
-            binding.removeButton.setOnClickListener { data.remove() }
-
-            binding.editButton.setOnClickListener { data.editFolder() }
-        }
-
-        private fun bindFolderItemData(data: SettingsAppItem) {
-            binding.textLeft.text = data.label
-            binding.appIcon.setImageDrawable(data.icon)
-
-            binding.addNewButton.visibility = View.GONE
-            binding.editButton.visibility = View.GONE
-            binding.removeButton.setOnClickListener { data.remove() }
-        }
     }
 
 }

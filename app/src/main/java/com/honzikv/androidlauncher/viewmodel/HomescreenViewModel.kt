@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.*
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.PageModel
+import com.honzikv.androidlauncher.data.model.PageWithFolders
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,24 @@ class HomescreenViewModel(
     fun addFolderToPage(folderModel: FolderModel, pageModel: PageModel) = viewModelScope.launch {
         val folderId = homescreenRepository.addFolder(folderModel)
         homescreenRepository.addFolderToPage(folderId, pageModel.id!!)
+    }
+
+    fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders> =
+        homescreenRepository.getPageWithFolders(pageId)
+
+    fun deletePageWithId(pageId: Long) = viewModelScope.launch {
+        homescreenRepository.deletePageWithId(pageId)
+    }
+
+    fun deleteFolderWithId(folderId: Long) = viewModelScope.launch {
+        homescreenRepository.deleteFolderWithId(folderId)
+    }
+
+    fun swapFolderPositions(folderPosition: Int, adapterPosition1: Int) {
+    }
+
+    fun updateFolders(vararg folders: FolderModel) = viewModelScope.launch {
+        homescreenRepository.updateFolders(*folders)
     }
 
 }

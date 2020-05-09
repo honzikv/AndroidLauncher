@@ -29,4 +29,10 @@ interface FolderDao {
     @Insert
     suspend fun addFolderItem(folderItem: FolderItemModel)
 
+    @Query("DELETE FROM FolderModel WHERE id = :folderId")
+    suspend fun deleteFolderWithId(folderId: Long)
+
+    @Update
+    suspend fun updateFolders(vararg folders: FolderModel)
+
 }
