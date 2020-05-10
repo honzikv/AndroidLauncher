@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+
+import androidx.lifecycle.observe
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -11,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.CreatePageDialogFragmentBinding
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -22,6 +25,8 @@ class CreatePageDialogFragment : BottomSheetDialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
+    private val settingsViewModel: SettingsViewModel by inject()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +37,22 @@ class CreatePageDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun initialize(binding: CreatePageDialogFragmentBinding) {
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
+            val cardViewTextColor = theme.drawerTextFillColor
+            val backgroundColor = theme.drawerSearchBackgroundColor
+            val cardViewBackgroundColor = theme.drawerBackgroundColor
+            val textFillColor = theme.drawerTextFillColor
+
+            binding.apply {
+                constraintLayout.setBackgroundColor(backgroundColor)
+                cardView.setCardBackgroundColor(cardViewBackgroundColor)
+                createPage.setTextColor(textFillColor)
+                confirmButton.setColorFilter(textFillColor)
+                pageAsFirstText.setTextColor(textFillColor)
+                //todo checkbox
+            }
+        })
+
         binding.confirmButton.setOnClickListener {
             Timber.d("Adding page")
             homescreenViewModel.addPage(binding.pageAsFirstCheckBox.isChecked)

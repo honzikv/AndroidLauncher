@@ -46,6 +46,7 @@ val module = module {
         )
     }
 
+    //sharedprefs
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     single {

@@ -20,6 +20,7 @@ import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditPageAdapter
 
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import kotlinx.android.synthetic.main.dock_fragment.*
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -93,6 +94,7 @@ class EditPageDialogFragment : DialogFragment() {
             binding.apply {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
+                constraintLayout.setBackgroundColor(backgroundColor)
 
                 folderAdapter.setTextColor(textFillColor)
                 folderAdapter.notifyDataSetChanged()
