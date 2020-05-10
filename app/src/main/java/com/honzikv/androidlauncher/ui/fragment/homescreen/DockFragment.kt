@@ -44,8 +44,11 @@ class DockFragment : Fragment() {
     private fun initialize(binding: DockFragmentBinding) {
         dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels())
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
-            binding.recyclerView.setBackgroundColor(it.dockBackgroundColor)
-            dockAdapter.setLabelColor(it.dockTextColor)
+            //todo opacity
+            binding.cardView.apply {
+                setCardBackgroundColor(it.dockBackgroundColor)
+            }
+                dockAdapter.setLabelColor(it.dockTextColor)
         })
 
         settingsViewModel.showDockLabels.observe(viewLifecycleOwner, {
@@ -56,12 +59,6 @@ class DockFragment : Fragment() {
             dockAdapter.setDockItems(it)
             dockAdapter.notifyDataSetChanged()
         })
-
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerView.adapter = dockAdapter
-
-        navController = findNavController()
 
         onSwipeTouchListener = object :
             OnSwipeTouchListener(requireContext()) {
@@ -75,6 +72,16 @@ class DockFragment : Fragment() {
                 navigateToSettings()
             }
         }
+
+        binding.recyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = dockAdapter
+            setOnTouchListener(onSwipeTouchListener)
+        }
+
+        navController = findNavController()
+
     }
 
     private fun navigateToSettings() {

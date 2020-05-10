@@ -34,34 +34,9 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
     }
 
     fun setPages(newPageList: List<PageWithFolders>) {
-        if (pages.isNotEmpty()) {
-            restorePreviousState(newPageList)
-        }
         val sorted = newPageList.sortedBy { it.page.pageNumber }
         Timber.d("size = ${sorted.size}")
         this.pages = sorted
-    }
-
-    private fun restorePreviousState(newPageList: List<PageWithFolders>) {
-        val maxIndex = min(pages.size, newPageList.size)
-        for (i in 0 until maxIndex) {
-            if (pages[i].page == newPageList[i].page) {
-                restorePageState(pages[i].folderList, newPageList[i].folderList)
-            }
-        }
-    }
-
-    private fun restorePageState(
-        oldFolderList: List<FolderWithItems>,
-        newFolderList: List<FolderWithItems>
-    ) {
-        val maxIndex = min(oldFolderList.size, newFolderList.size)
-        for (i in 0 until maxIndex) {
-            if (oldFolderList[i].folder == newFolderList[i].folder) {
-                Timber.d("restoring state")
-                newFolderList[i].restoreState(oldFolderList[i])
-            }
-        }
     }
 
     inner class PageViewHolder(val binding: FolderListBinding) :

@@ -1,11 +1,9 @@
 package com.honzikv.androidlauncher.ui.fragment.dialog
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
@@ -20,11 +18,9 @@ import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditPageAdapter
 
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import kotlinx.android.synthetic.main.dock_fragment.*
 import org.koin.android.ext.android.inject
-import java.util.*
 
-class EditPageDialogFragment : DialogFragment() {
+class EditFolderListDialogFragment : DialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
@@ -36,7 +32,7 @@ class EditPageDialogFragment : DialogFragment() {
 
     companion object {
         private const val PAGE_ID = "pageId"
-        fun newInstance(pageId: Long) = EditPageDialogFragment().apply {
+        fun newInstance(pageId: Long) = EditFolderListDialogFragment().apply {
             arguments = Bundle().apply { putLong(PAGE_ID, pageId) }
         }
     }

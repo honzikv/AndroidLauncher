@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.dialog.EditPageDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dialog.EditFolderListDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
@@ -133,7 +133,7 @@ class SettingsFragment : Fragment() {
                 homescreenViewModel.deletePage(pageWithFolders.page)
             },
             {
-                val fragment = EditPageDialogFragment.newInstance(pageWithFolders.page.id!!)
+                val fragment = EditFolderListDialogFragment.newInstance(pageWithFolders.page.id!!)
                 fragment.show(requireActivity().supportFragmentManager, "pageSettingsFragment")
             },
             level + 1
