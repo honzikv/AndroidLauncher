@@ -16,9 +16,9 @@ import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import kotlinx.android.synthetic.main.folder_detail.*
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 class AppPickerDialogFragment : DialogFragment() {
@@ -48,6 +48,7 @@ class AppPickerDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
         folderId = requireArguments()[CONTAINER_ID] as Long
+        Timber.d("Folder id is $folderId")
     }
 
     override fun onCreateView(
@@ -73,7 +74,7 @@ class AppPickerDialogFragment : DialogFragment() {
                 cardView.setCardBackgroundColor(cardViewBackgroundColor)
                 okButton.setColorFilter(textFillColor)
                 chooseApps.setTextColor(textFillColor)
-                appPickerAdapter.setTextcolor(textFillColor)
+                appPickerAdapter.setTextColor(textFillColor)
                 appPickerAdapter.notifyDataSetChanged()
             }
         })
@@ -88,13 +89,16 @@ class AppPickerDialogFragment : DialogFragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+
         //Dock has id of -1 (which is never used by SQLite DB in Folder table)
         if (folderId != getDockFolderId()) {
             //inject only neccessary viewmodel
             homescreenViewModel = get()
             binding.okButton.setOnClickListener {
                 val selectedApps = appPickerAdapter.getSelectedItems()
+                selectedApps.forEach { Timber.d("$it") }
                 homescreenViewModel.addItemsToFolder(folderId, selectedApps)
+                dismiss()
             }
         } else {
             dockViewModel = get()
@@ -105,6 +109,7 @@ class AppPickerDialogFragment : DialogFragment() {
                 } catch (ex: DockIsFullException) {
                     Toast.makeText(requireContext(), ex.message, Toast.LENGTH_LONG).show()
                 }
+                dismiss()
             }
         }
     }

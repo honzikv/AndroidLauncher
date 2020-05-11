@@ -16,7 +16,7 @@ class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder
 
     private var textColor = Color.WHITE
 
-    fun setTextcolor(textColor: Int) {
+    fun setTextColor(textColor: Int) {
         this.textColor = textColor
     }
 
@@ -50,18 +50,15 @@ class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder
                 text = data.label
                 setTextColor(textColor)
             }
-            //todo checkbox color
 
-                binding.constraintLayout.setOnClickListener {
-                    val checkbox = binding.checkBox
+            binding.checkBox.setOnClickListener {
+                binding.checkBox.isSelected = !binding.checkBox.isChecked
 
-                    if (checkbox.isChecked) {
-                        Timber.d("adding $data")
-                        selectedItems.add(data)
-                    } else if (!checkbox.isChecked) {
-                        Timber.d("removing $data")
-                        selectedItems.remove(data)
-                    }
+                if (binding.checkBox.isChecked) {
+                    selectedItems.add(data)
+                } else if (!binding.checkBox.isChecked) {
+                    selectedItems.remove(data)
+                }
             }
         }
 

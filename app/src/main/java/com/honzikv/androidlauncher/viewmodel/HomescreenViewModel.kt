@@ -6,6 +6,7 @@ import com.honzikv.androidlauncher.data.model.*
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomescreenViewModel(
     private val homescreenRepository: HomescreenRepository,
@@ -72,12 +73,14 @@ class HomescreenViewModel(
 
     fun addItemsToFolder(folderId: Long, selectedApps: MutableList<DrawerApp>) =
         viewModelScope.launch {
+            Timber.d("Adding items to folder")
             val folderWithItems = homescreenRepository.getFolderWithItems(folderId)
             val newItems = mutableListOf<FolderItemModel>()
 
             selectedApps.forEach { app ->
                 //Check if collection contains element with same package name, if it doesnt add the item
                 if (!folderWithItems.itemList.any { it.packageName == app.packageName }) {
+                    Timber.d("This app is unique, adding")
                     newItems.add(
                         FolderItemModel(
                             folderId = folderWithItems.folder.id,

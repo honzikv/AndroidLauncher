@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 /**
  * This should theoretically provide smoother user experience since it will transform data in the background
+ * instead of main thread as Transformations utility class does
  * Source:
  * https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
  */
