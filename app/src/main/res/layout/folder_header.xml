@@ -22,13 +22,10 @@
             android:id="@+id/circleIcon"
             android:layout_width="36sp"
             android:layout_height="36sp"
-            android:layout_marginStart="32dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/circle"
             app:layout_constraintBottom_toBottomOf="@+id/folderName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/folderName"
             app:layout_constraintTop_toTopOf="@+id/folderName" />
 
         <TextView
@@ -38,11 +35,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
+            android:maxLines="1"
             android:text="Google Apps"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
+            app:layout_constraintEnd_toStartOf="@+id/circleIcon"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
