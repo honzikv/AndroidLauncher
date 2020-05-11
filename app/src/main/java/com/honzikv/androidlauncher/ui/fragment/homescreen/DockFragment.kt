@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.homescreen
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
+import com.honzikv.androidlauncher.ui.fragment.dialog.EditDockItemsDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.DockAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
@@ -41,6 +43,7 @@ class DockFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: DockFragmentBinding) {
         dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels())
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
@@ -48,7 +51,7 @@ class DockFragment : Fragment() {
             binding.cardView.apply {
                 setCardBackgroundColor(it.dockBackgroundColor)
             }
-                dockAdapter.setLabelColor(it.dockTextColor)
+            dockAdapter.setLabelColor(it.dockTextColor)
         })
 
         settingsViewModel.showDockLabels.observe(viewLifecycleOwner, {
@@ -64,6 +67,7 @@ class DockFragment : Fragment() {
             OnSwipeTouchListener(requireContext()) {
             override fun onSwipeTop() {
                 super.onSwipeTop()
+                Timber.d("Swiping top")
                 navigateToAppDrawer()
             }
 
@@ -77,7 +81,15 @@ class DockFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = dockAdapter
-            setOnTouchListener(onSwipeTouchListener)
+        }
+
+        binding.recyclerView.setOnTouchListener(onSwipeTouchListener)
+        binding.recyclerView.setOnLongClickListener {
+            Timber.d("EditDockItemListDialog is starting")
+            EditDockItemsDialogFragment.newInstance()
+                .show(requireActivity().supportFragmentManager, "editDock")
+
+            return@setOnLongClickListener true
         }
 
         navController = findNavController()

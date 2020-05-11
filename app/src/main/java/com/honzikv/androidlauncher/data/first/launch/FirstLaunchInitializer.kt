@@ -6,7 +6,6 @@ import android.graphics.Color
 import com.google.gson.Gson
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderItemModel
-import com.honzikv.androidlauncher.data.model.PageModel
 import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.data.repository.*
 import com.honzikv.androidlauncher.data.repository.AppSettingsRepository.Companion.THEME_PROFILE_FIELD
@@ -82,7 +81,7 @@ class FirstLaunchInitializer(
                 appList.add(
                     FolderItemModel(
                         folderId = folderId,
-                        systemAppPackageName = appPackage
+                        packageName = appPackage
                     )
                 )
             }

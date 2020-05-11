@@ -26,7 +26,7 @@ class FolderAdapter(
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = folderItems[viewHolder.adapterPosition]
-        context.startActivity(context.packageManager.getLaunchIntentForPackage(item.systemAppPackageName))
+        context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

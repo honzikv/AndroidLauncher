@@ -14,17 +14,20 @@ import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
-import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
-import com.honzikv.androidlauncher.viewmodel.AppDrawerViewModel
+import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 
-class AppDrawerFragment : Fragment() {
+class DrawerFragment : Fragment() {
 
-    private val appDrawerViewModel: AppDrawerViewModel by inject()
+    private val drawerViewModel: DrawerViewModel by inject()
+
+    private val settingsViewModel: SettingsViewModel by inject()
 
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
@@ -72,21 +75,21 @@ class AppDrawerFragment : Fragment() {
             }
         })
 
-        appDrawerViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
+        settingsViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
             useRoundCardView(binding, use)
         })
 
-        appDrawerViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             updateTheme(binding, theme)
         })
 
-        appDrawerViewModel.showDrawerAsGrid.observe(viewLifecycleOwner, { useGrid ->
+        settingsViewModel.showDrawerAsGrid.observe(viewLifecycleOwner, { useGrid ->
             useDrawerAsGrid(binding, useGrid)
             appDrawerAdapter.useGrid = useGrid
             appDrawerAdapter.notifyDataSetChanged()
         })
 
-        appDrawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
+        drawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
             Timber.d("Running recycler view animation")
             runAnimationOnRecyclerView(
@@ -96,7 +99,7 @@ class AppDrawerFragment : Fragment() {
             appDrawerAdapter.notifyDataSetChanged()
         })
 
-        appDrawerViewModel.showSearchBar.observe(viewLifecycleOwner, { show ->
+        settingsViewModel.showSearchBar.observe(viewLifecycleOwner, { show ->
             if (show) {
                 binding.searchView.visibility = View.VISIBLE
                 binding.searchCardView.visibility = View.VISIBLE
@@ -123,8 +126,10 @@ class AppDrawerFragment : Fragment() {
 
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
         if (use) {
-            binding.appDrawerCardView.radius = RADIUS_CARD_VIEW
-            binding.searchCardView.radius = RADIUS_CARD_VIEW
+            binding.appDrawerCardView.radius =
+                RADIUS_CARD_VIEW
+            binding.searchCardView.radius =
+                RADIUS_CARD_VIEW
         } else {
             binding.appDrawerCardView.radius = 0f
             binding.searchCardView.radius = 0f

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.FolderWithItems
 
 @Dao
 interface FolderDao {
@@ -29,10 +30,24 @@ interface FolderDao {
     @Insert
     suspend fun addFolderItem(folderItem: FolderItemModel)
 
-    @Query("DELETE FROM FolderModel WHERE id = :folderId")
+    @Query("DELETE FROM FolderModel WHERE :folderId = id")
     suspend fun deleteFolderWithId(folderId: Long)
 
     @Update
     suspend fun updateFolders(vararg folders: FolderModel)
+
+    @Transaction
+    @Query("SELECT * FROM FolderModel WHERE :folderId = id")
+    suspend fun getFolderWithItems(folderId: Long): FolderWithItems
+
+    @Insert
+    suspend fun insertItemsWithFolderId(items: List<FolderItemModel>)
+
+    @Transaction
+    @Query("SELECT * FROM FolderModel WHERE :folderId = id")
+    fun getFolderWithItemsLiveData(folderId: Long) : LiveData<FolderWithItems>
+
+    @Query("DELETE FROM FolderItemModel WHERE :folderItemId = id")
+    suspend fun deleteFolderItem(folderItemId: Long)
 
 }

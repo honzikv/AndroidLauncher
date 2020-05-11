@@ -13,16 +13,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
 import androidx.lifecycle.observe
+import com.honzikv.androidlauncher.SEMITRANSPARENT_STROKE_COLOR
 
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.databinding.FolderSettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.constants.SEMITRANSPARENT_STROKE_COLOR
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import kotlinx.android.synthetic.main.settings_page_item.*
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
+import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -81,6 +82,7 @@ class EditFolderSettingsDialogFragment : BottomSheetDialogFragment() {
                 textColorText.setTextColor(textFillColor)
                 changeTitleText.setTextColor(textFillColor)
                 removeFolderText.setTextColor(textFillColor)
+                editApps.setTextColor(textFillColor)
             }
         })
 
@@ -152,6 +154,11 @@ class EditFolderSettingsDialogFragment : BottomSheetDialogFragment() {
         binding.removeFolderText.setOnClickListener {
             homescreenViewModel.deleteFolder(folderModel)
             dismiss()
+        }
+
+        binding.editApps.setOnClickListener {
+            EditFolderItemsDialogFragment.newInstance(folderModel.id!!)
+                .show(requireActivity().supportFragmentManager, "editFolderItemsDialog")
         }
     }
 }

@@ -4,19 +4,19 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.data.model.FolderItemModel
+import com.honzikv.androidlauncher.data.model.DockItemModel
+import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 
-class EditFolderAdapter(private val delete: (Long) -> Unit) :
-    RecyclerView.Adapter<EditFolderAdapter.FolderItemViewHolder>() {
+class EditDockAdapter(val delete: (Long) -> Unit) :
+    RecyclerView.Adapter<EditDockAdapter.DockItemViewHolder>() {
 
-    private var itemList = listOf<FolderItemModel>()
+    private var itemList: List<DockItemModel> = mutableListOf()
 
     private var textColor = Color.BLACK
 
-    fun setItemList(itemList: List<FolderItemModel>) {
+    fun setItemList(itemList: List<DockItemModel>) {
         this.itemList = itemList
     }
 
@@ -24,7 +24,7 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
         this.textColor = textColor
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FolderItemViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DockItemViewHolder(
         EditHomescreenContainerItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
@@ -32,24 +32,29 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
 
     override fun getItemCount() = itemList.size
 
-    override fun onBindViewHolder(holder: FolderItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DockItemViewHolder, position: Int) {
         holder.bind(itemList[position])
     }
 
-    inner class FolderItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
+    inner class DockItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: FolderItemModel) {
+        fun bind(data: DockItemModel) {
+            binding.appIcon.setImageDrawable(data.icon)
+            binding.editButton.visibility = View.GONE
             binding.textLeft.apply {
                 text = data.label
                 setTextColor(textColor)
             }
-            binding.editButton.visibility = View.GONE
-            binding.appIcon.setImageDrawable(data.icon)
+
             binding.removeButton.apply {
+                setOnClickListener {
+                    delete(data.id!!)
+                }
                 setColorFilter(textColor)
-                setOnClickListener { delete(data.id!!) }
             }
+
         }
     }
+
 }

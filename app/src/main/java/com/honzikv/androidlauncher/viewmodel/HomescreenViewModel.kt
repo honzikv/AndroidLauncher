@@ -2,10 +2,9 @@ package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
-import com.honzikv.androidlauncher.data.model.FolderModel
-import com.honzikv.androidlauncher.data.model.PageModel
-import com.honzikv.androidlauncher.data.model.PageWithFolders
+import com.honzikv.androidlauncher.data.model.*
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
+import com.honzikv.androidlauncher.transformation.BackgroundTransformations
 import kotlinx.coroutines.launch
 
 class HomescreenViewModel(
@@ -13,12 +12,12 @@ class HomescreenViewModel(
     private val packageManager: PackageManager
 ) : ViewModel() {
 
-    val allPages = Transformations.map(homescreenRepository.allPages) { pageList ->
+    val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
         return@map pageList.apply {
             forEach { pageWithFolders ->
                 pageWithFolders.folderList.forEach { folderWithItems ->
                     folderWithItems.itemList.forEach { item ->
-                        val info = packageManager.getApplicationInfo(item.systemAppPackageName, 0)
+                        val info = packageManager.getApplicationInfo(item.packageName, 0)
                         item.label = info.loadLabel(packageManager).toString()
                         item.icon = info.loadIcon(packageManager)
                     }
@@ -71,4 +70,45 @@ class HomescreenViewModel(
         homescreenRepository.updateFolders(*folders)
     }
 
+    fun addItemsToFolder(folderId: Long, selectedApps: MutableList<DrawerApp>) =
+        viewModelScope.launch {
+            val folderWithItems = homescreenRepository.getFolderWithItems(folderId)
+            val newItems = mutableListOf<FolderItemModel>()
+
+            selectedApps.forEach { app ->
+                //Check if collection contains element with same package name, if it doesnt add the item
+                if (!folderWithItems.itemList.any { it.packageName == app.packageName }) {
+                    newItems.add(
+                        FolderItemModel(
+                            folderId = folderWithItems.folder.id,
+                            packageName = app.packageName
+                        )
+                    )
+                }
+            }
+
+            //Add new items to the database
+            homescreenRepository.addItemsWithFolderId(newItems)
+        }
+
+    fun getFolderWithItemsLiveData(folderId: Long) =
+        BackgroundTransformations.map(
+            homescreenRepository.getFolderWithItemsLiveData(folderId)
+        ) { folderWithItems ->
+            return@map folderWithItems.apply {
+                itemList.forEach { item ->
+                    val info = packageManager.getApplicationInfo(item.packageName, 0)
+                    item.label = info.loadLabel(packageManager).toString()
+                    item.icon = info.loadIcon(packageManager)
+                }
+            }
+        }
+
+
+    fun deleteFolderItem(id: Long) = viewModelScope.launch {
+        homescreenRepository.deleteFolderItem(id)
+    }
+
+    fun getFolderLiveData(folderId: Long): LiveData<FolderModel> =
+        homescreenRepository.getFolderLiveData(folderId)
 }

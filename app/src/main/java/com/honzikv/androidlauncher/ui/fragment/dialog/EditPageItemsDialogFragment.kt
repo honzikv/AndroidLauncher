@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
-import com.honzikv.androidlauncher.ui.constants.MAX_FOLDERS_PER_PAGE
+import com.honzikv.androidlauncher.MAX_FOLDERS_PER_PAGE
 import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditPageAdapter
 
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
 
-class EditFolderListDialogFragment : DialogFragment() {
+class EditPageItemsDialogFragment : DialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by inject()
 
@@ -32,7 +32,7 @@ class EditFolderListDialogFragment : DialogFragment() {
 
     companion object {
         private const val PAGE_ID = "pageId"
-        fun newInstance(pageId: Long) = EditFolderListDialogFragment().apply {
+        fun newInstance(pageId: Long) = EditPageItemsDialogFragment().apply {
             arguments = Bundle().apply { putLong(PAGE_ID, pageId) }
         }
     }

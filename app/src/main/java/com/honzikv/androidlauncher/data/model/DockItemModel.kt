@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class DockItemModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 1,
+    val id: Long? = null,
 
     val packageName: String,
 

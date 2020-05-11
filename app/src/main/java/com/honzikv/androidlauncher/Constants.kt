@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.constants
+package com.honzikv.androidlauncher
 
 import android.graphics.Color
 
@@ -7,5 +7,9 @@ const val MATERIAL_MIN_LENGTH = 8
 const val RADIUS_CARD_VIEW = 32f
 
 const val MAX_FOLDERS_PER_PAGE = 5
+
+const val MAX_ITEMS_IN_DOCK = 4
+
+const val MAX_ITEMS_IN_FOLDER = 8
 
 val SEMITRANSPARENT_STROKE_COLOR = Color.parseColor("#90171616")

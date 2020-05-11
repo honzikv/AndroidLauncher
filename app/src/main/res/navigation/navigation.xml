@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/appDrawerFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.drawer.AppDrawerFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.drawer.DrawerFragment"
         android:label="app_drawer_fragment"
         tools:layout="@layout/app_drawer_fragment" >
         <action

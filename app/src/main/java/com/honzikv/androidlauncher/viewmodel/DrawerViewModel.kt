@@ -8,7 +8,7 @@ import com.honzikv.androidlauncher.data.repository.AppThemeRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class AppDrawerViewModel(
+class DrawerViewModel(
     private val appDrawerRepository: AppDrawerRepository,
     appThemeRepository: AppThemeRepository,
     private val appSettingsRepository: AppSettingsRepository
@@ -26,14 +26,6 @@ class AppDrawerViewModel(
                 updateAppDrawerData()
             }
         }
-
-    val currentTheme = appThemeRepository.getCurrentTheme()
-
-    val useRoundCorners = appSettingsRepository.useRoundCorners
-
-    val showDrawerAsGrid = appSettingsRepository.showDrawerAsGrid
-
-    val showSearchBar = appSettingsRepository.showSearchBar
 
     private fun updateAppDrawerData() =
         viewModelScope.launch { appDrawerRepository.reloadAppList() }

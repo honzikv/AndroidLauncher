@@ -73,7 +73,6 @@ data class FolderModel(
         )]
 )
 data class FolderItemModel(
-
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
@@ -82,7 +81,7 @@ data class FolderItemModel(
     /**
      * Reference to SystemApp via package name
      */
-    val systemAppPackageName: String,
+    val packageName: String,
 
     var position: Int? = null
 

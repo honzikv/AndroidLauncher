@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.data.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
-import com.honzikv.androidlauncher.ui.constants.MATERIAL_MIN_LENGTH
-import com.honzikv.androidlauncher.ui.constants.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.MATERIAL_MIN_LENGTH
+import com.honzikv.androidlauncher.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem

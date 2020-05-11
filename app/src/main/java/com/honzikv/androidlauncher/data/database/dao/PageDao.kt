@@ -37,6 +37,7 @@ interface PageDao {
     @Query("SELECT MAX(pageNumber) FROM PageModel")
     fun getLastPageNumber(): Int?
 
+    @Transaction
     @Query("SELECT * FROM PageModel WHERE id = :pageId")
     fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders>
 

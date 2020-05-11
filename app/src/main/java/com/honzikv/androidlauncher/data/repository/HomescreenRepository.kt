@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.room.Transaction
 import com.honzikv.androidlauncher.data.database.dao.FolderDao
 import com.honzikv.androidlauncher.data.database.dao.PageDao
 import com.honzikv.androidlauncher.data.model.FolderItemModel
@@ -89,4 +88,14 @@ class HomescreenRepository(
     suspend fun deleteFolderWithId(folderId: Long) = folderDao.deleteFolderWithId(folderId)
 
     suspend fun updateFolders(vararg folders: FolderModel) = folderDao.updateFolders(*folders)
+
+    suspend fun getFolderWithItems(folderId: Long) = folderDao.getFolderWithItems(folderId)
+
+    suspend fun addItemsWithFolderId(items: List<FolderItemModel>) = folderDao.insertItemsWithFolderId(items)
+
+    fun getFolderWithItemsLiveData(folderId: Long) = folderDao.getFolderWithItemsLiveData(folderId)
+
+    suspend fun deleteFolderItem(id: Long) = folderDao.deleteFolderItem(id)
+
+    fun getFolderLiveData(folderId: Long): LiveData<FolderModel> = folderDao.getFolderLiveData(folderId)
 }

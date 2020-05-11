@@ -7,5 +7,7 @@ data class DrawerApp(
     val label: String,
     val icon: Drawable
 ) {
-
+    override fun toString(): String {
+        return "DrawerApp(packageName='$packageName', label='$label', icon=$icon)"
+    }
 }
