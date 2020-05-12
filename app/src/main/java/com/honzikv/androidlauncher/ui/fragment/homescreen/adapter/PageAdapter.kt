@@ -53,7 +53,8 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
             binding.folderListRecyclerView.apply {
                 adapter = folderAdapter
                 setOnTouchListener(onSwipeTouchListener)
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = LinearLayoutManager(context).apply {
+                reverseLayout = true}
                 (adapter as FolderListAdapter).notifyDataSetChanged()
             }
         }

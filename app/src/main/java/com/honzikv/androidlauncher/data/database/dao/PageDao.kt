@@ -46,5 +46,4 @@ interface PageDao {
 
     @Query("SELECT * FROM PageModel WHERE pageNumber = 0")
     suspend fun getFirstPage(): PageModel
-
 }

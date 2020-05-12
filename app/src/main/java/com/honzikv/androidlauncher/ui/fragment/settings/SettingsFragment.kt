@@ -134,8 +134,9 @@ class SettingsFragment : Fragment() {
                 homescreenViewModel.deletePage(pageWithFolders.page)
             },
             {
-                val fragment = EditPageItemsDialogFragment.newInstance(pageWithFolders.page.id!!)
-                fragment.show(requireActivity().supportFragmentManager, "pageSettingsFragment")
+                Timber.d("page = ${pageWithFolders.page}")
+                EditPageItemsDialogFragment.newInstance(pageWithFolders.page.id!!)
+                    .show(requireActivity().supportFragmentManager, "pageSettingsFragment")
             },
             level + 1
         )

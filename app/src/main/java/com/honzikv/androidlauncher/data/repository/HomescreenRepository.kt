@@ -10,6 +10,7 @@ import com.honzikv.androidlauncher.data.model.PageWithFolders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class HomescreenRepository(
@@ -36,10 +37,11 @@ class HomescreenRepository(
 
     suspend fun addPageAsFirst(): Long = withContext(Dispatchers.IO) {
         val pages = pageDao.getAllPages()
+        Timber.d("pages size = ${pages.size}")
         pages.forEach { it.pageNumber = it.pageNumber + 1 }
         pageDao.updatePageList(pages)
         //PageModel has default value of position as 0
-        pageDao.addPage(PageModel())
+        return@withContext pageDao.addPage(PageModel())
     }
 
     suspend fun removePage(page: PageModel) {
@@ -59,25 +61,22 @@ class HomescreenRepository(
         val page = pageDeferred.await()
         val folder = folderDeferred.await()
 
+        Timber.d("folderPosition = ${page.nextFolderPosition}")
+        Timber.d("page = $page")
         folder.position = page.nextFolderPosition
         folder.pageId = page.id
         page.nextFolderPosition = page.nextFolderPosition + 1
 
+        Timber.d("updating page and folder")
         pageDao.updatePage(page)
         folderDao.updateFolder(folder)
     }
 
-    suspend fun removeItem(item: FolderItemModel) {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun getFolder(folderId: Long) = folderDao.getFolder(folderId)
+    suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
 
     suspend fun updateFolder(folderModel: FolderModel) = folderDao.updateFolder(folderModel)
 
     suspend fun deleteFolder(folderModel: FolderModel) = folderDao.deleteFolder(folderModel)
-
-    suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
 
     suspend fun addFolder(folderModel: FolderModel): Long = folderDao.addFolderWithoutPage(folderModel)
 

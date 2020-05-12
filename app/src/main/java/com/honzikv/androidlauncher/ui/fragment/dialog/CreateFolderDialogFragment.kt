@@ -1,16 +1,12 @@
 package com.honzikv.androidlauncher.ui.fragment.dialog
 
-import android.R.color
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
@@ -22,8 +18,8 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 
 class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragment() {
@@ -31,9 +27,9 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
     companion object {
         const val PAGE = "page"
 
-        fun newInstance(pageWithFolders: PageModel) = CreateFolderDialogFragment().apply {
+        fun newInstance(page: PageModel) = CreateFolderDialogFragment().apply {
             arguments = Bundle().apply {
-                putString(PAGE, Gson().toJson(pageWithFolders))
+                putString(PAGE, Gson().toJson(page))
             }
         }
     }
@@ -58,12 +54,15 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
 
     private fun initialize(binding: CreateFolderDialogFragmentBinding) {
         page = Gson().fromJson(requireArguments()[PAGE] as String, PageModel::class.java)
+        Timber.d("page is $page")
 
         binding.confirmButton.setOnClickListener {
+            Timber.d("creating folder")
             val folder = FolderModel(
                 backgroundColor = backgroundColor,
                 itemColor = textColor,
-                title = binding.folderEditText.text.toString()
+                title = binding.folderEditText.text.toString(),
+                pageId = page.id
             )
             homescreenViewModel.addFolderToPage(folder, page)
             dismiss()

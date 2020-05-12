@@ -18,18 +18,16 @@ import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditPageAdapter
 
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class EditPageItemsDialogFragment : DialogFragment() {
+class EditPageItemsDialogFragment private constructor(): DialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by viewModel()
 
     private val settingsViewModel: SettingsViewModel by viewModel()
 
-    private lateinit var page: LiveData<PageWithFolders>
+    private lateinit var pageWithFolders: LiveData<PageWithFolders>
 
     private lateinit var folderAdapter: EditPageAdapter
 
@@ -44,7 +42,7 @@ class EditPageItemsDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
         val pageId = requireArguments()[PAGE_ID] as Long
         setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
-        page = homescreenViewModel.getPageWithFolders(pageId)
+        pageWithFolders = homescreenViewModel.getPageWithFolders(pageId)
     }
 
     override fun onCreateView(
@@ -111,7 +109,7 @@ class EditPageItemsDialogFragment : DialogFragment() {
         binding.itemListRecyclerView.adapter = folderAdapter
         binding.itemListRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        page.observe(viewLifecycleOwner, { pageWithFolders ->
+        pageWithFolders.observe(viewLifecycleOwner, { pageWithFolders ->
             binding.addButton.visibility = View.VISIBLE
             binding.deleteButton.visibility = View.VISIBLE
 
@@ -131,14 +129,12 @@ class EditPageItemsDialogFragment : DialogFragment() {
         }
 
         binding.addButton.setOnClickListener {
-            if (page.value!!.folderList.size >= MAX_FOLDERS_PER_PAGE) {
+            if (pageWithFolders.value!!.folderList.size >= MAX_FOLDERS_PER_PAGE) {
                 Toast.makeText(context, "Page is full", Toast.LENGTH_LONG)
                     .show()
             } else {
-                CreateFolderDialogFragment.newInstance(page.value!!.page)
-                    .show(
-                        requireActivity().supportFragmentManager, "createFolder"
-                    )
+                CreateFolderDialogFragment.newInstance(pageWithFolders.value!!.page)
+                    .show(requireActivity().supportFragmentManager, "createFolder")
             }
         }
 

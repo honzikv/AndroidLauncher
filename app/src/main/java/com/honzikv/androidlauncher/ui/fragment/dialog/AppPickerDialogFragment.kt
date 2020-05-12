@@ -10,14 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.databinding.AppPickerDialogFragmentBinding
-import com.honzikv.androidlauncher.exception.ContainerFullException
 import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.AppPickerAdapter
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.properties.Delegates

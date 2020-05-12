@@ -31,7 +31,7 @@ class FolderListAdapter(context: Context) :
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = folderList[viewHolder.adapterPosition]
         item.showItems = !item.showItems
-        notifyItemChanged(viewHolder.adapterPosition)
+        notifyDataSetChanged()
     }
 
     private val onLongClickListener = View.OnLongClickListener { view ->

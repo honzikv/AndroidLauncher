@@ -45,8 +45,8 @@ class HomescreenViewModel(
         homescreenRepository.deletePage(pageModel)
     }
 
-    fun addPage(addFirst: Boolean) = viewModelScope.launch {
-        if (!addFirst) {
+    fun addPage(addAsFirst: Boolean) = viewModelScope.launch {
+        if (!addAsFirst) {
             homescreenRepository.addPageAsLast()
         } else {
             homescreenRepository.addPageAsFirst()
@@ -54,7 +54,9 @@ class HomescreenViewModel(
     }
 
     fun addFolderToPage(folderModel: FolderModel, pageModel: PageModel) = viewModelScope.launch {
+        Timber.d("adding folder to page")
         val folderId = homescreenRepository.addFolder(folderModel)
+        Timber.d("page id = ${pageModel.id}")
         homescreenRepository.addFolderToPage(folderId, pageModel.id!!)
     }
 
@@ -155,7 +157,9 @@ class HomescreenViewModel(
 
     suspend fun getFirstPage() = homescreenRepository.getFirstPage()
 
-    suspend fun addFolder(folderModel: FolderModel) =
+    suspend fun addPageSuspend() = homescreenRepository.addPageAsFirst()
+
+    suspend fun addFolderSuspend(folderModel: FolderModel) =
         homescreenRepository.addFolderWithoutPage(folderModel)
 
     suspend fun addItems(items: List<FolderItemModel>) {

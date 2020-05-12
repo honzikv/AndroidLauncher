@@ -3,12 +3,10 @@ package com.honzikv.androidlauncher.initializer
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
-import com.google.gson.Gson
 import com.honzikv.androidlauncher.data.model.FolderItemModel
 import com.honzikv.androidlauncher.data.model.FolderModel
 import com.honzikv.androidlauncher.data.model.PageModel
 import com.honzikv.androidlauncher.data.model.ThemeProfileModel
-import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
 import com.honzikv.androidlauncher.data.repository.PREFS_INITIALIZED
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
@@ -35,12 +33,12 @@ class Initializer(
             )
 
 
-        const val FOLDER_COLOR = Color.BLUE
-        const val ITEM_COLOR = Color.WHITE
+        val FOLDER_COLOR = Color.parseColor("#fb212d40")
+        val ITEM_COLOR = Color.parseColor("#e8f1f2")
         const val FOLDER_NAME = "Google Apps"
     }
 
-    fun isAppInitialized() : Boolean {
+    fun isAppInitialized(): Boolean {
         Timber.d("isAppInitialized=${sharedPreferences.getBoolean(PREFS_INITIALIZED, false)}")
         return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
@@ -56,7 +54,9 @@ class Initializer(
     suspend fun initialize() = withContext(Dispatchers.Default) {
         Timber.i("Initializing first launch settings ...")
         withContext(Dispatchers.Default) { createThemes() }
-        createDefaultAppsFolder(createFirstPage())
+        val page = createFirstPage()
+        Timber.d("$page")
+        createDefaultAppsFolder(page)
         commitInitialized()
     }
 
@@ -69,7 +69,7 @@ class Initializer(
     }
 
     private suspend fun createDefaultAppsFolder(page: PageModel) = withContext(Dispatchers.IO) {
-        val folderId = homescreenViewModel.addFolder(
+        val folderId = homescreenViewModel.addFolderSuspend(
             FolderModel(
                 itemColor = ITEM_COLOR,
                 backgroundColor = FOLDER_COLOR,
@@ -97,12 +97,11 @@ class Initializer(
         homescreenViewModel.addItems(items)
     }
 
-    private fun createThemes() {
+    private suspend fun createThemes() = withContext(Dispatchers.IO) {
         Timber.d("Creating default theme profiles")
         //https://flatuicolors.com/palette/us
         val lightTheme =
             ThemeProfileModel(
-                id = null,
                 drawerBackgroundColor = Color.parseColor("#dfe6e9"),
                 drawerTextFillColor = Color.parseColor("#2d3436"),
                 drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
@@ -115,7 +114,6 @@ class Initializer(
 
         //https://flatuicolors.com/palette/us
         val darkTheme = ThemeProfileModel(
-            id = null,
             drawerBackgroundColor = Color.parseColor("#2d3436"),
             drawerTextFillColor = Color.parseColor("#dfe6e9"),
             drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
@@ -128,7 +126,6 @@ class Initializer(
 
         //https://flatuicolors.com/palette/es
         val blueTheme = ThemeProfileModel(
-            id = null,
             drawerBackgroundColor = Color.parseColor("#2c2c54"),
             drawerTextFillColor = Color.parseColor("#f7f1e3"),
             drawerSearchBackgroundColor = Color.parseColor("#40407a"),
@@ -139,19 +136,55 @@ class Initializer(
             isUserProfile = false
         )
 
-        sharedPreferences.edit().apply {
-            putString(AppSettingsRepository.THEME_PROFILE_FIELD, Gson().toJson(blueTheme))
-            apply()
-        }
+        val amoLED = ThemeProfileModel(
+            drawerBackgroundColor = Color.BLACK,
+            drawerTextFillColor = Color.parseColor("#e5e5e5"),
+            drawerSearchBackgroundColor = Color.parseColor("#14213d"),
+            drawerSearchTextColor = Color.parseColor("#ffffff"),
+            dockBackgroundColor = Color.parseColor("#50e5e5e5"),
+            dockTextColor = Color.parseColor("#fca311"),
+            name = "amoLED",
+            isUserProfile = false
+        )
+
+        val cocaCola = ThemeProfileModel(
+            drawerBackgroundColor = Color.parseColor("#fb212d40"),
+            drawerTextFillColor = Color.parseColor("#e5e5e5"),
+            drawerSearchBackgroundColor = Color.parseColor("#7d4e57"),
+            drawerSearchTextColor = Color.parseColor("#e5e5e5"),
+            dockBackgroundColor = Color.parseColor("#a0364156"),
+            dockTextColor = Color.parseColor("#e6ebe0"),
+            name = "Coca Cola",
+            isUserProfile = false
+        )
+
+        val toxik = ThemeProfileModel(
+            drawerBackgroundColor = Color.parseColor("#2f243a"),
+            drawerTextFillColor = Color.parseColor("#c7f9cc"),
+            drawerSearchBackgroundColor = Color.parseColor("#57cc99"),
+            drawerSearchTextColor = Color.parseColor("#444054"),
+            dockBackgroundColor = Color.parseColor("#9a2f243a"),
+            dockTextColor = Color.parseColor("#bebbbb"),
+            name = "Toxik",
+            isUserProfile = false
+
+        )
 
         Timber.d("Default theme profiles created, inserting them into database")
-        settingsViewModel.addProfile(lightTheme, darkTheme, blueTheme)
+        settingsViewModel.addProfile(
+            lightTheme,
+            darkTheme,
+            blueTheme,
+            amoLED,
+            cocaCola,
+            toxik
+        )
         Timber.d("Default theme profiles have been inserted")
     }
 
-    private suspend fun createFirstPage() : PageModel {
+    private suspend fun createFirstPage(): PageModel {
         Timber.d("creating first page")
-        homescreenViewModel.addPage(false)
+        homescreenViewModel.addPageSuspend()
         return homescreenViewModel.getFirstPage()
     }
 
