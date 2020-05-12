@@ -83,7 +83,7 @@ data class FolderItemModel(
      */
     val packageName: String,
 
-    var position: Int? = null
+    var position: Int = 0
 
 ) {
 

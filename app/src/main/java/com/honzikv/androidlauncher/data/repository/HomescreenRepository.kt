@@ -38,6 +38,7 @@ class HomescreenRepository(
         val pages = pageDao.getAllPages()
         pages.forEach { it.pageNumber = it.pageNumber + 1 }
         pageDao.updatePageList(pages)
+        //PageModel has default value of position as 0
         pageDao.addPage(PageModel())
     }
 
@@ -78,7 +79,7 @@ class HomescreenRepository(
 
     suspend fun deletePage(pageModel: PageModel) = pageDao.deletePage(pageModel)
 
-    suspend fun addFolder(folderModel: FolderModel): Long = folderDao.addFolder(folderModel)
+    suspend fun addFolder(folderModel: FolderModel): Long = folderDao.addFolderWithoutPage(folderModel)
 
     fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders> =
         pageDao.getPageWithFolders(pageId)
@@ -100,4 +101,8 @@ class HomescreenRepository(
     fun getFolderLiveData(folderId: Long): LiveData<FolderModel> = folderDao.getFolderLiveData(folderId)
 
     suspend fun updateFolderItems(vararg items: FolderItemModel) = folderDao.updateFolderItems(*items)
+
+    suspend fun getFirstPage() = pageDao.getFirstPage()
+
+    suspend fun addFolderWithoutPage(folder: FolderModel) = folderDao.addFolderWithoutPage(folder)
 }

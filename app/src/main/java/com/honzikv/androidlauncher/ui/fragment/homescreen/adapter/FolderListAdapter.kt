@@ -85,7 +85,7 @@ class FolderListAdapter(context: Context) :
         fun bind(data: FolderWithItems) {
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, 4) //TODO
-                adapter = FolderAdapter(data.itemList)
+                adapter = FolderAdapter(data.itemList.apply { sortedBy { it.position } })
                 (adapter as FolderAdapter).setLabelColor(data.folder.itemColor)
             }
             binding.folderName.apply {

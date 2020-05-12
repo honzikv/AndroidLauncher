@@ -52,4 +52,8 @@ class SettingsViewModel(
     fun getShowDockLabels() = settingsRepository.getShowDockLabels()
 
     val dockItemLimit = settingsRepository.dockItemLimit
+
+    fun addProfile(vararg profile: ThemeProfileModel) = viewModelScope.launch {
+        appThemeRepository.addProfile(*profile)
+    }
 }

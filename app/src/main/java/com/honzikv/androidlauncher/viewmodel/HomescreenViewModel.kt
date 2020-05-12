@@ -2,9 +2,11 @@ package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
+import com.honzikv.androidlauncher.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.data.model.*
 import com.honzikv.androidlauncher.data.repository.HomescreenRepository
 import com.honzikv.androidlauncher.transformation.BackgroundTransformations
+import com.honzikv.androidlauncher.ui.callback.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -12,6 +14,9 @@ class HomescreenViewModel(
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager
 ) : ViewModel() {
+
+    private val folderPostErrorMutable = MutableLiveData<Event<String>>()
+    val folderPostError: LiveData<Event<String>> get() = folderPostErrorMutable
 
     val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
         return@map pageList.apply {
@@ -87,19 +92,40 @@ class HomescreenViewModel(
         viewModelScope.launch {
             Timber.d("Adding items to folder")
             val folderWithItems = homescreenRepository.getFolderWithItems(folderId)
-            val newItems = mutableListOf<FolderItemModel>()
+            val items = folderWithItems.itemList
 
+            var lastPosition = if (items.isEmpty()) {
+                -1
+            } else {
+                items.maxBy { it.position }!!.position
+            }
+            var newItems = mutableListOf<FolderItemModel>()
+
+            //filter duplicates
             selectedApps.forEach { app ->
-                //Check if collection contains element with same package name, if it doesnt add the item
-                if (!folderWithItems.itemList.any { it.packageName == app.packageName }) {
+                if (!items.any { it.packageName == app.packageName }) {
                     Timber.d("This app is unique, adding")
+                    lastPosition += 1
                     newItems.add(
                         FolderItemModel(
                             folderId = folderWithItems.folder.id,
-                            packageName = app.packageName
+                            packageName = app.packageName,
+                            position = lastPosition
                         )
                     )
                 }
+            }
+
+            if (items.size + newItems.size > MAX_ITEMS_IN_FOLDER) {
+                Timber.d("folder limit reached")
+                val addCount = MAX_ITEMS_IN_FOLDER - items.size
+                if (addCount == 0) {
+                    TODO()
+                    return@launch
+                }
+
+                //set [newItems] pointer to sublist
+                newItems = newItems.subList(0, addCount)
             }
 
             //Add new items to the database
@@ -126,4 +152,13 @@ class HomescreenViewModel(
 
     fun getFolderLiveData(folderId: Long): LiveData<FolderModel> =
         homescreenRepository.getFolderLiveData(folderId)
+
+    suspend fun getFirstPage() = homescreenRepository.getFirstPage()
+
+    suspend fun addFolder(folderModel: FolderModel) =
+        homescreenRepository.addFolderWithoutPage(folderModel)
+
+    suspend fun addItems(items: List<FolderItemModel>) {
+        homescreenRepository.addItemsWithFolderId(items)
+    }
 }

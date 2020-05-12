@@ -1,12 +1,11 @@
 package com.honzikv.androidlauncher
 
 import android.app.Application
-import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
+import com.honzikv.androidlauncher.initializer.Initializer
 import com.honzikv.androidlauncher.injection.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -25,7 +24,7 @@ class LauncherApplication : Application() {
         Timber.d("Dependencies successfully injected")
 
         Timber.d("Checking if this is a first start")
-        val initializer: FirstLaunchInitializer = get()
+        val initializer: Initializer = get()
 
         CoroutineScope(Dispatchers.Main).launch {
             if (!initializer.isAppInitialized()) {

@@ -3,8 +3,8 @@ package com.honzikv.androidlauncher.injection
 import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.data.database.LauncherDatabase
-import com.honzikv.androidlauncher.data.first.launch.FirstLaunchInitializer
 import com.honzikv.androidlauncher.data.repository.*
+import com.honzikv.androidlauncher.initializer.Initializer
 import com.honzikv.androidlauncher.viewmodel.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -50,8 +50,8 @@ val module = module {
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     single {
-        FirstLaunchInitializer(
-            get(), get(), androidContext().packageManager, get(), get()
+        Initializer(
+            get(), get(), get(), androidContext().packageManager
         )
     }
 

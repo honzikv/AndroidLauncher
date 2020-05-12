@@ -48,7 +48,7 @@ class DockViewModel(
 
     fun addItemsToDock(selectedApps: MutableList<DrawerApp>) = viewModelScope.launch {
         val items = getAllItems()
-        val newItems = mutableListOf<DockItemModel>()
+        var newItems = mutableListOf<DockItemModel>()
 
         var insertPosition = if (items.isEmpty()) {
             -1 //-1 so it is inserted to 0th index
@@ -80,15 +80,10 @@ class DockViewModel(
             }
 
             Timber.d("cant add all items to dock")
-            for (i in 0 until addCount) {
-                dockRepository.addItem(newItems[i])
-            }
+            newItems = newItems.subList(0, addCount)
             dockPostErrorMutable.postValue(Event(DOCK_IS_FULL_SOMETHING_ADDED))
-            return@launch
         }
 
-        //Else add all items
-        Timber.d("successfully added all items to the dock")
         dockRepository.addItems(newItems)
     }
 

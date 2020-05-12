@@ -44,4 +44,7 @@ interface PageDao {
     @Query("DELETE FROM PageModel WHERE id = :pageId")
     suspend fun deletePageWithId(pageId: Long)
 
+    @Query("SELECT * FROM PageModel WHERE pageNumber = 0")
+    suspend fun getFirstPage(): PageModel
+
 }

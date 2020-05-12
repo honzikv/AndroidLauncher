@@ -62,10 +62,7 @@ class DockFragment : Fragment() {
 
         dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels(), onSwipeTouchListener)
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
-            //todo opacity
-            binding.cardView.apply {
-                setCardBackgroundColor(it.dockBackgroundColor)
-            }
+            binding.cardView.setCardBackgroundColor(it.dockBackgroundColor)
             dockAdapter.setLabelColor(it.dockTextColor)
         })
 

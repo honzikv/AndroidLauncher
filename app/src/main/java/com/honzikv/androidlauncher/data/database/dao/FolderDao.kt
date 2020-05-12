@@ -16,7 +16,7 @@ interface FolderDao {
     suspend fun updateFolder(folder: FolderModel)
 
     @Insert
-    suspend fun addFolder(folder: FolderModel): Long
+    suspend fun addFolderWithoutPage(folder: FolderModel): Long
 
     @Query("SELECT * FROM FolderModel WHERE id = :folderId")
     suspend fun getFolder(folderId: Long): FolderModel
@@ -52,5 +52,6 @@ interface FolderDao {
 
     @Update
     suspend fun updateFolderItems(vararg items: FolderItemModel)
+
 
 }

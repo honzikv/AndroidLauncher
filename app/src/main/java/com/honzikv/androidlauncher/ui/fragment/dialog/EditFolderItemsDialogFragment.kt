@@ -114,11 +114,15 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
                 homescreenViewModel.deleteFolderWithId(folderWithItems.folder.id!!)
             }
 
+            if (folderWithItems.itemList.size >= MAX_ITEMS_IN_FOLDER) {
+                binding.addButton.visibility = View.GONE
+            }
+
             binding.addButton.setOnClickListener {
                 AppPickerDialogFragment.newInstance(folderWithItems.folder.id!!)
                     .show(requireActivity().supportFragmentManager, "itemPicker")
             }
-            itemAdapter.setItemList(folderWithItems.itemList)
+            itemAdapter.setItemList(folderWithItems.itemList.apply { sortedBy { it.position } })
             itemAdapter.notifyDataSetChanged()
         }
 
