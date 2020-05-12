@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.IconWithTitleRightCheckboxBinding
-import timber.log.Timber
 
 class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder>() {
 

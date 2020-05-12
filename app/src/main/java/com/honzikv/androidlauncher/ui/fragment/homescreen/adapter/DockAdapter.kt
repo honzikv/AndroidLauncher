@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.data.model.DockItemModel
 import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
+import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
-class DockAdapter(private var showLabels: Boolean) :
+class DockAdapter(
+    private var showLabels: Boolean,
+    private val onSwipeTouchListener: OnSwipeTouchListener
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
 
     private var labelColor = Color.BLACK
@@ -57,6 +61,7 @@ class DockAdapter(private var showLabels: Boolean) :
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
+            itemView.setOnTouchListener(onSwipeTouchListener)
         }
 
         fun bind(data: DockItemModel) {

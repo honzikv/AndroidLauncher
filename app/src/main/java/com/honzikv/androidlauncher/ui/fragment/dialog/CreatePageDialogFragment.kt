@@ -15,17 +15,18 @@ import com.honzikv.androidlauncher.databinding.CreatePageDialogFragmentBinding
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class CreatePageDialogFragment : BottomSheetDialogFragment() {
+class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment() {
 
     companion object {
         fun newInstance() = CreatePageDialogFragment()
     }
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

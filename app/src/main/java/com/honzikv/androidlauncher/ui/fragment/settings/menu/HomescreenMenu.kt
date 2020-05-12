@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import com.honzikv.androidlauncher.data.model.PageWithFolders
 import com.honzikv.androidlauncher.ui.fragment.dialog.CreatePageDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dialog.EditDockItemsDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsPageItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SubHeaderItem
@@ -19,6 +20,8 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         const val HOMESCREEN_SETTINGS_SUB = "Configure Pages and Folders"
 
         const val CHANGE_WALLPAPER = "Change Wallpaper"
+
+        const val MANAGE_DOCK_ITEMS = "Manage Dock Items"
 
         const val MANAGE_PAGES = "Manage Pages"
     }
@@ -43,10 +46,16 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         homescreenMenu.level + 1
     )
 
+    val editDockItems = TextLeftItem(MANAGE_DOCK_ITEMS, {
+        EditDockItemsDialogFragment.newInstance()
+            .show(fragmentActivity.supportFragmentManager, "editDockItems")
+    }, homescreenMenu.level + 1)
+
     init {
         homescreenMenu.addChildren(
             listOf(
                 changeWallpaper,
+                editDockItems,
                 managePages
             )
         )

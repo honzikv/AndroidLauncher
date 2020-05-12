@@ -19,12 +19,15 @@ import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditPageAdapter
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class EditPageItemsDialogFragment : DialogFragment() {
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var page: LiveData<PageWithFolders>
 
@@ -55,7 +58,8 @@ class EditPageItemsDialogFragment : DialogFragment() {
 
 
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END, 0
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+        0
     ) {
 
         override fun onMove(
@@ -65,11 +69,8 @@ class EditPageItemsDialogFragment : DialogFragment() {
         ): Boolean {
             val folder1 = folderAdapter.getItem(viewHolder.adapterPosition).folder
             val folder2 = folderAdapter.getItem(target.adapterPosition).folder
-            val swap = folder1.position
-            folder1.position = folder2.position
-            folder2.position = swap
-            homescreenViewModel.updateFolders(folder1, folder2)
-
+            homescreenViewModel.swapFolderPositions(folder1, folder2)
+            Timber.d("folder position was updated")
             return false
         }
 
@@ -106,22 +107,21 @@ class EditPageItemsDialogFragment : DialogFragment() {
         binding.addButton.visibility = View.GONE
         binding.deleteButton.visibility = View.GONE
 
-        val itemTouchHelper = ItemTouchHelper(itemTouchDragToReorderCallback)
-        itemTouchHelper.attachToRecyclerView(binding.itemListRecyclerView)
+        ItemTouchHelper(itemTouchDragToReorderCallback).attachToRecyclerView(binding.itemListRecyclerView)
         binding.itemListRecyclerView.adapter = folderAdapter
         binding.itemListRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        page.observe(viewLifecycleOwner, {
+        page.observe(viewLifecycleOwner, { pageWithFolders ->
             binding.addButton.visibility = View.VISIBLE
             binding.deleteButton.visibility = View.VISIBLE
 
-            val pageName = "Page ${it.page.pageNumber + 1}"
+            val pageName = "Page ${pageWithFolders.page.pageNumber + 1}"
             binding.containerName.text = pageName
 
-            val itemCount = "${it.folderList.size} / $MAX_FOLDERS_PER_PAGE folders"
+            val itemCount = "${pageWithFolders.folderList.size} / $MAX_FOLDERS_PER_PAGE folders"
             binding.itemCountText.text = itemCount
 
-            folderAdapter.setItemList(it.folderList)
+            folderAdapter.setItemList(pageWithFolders.folderList.sortedBy { it.folder.position })
             folderAdapter.notifyDataSetChanged()
         })
 
@@ -135,12 +135,10 @@ class EditPageItemsDialogFragment : DialogFragment() {
                 Toast.makeText(context, "Page is full", Toast.LENGTH_LONG)
                     .show()
             } else {
-                val createFolderDialogFragment =
-                    CreateFolderDialogFragment.newInstance(page.value!!.page)
-                createFolderDialogFragment.show(
-                    requireActivity().supportFragmentManager,
-                    "createFolder"
-                )
+                CreateFolderDialogFragment.newInstance(page.value!!.page)
+                    .show(
+                        requireActivity().supportFragmentManager, "createFolder"
+                    )
             }
         }
 

@@ -13,12 +13,12 @@ import org.koin.android.ext.android.inject
  */
 class LauncherActivity : AppCompatActivity() {
 
-    val appDrawerRepository: AppDrawerRepository by inject()
+    private val appDrawerRepository: AppDrawerRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Load apps in background so it loads more consistently
+        //Load apps for drawer so it doesnt stutter on first launch of the drawer
         lifecycleScope.launch { appDrawerRepository.reloadAppList() }
         setContentView(R.layout.activity_launcher)
     }

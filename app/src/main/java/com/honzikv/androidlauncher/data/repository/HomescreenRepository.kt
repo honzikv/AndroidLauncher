@@ -98,4 +98,6 @@ class HomescreenRepository(
     suspend fun deleteFolderItem(id: Long) = folderDao.deleteFolderItem(id)
 
     fun getFolderLiveData(folderId: Long): LiveData<FolderModel> = folderDao.getFolderLiveData(folderId)
+
+    suspend fun updateFolderItems(vararg items: FolderItemModel) = folderDao.updateFolderItems(*items)
 }

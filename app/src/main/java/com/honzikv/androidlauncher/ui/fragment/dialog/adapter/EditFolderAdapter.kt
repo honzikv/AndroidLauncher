@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.honzikv.androidlauncher.data.model.DockItemModel
 import com.honzikv.androidlauncher.data.model.FolderItemModel
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 
@@ -35,6 +36,8 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
     override fun onBindViewHolder(holder: FolderItemViewHolder, position: Int) {
         holder.bind(itemList[position])
     }
+
+    fun getItem(adapterPosition: Int) = itemList[adapterPosition]
 
     inner class FolderItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -1,16 +1,22 @@
 package com.honzikv.androidlauncher.viewmodel
 
+import android.content.pm.PackageManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.honzikv.androidlauncher.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.data.model.DockItemModel
 import com.honzikv.androidlauncher.data.model.DrawerApp
 import com.honzikv.androidlauncher.data.repository.DockRepository
-import com.honzikv.androidlauncher.exception.DockIsFullException
+import com.honzikv.androidlauncher.transformation.BackgroundTransformations
+import com.honzikv.androidlauncher.ui.callback.Event
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DockViewModel(
-    private val dockRepository: DockRepository
+    private val dockRepository: DockRepository,
+    private val packageManager: PackageManager
 ) : ViewModel() {
 
     companion object {
@@ -18,10 +24,24 @@ class DockViewModel(
         const val DOCK_IS_FULL_SOMETHING_ADDED = "Dock is full, not all items were added"
     }
 
-    val dockItems = dockRepository.dockItemsLiveData
+    init {
+        Timber.d("creating dock view model")
+    }
 
-    fun addItems(list: List<DockItemModel>) = viewModelScope.launch {
-        dockRepository.addItems(list)
+    /**
+     * Observable to notify error when adding items to dock
+     */
+    private val dockPostErrorMutable = MutableLiveData<Event<String>>()
+    val dockPostError: LiveData<Event<String>> get() = dockPostErrorMutable
+
+    val dockItems = BackgroundTransformations.map(dockRepository.dockItemsLiveData) { items ->
+        return@map items.apply {
+            forEach { item ->
+                val info = packageManager.getApplicationInfo(item.packageName, 0)
+                item.label = info.loadLabel(packageManager).toString()
+                item.icon = info.loadIcon(packageManager)
+            }
+        }
     }
 
     private suspend fun getAllItems() = dockRepository.getAllItems()
@@ -51,18 +71,24 @@ class DockViewModel(
 
         //if there are too many items selected add only those that dont exceed the MAX_ITEMS_IN_DOCK limit
         if (items.size + newItems.size > MAX_ITEMS_IN_DOCK) {
+            Timber.d("dock limit reached")
             val addCount = MAX_ITEMS_IN_DOCK - items.size
             if (addCount == 0) {
-                throw DockIsFullException(DOCK_FULL_NOTHING_ADDED)
+                Timber.d("dock full error")
+                dockPostErrorMutable.postValue(Event(DOCK_FULL_NOTHING_ADDED))
+                return@launch
             }
 
+            Timber.d("cant add all items to dock")
             for (i in 0 until addCount) {
                 dockRepository.addItem(newItems[i])
             }
-            throw  DockIsFullException(DOCK_IS_FULL_SOMETHING_ADDED)
+            dockPostErrorMutable.postValue(Event(DOCK_IS_FULL_SOMETHING_ADDED))
+            return@launch
         }
 
         //Else add all items
+        Timber.d("successfully added all items to the dock")
         dockRepository.addItems(newItems)
     }
 

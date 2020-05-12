@@ -50,4 +50,7 @@ interface FolderDao {
     @Query("DELETE FROM FolderItemModel WHERE :folderItemId = id")
     suspend fun deleteFolderItem(folderItemId: Long)
 
+    @Update
+    suspend fun updateFolderItems(vararg items: FolderItemModel)
+
 }

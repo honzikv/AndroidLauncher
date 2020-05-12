@@ -19,13 +19,14 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
     private lateinit var multiLevelAdapter: SettingsMenuAdapter
 

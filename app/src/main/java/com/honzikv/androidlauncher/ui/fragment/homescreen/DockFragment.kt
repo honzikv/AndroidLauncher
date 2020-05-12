@@ -19,13 +19,14 @@ import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class DockFragment : Fragment() {
 
-    private val dockViewModel: DockViewModel by inject()
+    private val dockViewModel: DockViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var dockAdapter: DockAdapter
 
@@ -45,7 +46,21 @@ class DockFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: DockFragmentBinding) {
-        dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels())
+        onSwipeTouchListener = object :
+            OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeTop() {
+                super.onSwipeTop()
+                Timber.d("Swiping top")
+                navigateToAppDrawer()
+            }
+
+            override fun onSwipeBottom() {
+                super.onSwipeBottom()
+                navigateToSettings()
+            }
+        }
+
+        dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels(), onSwipeTouchListener)
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             //todo opacity
             binding.cardView.apply {
@@ -62,20 +77,6 @@ class DockFragment : Fragment() {
             dockAdapter.setDockItems(it)
             dockAdapter.notifyDataSetChanged()
         })
-
-        onSwipeTouchListener = object :
-            OnSwipeTouchListener(requireContext()) {
-            override fun onSwipeTop() {
-                super.onSwipeTop()
-                Timber.d("Swiping top")
-                navigateToAppDrawer()
-            }
-
-            override fun onSwipeRight() {
-                super.onSwipeBottom()
-                navigateToSettings()
-            }
-        }
 
         binding.recyclerView.apply {
             layoutManager =

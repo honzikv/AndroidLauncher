@@ -25,13 +25,14 @@ import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class EditFolderSettingsDialogFragment : BottomSheetDialogFragment() {
+class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogFragment() {
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     companion object {
         const val FOLDER = "folder"

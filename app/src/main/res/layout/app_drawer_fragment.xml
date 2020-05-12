@@ -9,15 +9,16 @@
 
     <TextView
         android:id="@+id/allApps"
-        style="@style/text_header_bold"
+        style="@style/text_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/all_applications"
+        android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/searchCardView"
-        app:layout_constraintEnd_toEndOf="@+id/searchCardView"
+        app:layout_constraintEnd_toStartOf="@+id/settingsIcon"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,6 +67,16 @@
             android:scrollbars="vertical" />
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/settingsIcon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_settings_white_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/allApps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/allApps" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

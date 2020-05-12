@@ -64,8 +64,20 @@ class HomescreenViewModel(
         homescreenRepository.deleteFolderWithId(folderId)
     }
 
-    fun swapFolderPositions(folderPosition: Int, adapterPosition1: Int) {
+    fun swapFolderPositions(folder1: FolderModel, folder2: FolderModel) = viewModelScope.launch {
+        val swap = folder1.position
+        folder1.position = folder2.position
+        folder2.position = swap
+        homescreenRepository.updateFolders(folder1, folder2)
     }
+
+    fun swapFolderItemsPositions(item1: FolderItemModel, item2: FolderItemModel) =
+        viewModelScope.launch {
+            val swap = item1.position
+            item1.position = item2.position
+            item2.position = swap
+            homescreenRepository.updateFolderItems(item1, item2)
+        }
 
     fun updateFolders(vararg folders: FolderModel) = viewModelScope.launch {
         homescreenRepository.updateFolders(*folders)

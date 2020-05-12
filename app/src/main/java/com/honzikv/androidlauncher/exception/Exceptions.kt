@@ -2,4 +2,4 @@ package com.honzikv.androidlauncher.exception
 
 import java.lang.Exception
 
-class DockIsFullException(message: String) : Exception(message)
+class ContainerFullException(message: String) : Exception(message)

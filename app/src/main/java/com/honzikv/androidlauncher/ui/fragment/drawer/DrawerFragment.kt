@@ -20,14 +20,15 @@ import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
 class DrawerFragment : Fragment() {
 
-    private val drawerViewModel: DrawerViewModel by inject()
+    private val drawerViewModel: DrawerViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 

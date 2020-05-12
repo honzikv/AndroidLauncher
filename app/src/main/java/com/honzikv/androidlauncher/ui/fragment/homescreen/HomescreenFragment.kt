@@ -17,13 +17,14 @@ import com.honzikv.androidlauncher.ui.fragment.homescreen.adapter.PageAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class HomescreenFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
     private lateinit var viewPagerAdapter: PageAdapter
 

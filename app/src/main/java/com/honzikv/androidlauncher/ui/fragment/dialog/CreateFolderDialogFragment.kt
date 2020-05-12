@@ -23,6 +23,7 @@ import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragment() {
@@ -37,9 +38,9 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
         }
     }
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var page: PageModel
 

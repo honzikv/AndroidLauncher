@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.honzikv.androidlauncher.databinding.AppPickerDialogFragmentBinding
-import com.honzikv.androidlauncher.exception.DockIsFullException
+import com.honzikv.androidlauncher.exception.ContainerFullException
 import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.AppPickerAdapter
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
@@ -18,10 +18,11 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.properties.Delegates
 
-class AppPickerDialogFragment : DialogFragment() {
+class AppPickerDialogFragment private constructor() : DialogFragment() {
 
     companion object {
         private const val CONTAINER_ID = "containerId"
@@ -32,13 +33,13 @@ class AppPickerDialogFragment : DialogFragment() {
             }
     }
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
-    private val drawerViewModel: DrawerViewModel by inject()
+    private val drawerViewModel: DrawerViewModel by viewModel()
 
-    private lateinit var homescreenViewModel: HomescreenViewModel
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private lateinit var dockViewModel: DockViewModel
+    private val dockViewModel: DockViewModel by viewModel()
 
     private var folderId by Delegates.notNull<Long>()
 
@@ -61,7 +62,6 @@ class AppPickerDialogFragment : DialogFragment() {
     }
 
     private fun initialize(binding: AppPickerDialogFragmentBinding) {
-
         appPickerAdapter = AppPickerAdapter()
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
@@ -93,7 +93,6 @@ class AppPickerDialogFragment : DialogFragment() {
         //Dock has id of -1 (which is never used by SQLite DB in Folder table)
         if (folderId != getDockFolderId()) {
             //inject only neccessary viewmodel
-            homescreenViewModel = get()
             binding.okButton.setOnClickListener {
                 val selectedApps = appPickerAdapter.getSelectedItems()
                 selectedApps.forEach { Timber.d("$it") }
@@ -101,14 +100,9 @@ class AppPickerDialogFragment : DialogFragment() {
                 dismiss()
             }
         } else {
-            dockViewModel = get()
             binding.okButton.setOnClickListener {
                 val selectedApps = appPickerAdapter.getSelectedItems()
-                try {
-                    dockViewModel.addItemsToDock(selectedApps)
-                } catch (ex: DockIsFullException) {
-                    Toast.makeText(requireContext(), ex.message, Toast.LENGTH_LONG).show()
-                }
+                dockViewModel.addItemsToDock(selectedApps)
                 dismiss()
             }
         }

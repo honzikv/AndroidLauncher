@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.data.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
@@ -16,8 +18,10 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
-class EditFolderItemsDialogFragment private constructor(): DialogFragment() {
+class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
 
     companion object {
         private const val FOLDER_ID = "folderId"
@@ -26,13 +30,34 @@ class EditFolderItemsDialogFragment private constructor(): DialogFragment() {
         }
     }
 
-    private val homescreenViewModel: HomescreenViewModel by inject()
+    private val homescreenViewModel: HomescreenViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var folder: LiveData<FolderWithItems>
 
     private lateinit var itemAdapter: EditFolderAdapter
+
+    private val itemTouchDragToReorderCallBack = object : ItemTouchHelper.SimpleCallback(
+
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+        0
+    ) {
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            val item1 = itemAdapter.getItem(viewHolder.adapterPosition)
+            val item2 = itemAdapter.getItem(target.adapterPosition)
+            homescreenViewModel.swapFolderItemsPositions(item1, item2)
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +81,7 @@ class EditFolderItemsDialogFragment private constructor(): DialogFragment() {
         binding.itemListRecyclerView.apply {
             adapter = itemAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            ItemTouchHelper(itemTouchDragToReorderCallBack).attachToRecyclerView(this)
         }
 
         //Style page

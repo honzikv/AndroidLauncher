@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,12 +15,14 @@ import com.honzikv.androidlauncher.ui.fragment.dialog.adapter.EditDockAdapter
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
-    private val dockViewModel: DockViewModel by inject()
+    private val dockViewModel: DockViewModel by viewModel()
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private lateinit var dockItemAdapter: EditDockAdapter
 
@@ -29,7 +32,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
+        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark)
     }
 
     override fun onCreateView(
@@ -78,9 +81,23 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             dockItemAdapter.notifyDataSetChanged()
         })
 
+        //Observe for error when new apps are getting uploaded
+        dockViewModel.dockPostError.observe(viewLifecycleOwner, { event ->
+            Timber.d("printing message")
+            event.getContentIfNotHandledOrReturnNull()?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            }
+        })
+
         binding.itemListRecyclerView.apply {
             adapter = dockItemAdapter
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        binding.okButton.setOnClickListener { dismiss() }
+        binding.addButton.setOnClickListener {
+            AppPickerDialogFragment.newInstance(AppPickerDialogFragment.getDockFolderId())
+                .show(requireActivity().supportFragmentManager, "editDockApps")
         }
     }
 }
