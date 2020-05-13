@@ -18,32 +18,36 @@ import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditPageAdapter
 
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import kotlin.properties.Delegates
 
-class EditPageItemsDialogFragment private constructor(): DialogFragment() {
+class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
-    private lateinit var pageWithFolders: LiveData<PageWithFolders>
+    private lateinit var pageWithFoldersLiveData: LiveData<PageWithFolders>
 
     private lateinit var folderAdapter: EditPageAdapter
+
+    private var pageId by Delegates.notNull<Long>()
 
     companion object {
         private const val PAGE_ID = "pageId"
         fun newInstance(pageId: Long) = EditPageItemsDialogFragment()
             .apply {
-            arguments = Bundle().apply { putLong(PAGE_ID, pageId) }
-        }
+                arguments = Bundle().apply { putLong(PAGE_ID, pageId) }
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val pageId = requireArguments()[PAGE_ID] as Long
+        pageId = requireArguments()[PAGE_ID] as Long
         setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
-        pageWithFolders = homescreenViewModel.getPageWithFolders(pageId)
+        pageWithFoldersLiveData = homescreenViewModel.getPageWithFolders(pageId)
     }
 
     override fun onCreateView(
@@ -79,10 +83,8 @@ class EditPageItemsDialogFragment private constructor(): DialogFragment() {
 
     private fun initialize(binding: EditHomescreenContainerFragmentBinding) {
         folderAdapter =
-            EditPageAdapter(
-                requireActivity()
-            ) {
-                homescreenViewModel.deleteFolderWithId(it)
+            EditPageAdapter(requireActivity()) {
+                homescreenViewModel.deleteFolder(it)
             }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
@@ -106,14 +108,16 @@ class EditPageItemsDialogFragment private constructor(): DialogFragment() {
             }
         })
 
+
+        binding.itemListRecyclerView.apply {
+            adapter = folderAdapter
+            layoutManager = LinearLayoutManager(context)
+            ItemTouchHelper(itemTouchDragToReorderCallback).attachToRecyclerView(this)
+        }
+
         binding.addButton.visibility = View.GONE
         binding.deleteButton.visibility = View.GONE
-
-        ItemTouchHelper(itemTouchDragToReorderCallback).attachToRecyclerView(binding.itemListRecyclerView)
-        binding.itemListRecyclerView.adapter = folderAdapter
-        binding.itemListRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        pageWithFolders.observe(viewLifecycleOwner, { pageWithFolders ->
+        pageWithFoldersLiveData.observe(viewLifecycleOwner, { pageWithFolders ->
             binding.addButton.visibility = View.VISIBLE
             binding.deleteButton.visibility = View.VISIBLE
 
@@ -123,23 +127,25 @@ class EditPageItemsDialogFragment private constructor(): DialogFragment() {
             val itemCount = "${pageWithFolders.folderList.size} / $MAX_FOLDERS_PER_PAGE folders"
             binding.itemCountText.text = itemCount
 
-            folderAdapter.setItemList(pageWithFolders.folderList.sortedBy { it.folder.position })
+            folderAdapter.setItemList(pageWithFolders.folderList.toMutableList().apply {
+                sortBy { it.folder.position }
+                reverse()
+            })
+
             folderAdapter.notifyDataSetChanged()
         })
 
         binding.deleteButton.setOnClickListener {
-            homescreenViewModel.deletePageWithId(requireArguments()[PAGE_ID] as Long)
+            homescreenViewModel.deletePage(pageId)
             dismiss()
         }
 
         binding.addButton.setOnClickListener {
-            if (pageWithFolders.value!!.folderList.size >= MAX_FOLDERS_PER_PAGE) {
+            if (pageWithFoldersLiveData.value!!.folderList.size >= MAX_FOLDERS_PER_PAGE) {
                 Toast.makeText(context, "Page is full", Toast.LENGTH_LONG)
                     .show()
             } else {
-                CreateFolderDialogFragment.newInstance(
-                    pageWithFolders.value!!.page
-                )
+                CreateFolderDialogFragment.newInstance(pageId)
                     .show(requireActivity().supportFragmentManager, "createFolder")
             }
         }

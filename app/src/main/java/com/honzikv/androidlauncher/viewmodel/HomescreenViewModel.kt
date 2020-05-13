@@ -18,6 +18,11 @@ class HomescreenViewModel(
     private val folderPostErrorMutable = MutableLiveData<Event<String>>()
     val folderPostError: LiveData<Event<String>> get() = folderPostErrorMutable
 
+    override fun onCleared() {
+        Timber.d("clearing viewmodel")
+        super.onCleared()
+    }
+
     val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
         return@map pageList.apply {
             forEach { pageWithFolders ->
@@ -32,17 +37,16 @@ class HomescreenViewModel(
         }
     }
 
-
     fun updateFolder(folderModel: FolderModel) = viewModelScope.launch {
         homescreenRepository.updateFolder(folderModel)
     }
 
-    fun deleteFolder(folderModel: FolderModel) = viewModelScope.launch {
-        homescreenRepository.deleteFolder(folderModel)
+    fun deleteFolder(folderId: Long) = viewModelScope.launch {
+        homescreenRepository.deleteFolder(folderId)
     }
 
-    fun deletePage(pageModel: PageModel) = viewModelScope.launch {
-        homescreenRepository.deletePage(pageModel)
+    fun deletePage(pageId: Long) = viewModelScope.launch {
+        homescreenRepository.removePage(pageId)
     }
 
     fun addPage(addAsFirst: Boolean) = viewModelScope.launch {
@@ -53,19 +57,16 @@ class HomescreenViewModel(
         }
     }
 
-    fun addFolderToPage(folderModel: FolderModel, pageModel: PageModel) = viewModelScope.launch {
-        Timber.d("adding folder to page")
-        val folderId = homescreenRepository.addFolder(folderModel)
-        Timber.d("page id = ${pageModel.id}")
-        homescreenRepository.addFolderToPage(folderId, pageModel.id!!)
+    /**
+     * Prida slozku do databaze a pripoji ji ke strance
+     */
+    fun addFolderToPage(folderModel: FolderModel, pageId: Long) = viewModelScope.launch {
+        val folderId = homescreenRepository.addFolderWithoutPage(folderModel)
+        homescreenRepository.addFolderToPage(folderId, pageId)
     }
 
     fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders> =
         homescreenRepository.getPageWithFolders(pageId)
-
-    fun deletePageWithId(pageId: Long) = viewModelScope.launch {
-        homescreenRepository.deletePageWithId(pageId)
-    }
 
     fun deleteFolderWithId(folderId: Long) = viewModelScope.launch {
         homescreenRepository.deleteFolderWithId(folderId)
@@ -85,10 +86,6 @@ class HomescreenViewModel(
             item2.position = swap
             homescreenRepository.updateFolderItems(item1, item2)
         }
-
-    fun updateFolders(vararg folders: FolderModel) = viewModelScope.launch {
-        homescreenRepository.updateFolders(*folders)
-    }
 
     fun addItemsToFolder(folderId: Long, selectedApps: MutableList<DrawerApp>) =
         viewModelScope.launch {
@@ -151,9 +148,6 @@ class HomescreenViewModel(
     fun deleteFolderItem(id: Long) = viewModelScope.launch {
         homescreenRepository.deleteFolderItem(id)
     }
-
-    fun getFolderLiveData(folderId: Long): LiveData<FolderModel> =
-        homescreenRepository.getFolderLiveData(folderId)
 
     suspend fun getFirstPage() = homescreenRepository.getFirstPage()
 

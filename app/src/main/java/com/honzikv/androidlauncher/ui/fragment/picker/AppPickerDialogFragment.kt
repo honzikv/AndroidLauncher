@@ -14,6 +14,7 @@ import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlin.properties.Delegates
@@ -29,13 +30,13 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
             }
     }
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
-    private val drawerViewModel: DrawerViewModel by viewModel()
+    private val drawerViewModel: DrawerViewModel by sharedViewModel()
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
-    private val dockViewModel: DockViewModel by viewModel()
+    private val dockViewModel: DockViewModel by sharedViewModel()
 
     private var folderId by Delegates.notNull<Long>()
 

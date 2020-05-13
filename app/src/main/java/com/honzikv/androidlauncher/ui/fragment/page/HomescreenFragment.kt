@@ -16,6 +16,7 @@ import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.PageAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -23,7 +24,7 @@ class HomescreenFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
     private lateinit var viewPagerAdapter: PageAdapter
 

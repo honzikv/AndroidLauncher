@@ -10,6 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import org.koin.core.inject
 
 /**
  * This is basically a subscriber object that triggers system app list update every time app package
@@ -17,7 +18,7 @@ import org.koin.core.get
  */
 class PackageReceiver : BroadcastReceiver(), KoinComponent {
 
-    private val drawerRepository: DrawerRepository = get()
+    private val drawerRepository: DrawerRepository by inject()
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {

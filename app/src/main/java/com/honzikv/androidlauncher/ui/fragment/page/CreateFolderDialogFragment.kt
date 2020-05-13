@@ -18,28 +18,30 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import kotlin.properties.Delegates
 
 
 class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     companion object {
-        const val PAGE = "page"
+        const val PAGE_ID = "pageId"
 
-        fun newInstance(page: PageModel) = CreateFolderDialogFragment()
+        fun newInstance(pageId: Long) = CreateFolderDialogFragment()
             .apply {
-            arguments = Bundle().apply {
-                putString(PAGE, Gson().toJson(page))
+                arguments = Bundle().apply {
+                    putLong(PAGE_ID, pageId)
+                }
             }
-        }
     }
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
-    private lateinit var page: PageModel
+    private var pageId by Delegates.notNull<Long>()
 
     private var backgroundColor = Color.WHITE
     private var textColor = Color.DKGRAY
@@ -54,8 +56,8 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
     }
 
     private fun initialize(binding: CreateFolderDialogFragmentBinding) {
-        page = Gson().fromJson(requireArguments()[PAGE] as String, PageModel::class.java)
-        Timber.d("page is $page")
+        pageId = requireArguments()[PAGE_ID] as Long
+        Timber.d("Page id = $pageId")
 
         binding.confirmButton.setOnClickListener {
             Timber.d("creating folder")
@@ -63,22 +65,22 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
                 backgroundColor = backgroundColor,
                 itemColor = textColor,
                 title = binding.folderEditText.text.toString(),
-                pageId = page.id
+                pageId = pageId
             )
-            homescreenViewModel.addFolderToPage(folder, page)
+            homescreenViewModel.addFolderToPage(folder, pageId)
             dismiss()
         }
 
         binding.backgroundColorCircle.also { backgroundColorCircle ->
-            DrawableCompat.wrap(backgroundColorCircle.drawable).setTint(backgroundColor)
+            backgroundColorCircle.setColorFilter(backgroundColor)
             backgroundColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(backgroundColor)
                     .colorMode(ColorMode.ARGB)
                     .onColorSelected(object : ColorSelectListener {
                         override fun onColorSelected(color: Int) {
-                            backgroundColorCircle.setColorFilter(color)
                             backgroundColor = color
+                            backgroundColorCircle.setColorFilter(color)
                         }
                     })
                     .create()
@@ -87,15 +89,15 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
         }
 
         binding.textColorCircle.also { textColorCircle ->
-            DrawableCompat.wrap(textColorCircle.drawable).setTint(textColor)
+            textColorCircle.setColorFilter(textColor)
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(textColor)
                     .colorMode(ColorMode.HSV)
                     .onColorSelected(object : ColorSelectListener {
                         override fun onColorSelected(color: Int) {
-                            textColorCircle.setColorFilter(color)
                             textColor = color
+                            textColorCircle.setColorFilter(color)
                         }
                     })
                     .create()

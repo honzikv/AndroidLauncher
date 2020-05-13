@@ -18,14 +18,15 @@ import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
     private lateinit var multiLevelAdapter: SettingsMenuAdapter
 
@@ -130,7 +131,7 @@ class SettingsFragment : Fragment() {
         SettingsPageItem(
             "Page ${pageWithFolders.page.pageNumber + 1}",
             {
-                homescreenViewModel.deletePage(pageWithFolders.page)
+                homescreenViewModel.deletePage(pageWithFolders.page.id!!)
             },
             {
                 Timber.d("page = ${pageWithFolders.page}")

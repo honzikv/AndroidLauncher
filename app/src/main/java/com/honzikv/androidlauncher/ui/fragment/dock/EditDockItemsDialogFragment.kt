@@ -15,14 +15,15 @@ import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.dock.adapter.EditDockAdapter
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
-    private val dockViewModel: DockViewModel by viewModel()
+    private val dockViewModel: DockViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
     private lateinit var dockItemAdapter: EditDockAdapter
 

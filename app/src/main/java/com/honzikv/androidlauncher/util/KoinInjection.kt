@@ -27,7 +27,6 @@ val module = module {
     //Repos
     single { HomescreenRepository(get(), get()) }
     single { DockRepository(get()) }
-    single { FolderDataRepository(get()) }
     single { DrawerRepository(androidContext().packageManager) }
     single {
         AppSettingsRepository(

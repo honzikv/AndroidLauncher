@@ -17,6 +17,7 @@ import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderAdapter
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
@@ -29,9 +30,9 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
         }
     }
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
     private lateinit var folder: LiveData<FolderWithItems>
 

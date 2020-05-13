@@ -22,14 +22,15 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogFragment() {
 
-    private val homescreenViewModel: HomescreenViewModel by viewModel()
+    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
     companion object {
         const val FOLDER = "folder"
@@ -150,7 +151,7 @@ class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogF
         Timber.d("Dialog initialized")
 
         binding.removeFolderText.setOnClickListener {
-            homescreenViewModel.deleteFolder(folderModel)
+            homescreenViewModel.deleteFolder(folderModel.id!!)
             dismiss()
         }
 

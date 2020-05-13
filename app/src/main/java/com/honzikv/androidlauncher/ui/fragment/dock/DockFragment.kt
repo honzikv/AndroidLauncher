@@ -17,14 +17,15 @@ import com.honzikv.androidlauncher.ui.fragment.dock.adapter.DockAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class DockFragment : Fragment() {
 
-    private val dockViewModel: DockViewModel by viewModel()
+    private val dockViewModel: DockViewModel by sharedViewModel()
 
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
     private lateinit var dockAdapter: DockAdapter
 
