@@ -6,7 +6,7 @@
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.fragment.dialog.EditPageItemsDialogFragment">
+    tools:context=".ui.fragment.page.EditPageItemsDialogFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewPageHeader"

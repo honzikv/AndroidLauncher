@@ -9,7 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.DrawerApp
+import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
 import com.honzikv.androidlauncher.databinding.IconWithTitleRightBinding
 import org.koin.core.KoinComponent

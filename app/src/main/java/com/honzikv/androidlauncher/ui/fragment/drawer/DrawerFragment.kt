@@ -10,16 +10,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.ThemeProfileModel
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
-import com.honzikv.androidlauncher.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.util.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 

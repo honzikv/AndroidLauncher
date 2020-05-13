@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/constraintLayout"
-    tools:context=".ui.fragment.homescreen.HomescreenFragment">
+    tools:context=".ui.fragment.page.HomescreenFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/dockFragment"
-        android:name="com.honzikv.androidlauncher.ui.fragment.homescreen.DockFragment"
+        android:name="com.honzikv.androidlauncher.ui.fragment.dock.DockFragment"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,15 +1,14 @@
 package com.honzikv.androidlauncher.viewmodel
 
 import androidx.lifecycle.*
-import com.honzikv.androidlauncher.data.model.DrawerApp
-import com.honzikv.androidlauncher.data.repository.AppDrawerRepository
-import com.honzikv.androidlauncher.data.repository.AppSettingsRepository
-import com.honzikv.androidlauncher.data.repository.AppThemeRepository
+import com.honzikv.androidlauncher.model.DrawerApp
+import com.honzikv.androidlauncher.repository.DrawerRepository
+import com.honzikv.androidlauncher.repository.AppSettingsRepository
+import com.honzikv.androidlauncher.repository.AppThemeRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DrawerViewModel(
-    private val appDrawerRepository: AppDrawerRepository,
+    private val drawerRepository: DrawerRepository,
     appThemeRepository: AppThemeRepository,
     private val appSettingsRepository: AppSettingsRepository
 ) : ViewModel() {
@@ -21,14 +20,14 @@ class DrawerViewModel(
      */
     private val appList: MediatorLiveData<List<DrawerApp>> =
         MediatorLiveData<List<DrawerApp>>().apply {
-            addSource(appDrawerRepository.getAppList()) { value = it }
-            if (appDrawerRepository.getAppList().value?.isEmpty()!!) {
+            addSource(drawerRepository.getAppList()) { value = it }
+            if (drawerRepository.getAppList().value?.isEmpty()!!) {
                 updateAppDrawerData()
             }
         }
 
     private fun updateAppDrawerData() =
-        viewModelScope.launch { appDrawerRepository.reloadAppList() }
+        viewModelScope.launch { drawerRepository.reloadAppList() }
 
     fun getDrawerApps(): LiveData<List<DrawerApp>> = appList
 

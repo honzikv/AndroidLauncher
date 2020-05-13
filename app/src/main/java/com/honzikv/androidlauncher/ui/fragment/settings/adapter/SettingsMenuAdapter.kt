@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.data.model.ThemeProfileModel
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
-import com.honzikv.androidlauncher.MATERIAL_MIN_LENGTH
-import com.honzikv.androidlauncher.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.util.MATERIAL_MIN_LENGTH
+import com.honzikv.androidlauncher.util.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem

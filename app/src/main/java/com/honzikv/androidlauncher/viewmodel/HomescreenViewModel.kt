@@ -2,11 +2,11 @@ package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
-import com.honzikv.androidlauncher.MAX_ITEMS_IN_FOLDER
-import com.honzikv.androidlauncher.data.model.*
-import com.honzikv.androidlauncher.data.repository.HomescreenRepository
-import com.honzikv.androidlauncher.transformation.BackgroundTransformations
-import com.honzikv.androidlauncher.ui.callback.Event
+import com.honzikv.androidlauncher.util.MAX_ITEMS_IN_FOLDER
+import com.honzikv.androidlauncher.model.*
+import com.honzikv.androidlauncher.repository.HomescreenRepository
+import com.honzikv.androidlauncher.util.BackgroundTransformations
+import com.honzikv.androidlauncher.util.callback.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

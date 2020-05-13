@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.honzikv.androidlauncher.data.model.PageWithFolders
+import com.honzikv.androidlauncher.model.PageWithFolders
 
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.dialog.EditPageItemsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.page.EditPageItemsDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
@@ -18,7 +18,6 @@ import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 

@@ -2,15 +2,12 @@ package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import com.honzikv.androidlauncher.data.model.PageWithFolders
-import com.honzikv.androidlauncher.ui.fragment.dialog.CreatePageDialogFragment
-import com.honzikv.androidlauncher.ui.fragment.dialog.EditDockItemsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.page.CreatePageDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.dock.EditDockItemsDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsPageItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SubHeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import com.multilevelview.models.RecyclerViewItem
 
 class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentActivity) :
     MultiLevelMenu() {

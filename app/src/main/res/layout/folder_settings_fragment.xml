@@ -6,7 +6,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.fragment.dialog.EditFolderSettingsDialogFragment">
+    tools:context=".ui.fragment.page.EditFolderSettingsDialogFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

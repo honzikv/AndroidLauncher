@@ -1,13 +1,12 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Context
-import com.honzikv.androidlauncher.data.model.ThemeProfileModel
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftRightItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
-import com.multilevelview.models.RecyclerViewItem
 
 class LookAndFeelMenu(
     viewModel: SettingsViewModel,
