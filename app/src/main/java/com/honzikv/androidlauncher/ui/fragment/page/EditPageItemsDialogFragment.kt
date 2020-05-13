@@ -11,17 +11,16 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
-import com.honzikv.androidlauncher.util.MAX_FOLDERS_PER_PAGE
+import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditPageAdapter
-
+import com.honzikv.androidlauncher.util.MAX_FOLDERS_PER_PAGE
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
+import java.util.*
 import kotlin.properties.Delegates
+
 
 class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
@@ -61,7 +60,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
 
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         0
     ) {
 
@@ -70,14 +69,37 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val folder1 = folderAdapter.getItem(viewHolder.adapterPosition).folder
-            val folder2 = folderAdapter.getItem(target.adapterPosition).folder
-            homescreenViewModel.swapFolderPositions(folder1, folder2)
-            Timber.d("folder position was updated")
-            return false
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+
+            if (fromPosition < toPosition) {
+                for (i in fromPosition until toPosition) {
+                    Collections.swap(folderAdapter.getItemList(), i, i + 1)
+                    val swap = folderAdapter.getItem(i).folder.position
+                    folderAdapter.getItem(i).folder.position =
+                        folderAdapter.getItem(i + 1).folder.position
+                    folderAdapter.getItem(i + 1).folder.position = swap
+                }
+            } else {
+                for (i in fromPosition downTo toPosition + 1) {
+                    Collections.swap(folderAdapter.getItemList(), i, i - 1)
+                    val swap = folderAdapter.getItem(i).folder.position!!
+                    folderAdapter.getItem(i).folder.position =
+                        folderAdapter.getItem(i - 1).folder.position!!
+                    folderAdapter.getItem(i - 1).folder.position = swap
+                }
+            }
+            folderAdapter.notifyItemMoved(fromPosition, toPosition)
+
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            homescreenViewModel.updateFolders(folderAdapter.getItemList().map { it.folder })
         }
     }
 

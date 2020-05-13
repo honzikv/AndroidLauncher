@@ -53,5 +53,14 @@ interface FolderDao {
     @Update
     suspend fun updateFolderItems(vararg items: FolderItemModel)
 
+    @Query("SELECT * FROM FolderItemModel WHERE id = :folderItemId")
+    suspend fun getFolderItem(folderItemId: Long): FolderItemModel
+
+    @Update
+    suspend fun updateFolderList(folderList: List<FolderModel>)
+
+    @Update
+    suspend fun updateFolderItemList(itemList: List<FolderItemModel>)
+
 
 }

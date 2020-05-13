@@ -86,7 +86,8 @@ class FolderListAdapter(context: Context, val recyclerView: RecyclerView) :
         fun bind(data: FolderWithItems) {
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, 4) //TODO
-                adapter = FolderAdapter(data.itemList.apply { sortedBy { it.position } })
+                adapter =
+                    FolderAdapter(data.itemList.toMutableList().apply { sortBy { it.position } })
                 (adapter as FolderAdapter).setLabelColor(data.folder.itemColor)
             }
             binding.folderName.apply {

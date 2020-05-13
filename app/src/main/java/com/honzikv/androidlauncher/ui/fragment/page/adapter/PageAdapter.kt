@@ -47,7 +47,8 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
         @SuppressLint("ClickableViewAccessibility")
         fun bind(page: PageWithFolders) {
             val folderAdapter = FolderListAdapter(context, binding.folderListRecyclerView)
-            folderAdapter.setFolderList(page.folderList.sortedBy { it.folder.position })
+            folderAdapter.setFolderList(
+                page.folderList.toMutableList().apply { sortBy { it.folder.position } })
             binding.folderListRecyclerView.apply {
                 adapter = folderAdapter
                 setOnTouchListener(onSwipeTouchListener)

@@ -19,6 +19,7 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
 
@@ -26,8 +27,8 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
         private const val FOLDER_ID = "folderId"
         fun newInstance(folderId: Long) = EditFolderItemsDialogFragment()
             .apply {
-            arguments = Bundle().apply { putLong(FOLDER_ID, folderId) }
-        }
+                arguments = Bundle().apply { putLong(FOLDER_ID, folderId) }
+            }
     }
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
@@ -49,13 +50,37 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val item1 = itemAdapter.getItem(viewHolder.adapterPosition)
-            val item2 = itemAdapter.getItem(target.adapterPosition)
-            homescreenViewModel.swapFolderItemsPositions(item1, item2)
-            return false
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+
+            if (fromPosition < toPosition) {
+                for (i in fromPosition until toPosition) {
+                    Collections.swap(itemAdapter.getItemList(), i, i + 1)
+                    val swap = itemAdapter.getItem(i).position
+                    itemAdapter.getItem(i).position =
+                        itemAdapter.getItem(i + 1).position
+                    itemAdapter.getItem(i + 1).position = swap
+                }
+            } else {
+                for (i in fromPosition downTo toPosition + 1) {
+                    Collections.swap(itemAdapter.getItemList(), i, i - 1)
+                    val swap = itemAdapter.getItem(i).position
+                    itemAdapter.getItem(i).position =
+                        itemAdapter.getItem(i - 1).position
+                    itemAdapter.getItem(i - 1).position = swap
+                }
+            }
+            itemAdapter.notifyItemMoved(fromPosition, toPosition)
+
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            homescreenViewModel.updateFolderItemList(itemAdapter.getItemList())
         }
     }
 
@@ -122,12 +147,11 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             }
 
             binding.addButton.setOnClickListener {
-                AppPickerDialogFragment.newInstance(
-                    folderWithItems.folder.id!!
-                )
+                AppPickerDialogFragment.newInstance(folderWithItems.folder.id!!)
                     .show(requireActivity().supportFragmentManager, "itemPicker")
             }
-            itemAdapter.setItemList(folderWithItems.itemList.apply { sortedBy { it.position } })
+            itemAdapter.setItemList(
+                folderWithItems.itemList.toMutableList().apply { sortBy { it.position } })
             itemAdapter.notifyDataSetChanged()
         }
 

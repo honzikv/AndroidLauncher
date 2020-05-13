@@ -18,10 +18,6 @@ class HomescreenViewModel(
     private val folderPostErrorMutable = MutableLiveData<Event<String>>()
     val folderPostError: LiveData<Event<String>> get() = folderPostErrorMutable
 
-    override fun onCleared() {
-        Timber.d("clearing viewmodel")
-        super.onCleared()
-    }
 
     val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
         return@map pageList.apply {
@@ -81,9 +77,11 @@ class HomescreenViewModel(
 
     fun swapFolderItemsPositions(item1: FolderItemModel, item2: FolderItemModel) =
         viewModelScope.launch {
+            Timber.d("$item1 \n $item2")
             val swap = item1.position
             item1.position = item2.position
             item2.position = swap
+            Timber.d("$item1 \n $item2")
             homescreenRepository.updateFolderItems(item1, item2)
         }
 
@@ -158,5 +156,13 @@ class HomescreenViewModel(
 
     suspend fun addItems(items: List<FolderItemModel>) {
         homescreenRepository.addItemsWithFolderId(items)
+    }
+
+    fun updateFolders(itemList: List<FolderModel>) = viewModelScope.launch {
+        homescreenRepository.updateFolderList(itemList)
+    }
+
+    fun updateFolderItemList(itemList: List<FolderItemModel>) = viewModelScope.launch {
+        homescreenRepository.updateFolderItemList(itemList)
     }
 }

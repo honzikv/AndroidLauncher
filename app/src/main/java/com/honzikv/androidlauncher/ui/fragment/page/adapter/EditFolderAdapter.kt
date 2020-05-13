@@ -11,11 +11,11 @@ import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBindin
 class EditFolderAdapter(private val delete: (Long) -> Unit) :
     RecyclerView.Adapter<EditFolderAdapter.FolderItemViewHolder>() {
 
-    private var itemList = listOf<FolderItemModel>()
+    private var itemList = mutableListOf<FolderItemModel>()
 
     private var textColor = Color.BLACK
 
-    fun setItemList(itemList: List<FolderItemModel>) {
+    fun setItemList(itemList: MutableList<FolderItemModel>) {
         this.itemList = itemList
     }
 
@@ -36,6 +36,7 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
     }
 
     fun getItem(adapterPosition: Int) = itemList[adapterPosition]
+    fun getItemList(): MutableList<FolderItemModel> = itemList
 
     inner class FolderItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

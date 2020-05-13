@@ -83,35 +83,54 @@ class HomescreenRepository(
 
     suspend fun deleteFolder(folderId: Long) {
         val folder = folderDao.getFolder(folderId)
-        if (folder.pageId == null) {
-            folderDao.deleteFolderWithId(folderId)
-        }
+        if (folder.pageId != null) {
+            val pageWithFolders = pageDao.getPageWithFolders(folder.pageId!!)
+            val folders = pageWithFolders.folderList
 
-        val pageWithFolders = pageDao.getPageWithFolders(folder.pageId!!)
-        val folders = pageWithFolders.folderList
-
-        var folderIndex = -1
-        for (i in folders.indices) {
-            if (folders[i].folder.id == folderId) {
-                folderIndex = i
-                break
+            var folderIndex = -1
+            for (i in folders.indices) {
+                if (folders[i].folder.id == folderId) {
+                    folderIndex = i
+                    break
+                }
+            }
+            for (i in folderIndex + 1 until folders.size) {
+                folders[i].folder.position = folders[i].folder.position!! - 1
+                folderDao.updateFolder(folders[i].folder)
             }
         }
-        for (i in folderIndex + 1 until folders.size) {
-            folders[i].folder.position = folders[i].folder.position!! - 1
-            folderDao.updateFolder(folders[i].folder)
-        }
         folderDao.deleteFolderWithId(folderId)
+    }
+
+    suspend fun deleteFolderItem(folderItemId: Long) {
+        val folderItem = folderDao.getFolderItem(folderItemId)
+        if (folderItem.folderId == null) {
+            val folder = folderDao.getFolderWithItems(folderItem.folderId!!)
+            val items = folder.itemList
+
+            var index = -1
+            for (i in items.indices) {
+                if (items[i].id == folderItemId) {
+                    index = i
+                    break
+                }
+            }
+            for (i in index + 1 until items.size) {
+                items[i].position = items[i].position - 1
+                folderDao.updateFolderItem(items[i])
+            }
+        }
+        folderDao.deleteFolderItem(folderItemId)
     }
 
     fun getPageWithFolders(pageId: Long): LiveData<PageWithFolders> =
         pageDao.getPageWithFoldersLiveData(pageId)
 
-    suspend fun deletePageWithId(pageId: Long) = pageDao.deletePageWithId(pageId)
-
     suspend fun deleteFolderWithId(folderId: Long) = folderDao.deleteFolderWithId(folderId)
 
     suspend fun updateFolders(vararg folders: FolderModel) = folderDao.updateFolders(*folders)
+
+    suspend fun updateFolderList(folderList: List<FolderModel>) = folderDao.updateFolderList(folderList)
 
     suspend fun getFolderWithItems(folderId: Long) = folderDao.getFolderWithItems(folderId)
 
@@ -120,15 +139,13 @@ class HomescreenRepository(
 
     fun getFolderWithItemsLiveData(folderId: Long) = folderDao.getFolderWithItemsLiveData(folderId)
 
-    suspend fun deleteFolderItem(id: Long) = folderDao.deleteFolderItem(id)
-
-    fun getFolderLiveData(folderId: Long): LiveData<FolderModel> =
-        folderDao.getFolderLiveData(folderId)
-
     suspend fun updateFolderItems(vararg items: FolderItemModel) =
         folderDao.updateFolderItems(*items)
 
     suspend fun getFirstPage() = pageDao.getFirstPage()
 
     suspend fun addFolderWithoutPage(folder: FolderModel) = folderDao.addFolderWithoutPage(folder)
+
+    suspend fun updateFolderItemList(itemList: List<FolderItemModel>) =
+        folderDao.updateFolderItemList(itemList)
 }

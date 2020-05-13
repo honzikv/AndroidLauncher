@@ -16,15 +16,17 @@ class EditPageAdapter(
 ) :
     RecyclerView.Adapter<EditPageAdapter.FolderViewHolder>() {
 
-    private var itemList: List<FolderWithItems> = mutableListOf()
+    private var itemList: MutableList<FolderWithItems> = mutableListOf()
 
     private var textColor = Color.BLACK
 
     fun getItem(index: Int) = itemList[index]
 
-    fun setItemList(itemList: List<FolderWithItems>) {
+    fun setItemList(itemList: MutableList<FolderWithItems>) {
         this.itemList = itemList
     }
+
+    fun getItemList() = itemList
 
     fun setTextColor(labelColor: Int) {
         this.textColor = labelColor
