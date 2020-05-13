@@ -83,9 +83,9 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             } else {
                 for (i in fromPosition downTo toPosition + 1) {
                     Collections.swap(folderAdapter.getItemList(), i, i - 1)
-                    val swap = folderAdapter.getItem(i).folder.position!!
+                    val swap = folderAdapter.getItem(i).folder.position
                     folderAdapter.getItem(i).folder.position =
-                        folderAdapter.getItem(i - 1).folder.position!!
+                        folderAdapter.getItem(i - 1).folder.position
                     folderAdapter.getItem(i - 1).folder.position = swap
                 }
             }
@@ -99,7 +99,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
-            homescreenViewModel.updateFolders(folderAdapter.getItemList().map { it.folder })
+            homescreenViewModel.updateFolderList(folderAdapter.getItemList().map { it.folder })
         }
     }
 

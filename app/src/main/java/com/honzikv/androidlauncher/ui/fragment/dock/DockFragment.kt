@@ -73,8 +73,8 @@ class DockFragment : Fragment() {
             dockAdapter.setShowLabels(it)
         })
 
-        dockViewModel.dockItems.observe(viewLifecycleOwner, {
-            dockAdapter.setDockItems(it)
+        dockViewModel.dockItems.observe(viewLifecycleOwner, { itemList ->
+            dockAdapter.setDockItems(itemList.toMutableList().apply { sortBy { it.position } })
             dockAdapter.notifyDataSetChanged()
         })
 

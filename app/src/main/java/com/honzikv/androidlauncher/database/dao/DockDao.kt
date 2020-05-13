@@ -23,7 +23,7 @@ interface DockDao {
     suspend fun removeItem(dockItemModel: DockItemModel)
 
     @Update
-    suspend fun updateItems(items: List<DockItemModel>)
+    suspend fun updateItemList(items: List<DockItemModel>)
 
 
 }

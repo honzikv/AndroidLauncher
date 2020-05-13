@@ -28,8 +28,11 @@ class DockRepository(
             }
             allItems.removeAt(itemPosition)
             dockDao.removeItem(item)
-            dockDao.updateItems(allItems)
+            dockDao.updateItemList(allItems)
         }
     }
+
+    suspend fun updateItemList(itemList: List<DockItemModel>) = dockDao.updateItemList(itemList)
+
 
 }

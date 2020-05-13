@@ -90,4 +90,8 @@ class DockViewModel(
     fun removeItem(id: Long) = viewModelScope.launch {
         dockRepository.removeDockItem(id)
     }
+
+    fun updateItemList(itemList: List<DockItemModel>) = viewModelScope.launch {
+        dockRepository.updateItemList(itemList)
+    }
 }

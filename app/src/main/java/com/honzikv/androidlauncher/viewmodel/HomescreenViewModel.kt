@@ -158,7 +158,7 @@ class HomescreenViewModel(
         homescreenRepository.addItemsWithFolderId(items)
     }
 
-    fun updateFolders(itemList: List<FolderModel>) = viewModelScope.launch {
+    fun updateFolderList(itemList: List<FolderModel>) = viewModelScope.launch {
         homescreenRepository.updateFolderList(itemList)
     }
 

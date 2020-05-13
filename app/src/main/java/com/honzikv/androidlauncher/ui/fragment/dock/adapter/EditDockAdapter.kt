@@ -11,11 +11,11 @@ import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBindin
 class EditDockAdapter(val delete: (Long) -> Unit) :
     RecyclerView.Adapter<EditDockAdapter.DockItemViewHolder>() {
 
-    private var itemList: List<DockItemModel> = mutableListOf()
+    private var itemList: MutableList<DockItemModel> = mutableListOf()
 
     private var textColor = Color.BLACK
 
-    fun setItemList(itemList: List<DockItemModel>) {
+    fun setItemList(itemList: MutableList<DockItemModel>) {
         this.itemList = itemList
     }
 
@@ -34,6 +34,9 @@ class EditDockAdapter(val delete: (Long) -> Unit) :
     override fun onBindViewHolder(holder: DockItemViewHolder, position: Int) {
         holder.bind(itemList[position])
     }
+
+    fun getItem(i: Int) = itemList[i]
+    fun getItemList(): MutableList<DockItemModel> = itemList
 
     inner class DockItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
