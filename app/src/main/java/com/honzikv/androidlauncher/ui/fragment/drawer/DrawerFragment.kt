@@ -20,7 +20,6 @@ import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
@@ -34,29 +33,28 @@ class DrawerFragment : Fragment() {
 
     private lateinit var navController: NavController
 
+    private lateinit var binding: AppDrawerFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("creating view")
         navController = findNavController()
-        val binding =
+        binding =
             AppDrawerFragmentBinding.inflate(inflater, container, false)
-        initialize(binding)
+        initialize()
         return binding.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initialize(binding: AppDrawerFragmentBinding) {
+    private fun initialize() {
         appDrawerAdapter =
             AppDrawerAdapter()
 
         binding.appDrawerRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = appDrawerAdapter
-            registerForContextMenu(this)
-            setOnLongClickListener {
-                true
-            }
         }
 
         binding.searchView.setOnQueryTextListener(object :
@@ -75,6 +73,10 @@ class DrawerFragment : Fragment() {
                 returnToHomePageFragment()
             }
         })
+
+        binding.settingsIcon.setOnClickListener { view ->
+            navigateToSettings()
+        }
 
         settingsViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
             useRoundCardView(binding, use)
@@ -123,6 +125,7 @@ class DrawerFragment : Fragment() {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
         binding.appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
         binding.searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
+        binding.settingsIcon.setColorFilter(theme.drawerSearchBackgroundColor)
     }
 
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
@@ -142,24 +145,9 @@ class DrawerFragment : Fragment() {
         Timber.d("From drawer to homepage")
     }
 
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        view: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, view, menuInfo)
-
-        when (view.id) {
-            R.id.appDrawerRecyclerView -> createRecyclerViewPopupMenu(menu, view)
-        }
+    private fun navigateToSettings() {
+        navController.navigate(R.id.action_appDrawerFragment_to_settingsFragment)
+        Timber.d("Navigating from drawer to settings")
     }
 
-    private fun createRecyclerViewPopupMenu(menu: ContextMenu, view: View) {
-        view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        activity?.menuInflater?.inflate(R.menu.app_drawer_on_long_click_menu, menu)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        return super.onContextItemSelected(item)
-    }
 }

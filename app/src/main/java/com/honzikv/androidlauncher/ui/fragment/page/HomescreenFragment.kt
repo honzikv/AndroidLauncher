@@ -1,24 +1,27 @@
 package com.honzikv.androidlauncher.ui.fragment.page
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.PageAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.lang.reflect.Method
+
 
 class HomescreenFragment : Fragment() {
 
@@ -26,9 +29,13 @@ class HomescreenFragment : Fragment() {
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
+
     private lateinit var viewPagerAdapter: PageAdapter
 
     private lateinit var onSwipeTouchListener: OnSwipeTouchListener
+
+    private lateinit var swipeDownForNotification: MediatorLiveData<Boolean>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +62,7 @@ class HomescreenFragment : Fragment() {
 
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
-                navigateToSettings()
+                pullDownNotificationBar()
             }
         }
 
@@ -65,38 +72,26 @@ class HomescreenFragment : Fragment() {
 
         binding.viewPager.adapter = viewPagerAdapter
 
+        swipeDownForNotification = MediatorLiveData<Boolean>().apply {
+            value = settingsViewModel.getSwipeDownForNotifications()
+            addSource(settingsViewModel.swipeDownForNotifications) { value = it }
+        }
+
         homescreenViewModel.allPages.observe(viewLifecycleOwner, {
             viewPagerAdapter.setPages(it)
             viewPagerAdapter.notifyDataSetChanged()
         })
+    }
 
-        binding.constraintLayout.setOnLongClickListener { view ->
-            longPressPopupMenu(view)
-            return@setOnLongClickListener true
+    @SuppressLint("WrongConstant")
+    private fun pullDownNotificationBar() {
+        if (swipeDownForNotification.value!!) {
+            val sbservice = activity?.getSystemService("statusbar") ?: return
+            val statusbarManager = Class.forName("android.app.StatusBarManager")
+            val showsb = statusbarManager.getMethod("expandNotificationsPanel")
+            showsb.invoke(sbservice)
         }
     }
-
-    private fun longPressPopupMenu(view: View) {
-        Timber.d("Creating Popup Menu")
-        PopupMenu(context, view).apply {
-            setOnMenuItemClickListener { item ->
-                when (item!!.itemId) {
-                    R.id.launcherSettings -> TODO("Launcher settings placeholder")
-                    R.id.changeWallpaper -> TODO("Change Wallpaper")
-                }
-
-                true
-            }
-            inflate(R.menu.homescreen_long_click_popup_menu)
-            show()
-        }
-    }
-
-    private fun navigateToSettings() {
-        Timber.d("Navigating from homescreen fragment to settings fragment")
-        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
-    }
-
 
     private fun navigateToAppDrawer() {
         Timber.d("Navigating from homescreen fragment to app drawer fragment")

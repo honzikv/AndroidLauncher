@@ -3,17 +3,27 @@ package com.honzikv.androidlauncher.repository
 import com.honzikv.androidlauncher.database.dao.DockDao
 import com.honzikv.androidlauncher.model.DockItemModel
 
+/**
+ * Repository pro dok
+ */
 class DockRepository(
     private val dockDao: DockDao
 ) {
     val dockItemsLiveData = dockDao.getAllItemsLiveData()
 
+    /**
+     * Query vsech [DockItemModel] z tabulky
+     */
     suspend fun getAllItems(): List<DockItemModel> = dockDao.getAllItems()
 
+    /**
+     * Prida [list] do tabulky
+     */
     suspend fun addItems(list: List<DockItemModel>) = dockDao.addItems(list)
 
-    suspend fun addItem(item: DockItemModel) = dockDao.addItem(item)
-
+    /**
+     * Odstrani [DockItemModel] instanci s [id] z tabulky
+     */
     suspend fun removeDockItem(id: Long) {
         val allItems = dockDao.getAllItems()
 
@@ -32,6 +42,9 @@ class DockRepository(
         }
     }
 
+    /**
+     * Aktualizuje prvky z [itemList] v databazi
+     */
     suspend fun updateItemList(itemList: List<DockItemModel>) = dockDao.updateItemList(itemList)
 
 

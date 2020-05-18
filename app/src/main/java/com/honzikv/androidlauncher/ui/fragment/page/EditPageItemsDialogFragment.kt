@@ -105,9 +105,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
     private fun initialize(binding: EditHomescreenContainerFragmentBinding) {
         folderAdapter =
-            EditPageAdapter(requireActivity()) {
-                homescreenViewModel.deleteFolder(it)
-            }
+            EditPageAdapter(requireActivity()) { homescreenViewModel.deleteFolder(it) }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor

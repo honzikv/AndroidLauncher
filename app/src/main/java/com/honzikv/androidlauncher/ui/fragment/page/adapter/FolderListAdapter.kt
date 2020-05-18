@@ -114,7 +114,8 @@ class FolderListAdapter(context: Context, val recyclerView: RecyclerView) :
                 setTextColor(data.folder.itemColor)
             }
             binding.subText.apply {
-                text = data.itemList.map(FolderItemModel::label).joinToString(", ")
+                text = data.itemList.toMutableList().apply { sortBy { it.position } }
+                    .map(FolderItemModel::label).joinToString(", ")
                 setTextColor(data.folder.itemColor)
             }
             DrawableCompat.wrap(binding.circleIcon.drawable).setTint(data.folder.itemColor)

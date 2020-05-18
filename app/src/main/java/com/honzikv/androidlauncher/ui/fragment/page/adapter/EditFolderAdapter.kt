@@ -42,15 +42,15 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: FolderItemModel) {
-            binding.textLeft.apply {
-                text = data.label
-                setTextColor(textColor)
-            }
-            binding.editButton.visibility = View.GONE
             binding.appIcon.setImageDrawable(data.icon)
+            binding.editButton.visibility = View.GONE
             binding.removeButton.apply {
                 setColorFilter(textColor)
                 setOnClickListener { delete(data.id!!) }
+            }
+            binding.textLeft.apply {
+                text = data.label
+                setTextColor(textColor)
             }
         }
     }
