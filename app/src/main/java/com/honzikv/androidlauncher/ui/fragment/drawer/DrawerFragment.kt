@@ -126,6 +126,7 @@ class DrawerFragment : Fragment() {
         binding.appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
         binding.searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
         binding.settingsIcon.setColorFilter(theme.drawerSearchBackgroundColor)
+        binding.allApps.setTextColor(theme.drawerSearchBackgroundColor)
     }
 
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {

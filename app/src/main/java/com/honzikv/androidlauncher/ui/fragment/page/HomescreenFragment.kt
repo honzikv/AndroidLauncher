@@ -1,12 +1,10 @@
 package com.honzikv.androidlauncher.ui.fragment.page
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.observe
@@ -20,7 +18,6 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import java.lang.reflect.Method
 
 
 class HomescreenFragment : Fragment() {
@@ -86,10 +83,10 @@ class HomescreenFragment : Fragment() {
     @SuppressLint("WrongConstant")
     private fun pullDownNotificationBar() {
         if (swipeDownForNotification.value!!) {
-            val sbservice = activity?.getSystemService("statusbar") ?: return
-            val statusbarManager = Class.forName("android.app.StatusBarManager")
-            val showsb = statusbarManager.getMethod("expandNotificationsPanel")
-            showsb.invoke(sbservice)
+            val statusBarService = activity?.getSystemService("statusbar") ?: return
+            val statusBarManager = Class.forName("android.app.StatusBarManager")
+            val showStatusBar = statusBarManager.getMethod("expandNotificationsPanel")
+            showStatusBar.invoke(statusBarService)
         }
     }
 

@@ -20,13 +20,9 @@ class AppSettingsRepository(
 
     companion object {
 
-        val DRAWER_COLOR_DEFAULT = Color.parseColor("#d7dbe0")
-
         const val SHOW_DOCK_FIELD = "showDock"
 
         const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
-
-        const val THEME_PROFILE_FIELD = "themeProfile"
 
         const val SHOW_SEARCH_BAR_FIELD = "showSearchBar"
 

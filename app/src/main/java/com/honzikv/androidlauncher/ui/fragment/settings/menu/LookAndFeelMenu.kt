@@ -13,6 +13,7 @@ class LookAndFeelMenu(
     context: Context
 ) : MultiLevelMenu() {
 
+    override fun getRoot() = lookAndFeel
 
     companion object {
         const val LOOK_AND_FEEL = "Look and Feel"
@@ -73,6 +74,5 @@ class LookAndFeelMenu(
         )
     }
 
-    override fun getRoot() = lookAndFeel
 
 }

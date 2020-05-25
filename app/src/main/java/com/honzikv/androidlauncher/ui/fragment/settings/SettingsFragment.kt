@@ -19,7 +19,6 @@ import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
@@ -114,7 +113,7 @@ class SettingsFragment : Fragment() {
         pagesWithFolders: List<PageWithFolders>
     ) {
 
-        val pages = mutableListOf<SettingsPageItem>()
+        val pages = mutableListOf<SettingsPageList>()
         pagesWithFolders.forEach {
             pages.add(createPageSubMenu(it, homescreenMenu.managePages.level))
         }
@@ -127,8 +126,8 @@ class SettingsFragment : Fragment() {
     }
 
 
-    private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageItem =
-        SettingsPageItem(
+    private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageList =
+        SettingsPageList(
             "Page ${pageWithFolders.page.pageNumber + 1}",
             {
                 homescreenViewModel.deletePage(pageWithFolders.page.id!!)

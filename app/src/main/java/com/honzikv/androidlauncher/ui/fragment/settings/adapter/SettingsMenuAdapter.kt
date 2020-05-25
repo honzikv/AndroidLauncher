@@ -137,7 +137,7 @@ class SettingsMenuAdapter(
                 .bind(item as SubHeaderItem)
 
             R.layout.settings_page_item -> (holder as PageItemViewHolder)
-                .bind(item as SettingsPageItem)
+                .bind(item as SettingsPageList)
         }
     }
 
@@ -150,7 +150,7 @@ class SettingsMenuAdapter(
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
             is SubHeaderItem -> R.layout.settings_sub_header_icon_right_item
-            is SettingsPageItem -> R.layout.settings_page_item
+            is SettingsPageList -> R.layout.settings_page_item
             else -> -1 //never happens
         }
     }
@@ -311,7 +311,7 @@ class SettingsMenuAdapter(
     inner class PageItemViewHolder(val binding: SettingsPageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: SettingsPageItem) {
+        fun bind(data: SettingsPageList) {
             binding.pageName.text = data.pageName
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)

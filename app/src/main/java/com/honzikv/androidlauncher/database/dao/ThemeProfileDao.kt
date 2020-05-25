@@ -8,7 +8,7 @@ import com.honzikv.androidlauncher.model.ThemeProfileModel
 interface ThemeProfileDao {
 
     @Query("SELECT * FROM ThemeProfileModel ORDER BY id ASC")
-    fun getAllProfiles(): LiveData<List<ThemeProfileModel>>
+    fun getAllProfilesLiveData(): LiveData<List<ThemeProfileModel>>
 
     @Update
     fun updateProfile(vararg profile: ThemeProfileModel)

@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.Displayable
 
+/**
+ * Entita reprezentujici tema celkoveho vzhledu v aplikaci
+ */
 @Entity
 data class ThemeProfileModel(
 

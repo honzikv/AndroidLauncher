@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
+/**
+ * Entita zastupujici predmet v doku
+ */
 @Entity
 data class DockItemModel(
     @PrimaryKey(autoGenerate = true)

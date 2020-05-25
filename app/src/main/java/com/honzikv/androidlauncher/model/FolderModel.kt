@@ -4,6 +4,9 @@ import android.graphics.drawable.Drawable
 import androidx.room.*
 import timber.log.Timber
 
+/**
+ * Entita reprezentujici slozku
+ */
 @Entity(
     foreignKeys = [
         ForeignKey(
@@ -61,7 +64,7 @@ data class FolderModel(
 }
 
 /**
- * User created app shortcut - e.g icon in folder_header
+ * Entita reprezentujici aplikaci ve slozce
  */
 @Entity(
     foreignKeys = [
@@ -76,11 +79,11 @@ data class FolderItemModel(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
+    /**
+     * Reference na slozku
+     */
     var folderId: Long? = null,
 
-    /**
-     * Reference to SystemApp via package name
-     */
     val packageName: String,
 
     var position: Int = 0
@@ -94,31 +97,31 @@ data class FolderItemModel(
     var label: String? = null
 }
 
+/**
+ * Trida, ktera slouzi jako query stranky, pro kterou zaroven potrebujeme jeji slozky
+ * a predmety ve slozkach
+ */
 data class PageWithFolders(
     @Embedded
     val page: PageModel,
 
     /**
-     * List of folders each containing list of their items
+     * Seznam vsech [FolderModel] s jejich [FolderItemModel]
      */
     @Relation(parentColumn = "id", entityColumn = "pageId", entity = FolderModel::class)
     val folderList: List<FolderWithItems>
 )
 
+/**
+ * Trida, ktera slouzi jako query slozky, pro kterou zaroven potrebujeme jeji predmety
+ */
 data class FolderWithItems(
     @Embedded
     val folder: FolderModel,
 
-    /**
-     * List of items in folder
-     */
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
     val itemList: List<FolderItemModel>
 ) {
-    fun restoreState(folderWithItems: FolderWithItems) {
-        Timber.d("setting show items to ${folderWithItems.showItems}")
-        showItems = folderWithItems.showItems
-    }
 
     @Ignore
     var showItems: Boolean = false

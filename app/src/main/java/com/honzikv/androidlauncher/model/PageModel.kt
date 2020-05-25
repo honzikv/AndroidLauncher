@@ -2,6 +2,9 @@ package com.honzikv.androidlauncher.model
 
 import androidx.room.*
 
+/**
+ * Entita reprezentuje stranku na plose
+ */
 @Entity
 data class PageModel(
     @PrimaryKey(autoGenerate = true)

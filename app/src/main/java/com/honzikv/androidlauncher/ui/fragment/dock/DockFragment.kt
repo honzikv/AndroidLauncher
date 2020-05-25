@@ -59,11 +59,8 @@ class DockFragment : Fragment() {
             }
         }
 
-        dockAdapter =
-            DockAdapter(
-                settingsViewModel.getShowDockLabels(),
-                onSwipeTouchListener
-            )
+        dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels(), onSwipeTouchListener)
+
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.cardView.setCardBackgroundColor(it.dockBackgroundColor)
             dockAdapter.setLabelColor(it.dockTextColor)
@@ -79,8 +76,7 @@ class DockFragment : Fragment() {
         })
 
         binding.recyclerView.apply {
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = dockAdapter
         }
 

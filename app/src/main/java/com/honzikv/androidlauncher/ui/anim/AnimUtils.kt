@@ -4,7 +4,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Performs an animation from [animationResourceId] on [recyclerView]
+ * Jednoducha funkce na provedeni animace recyclerView
  */
 fun runAnimationOnRecyclerView(recyclerView: RecyclerView, animationResourceId: Int) {
     val context = recyclerView.context

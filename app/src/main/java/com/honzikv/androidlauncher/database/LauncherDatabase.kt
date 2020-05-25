@@ -6,7 +6,7 @@ import com.honzikv.androidlauncher.database.dao.*
 import com.honzikv.androidlauncher.model.*
 
 /**
- * Room database to store user edited data about homescreen
+ * Room databaze se vsemi entitami pro persistenci dat v aplikaci.
  */
 @Database(
     entities = [FolderModel::class, FolderItemModel::class, DockItemModel::class,
