@@ -24,7 +24,6 @@ class LookAndFeelMenu(
         const val SELECT_THEME = "Change Theme"
         const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notification Panel"
 
-        const val ONE_HANDED_MODE = "Use One Handed Mode"
     }
 
     private val lookAndFeel = HeaderItem(LOOK_AND_FEEL, LOOK_AND_FEEL_SUB, 0)
@@ -54,22 +53,12 @@ class LookAndFeelMenu(
             lookAndFeel.level + 1
         )
 
-
-    private val oneHandedMode =
-        SwitchItem(
-            ONE_HANDED_MODE,
-            viewModel.getUseOneHandedMode(),
-            { viewModel.setUseOneHandedMode(it) },
-            lookAndFeel.level + 1
-        )
-
     init {
         lookAndFeel.addChildren(
             listOf(
                 currentTheme,
                 selectTheme,
-                swipeDownToOpenNotificationsSwitchItem,
-                oneHandedMode
+                swipeDownToOpenNotificationsSwitchItem
             )
         )
     }

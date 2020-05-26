@@ -31,10 +31,6 @@ class SettingsViewModel(
     fun setShowDock(show: Boolean) =
         viewModelScope.launch { settingsRepository.setShowDock(show) }
 
-    val useOneHandedMode = settingsRepository.useOneHandedMode
-    fun setUseOneHandedMode(use: Boolean) = settingsRepository.setUseOneHandedMode(use)
-    fun getUseOneHandedMode() = settingsRepository.getUseOneHandedMode()
-
     val showSearchBar = settingsRepository.showSearchBar
     fun getShowSearchBar() = settingsRepository.getShowSearchBar()
     fun setShowSearchBar(show: Boolean) = settingsRepository.setShowSearchBar(show)
@@ -55,6 +51,7 @@ class SettingsViewModel(
         appThemeRepository.addProfile(*profile)
     }
 
+    val showPageDots = settingsRepository.showPageDots
     fun getShowPageDots(): Boolean = settingsRepository.getShowPageDots()
     fun setShowPageDots(show: Boolean) = settingsRepository.setShowPageDots(show)
 }

@@ -53,7 +53,6 @@ class EditFolderListAdapter(
                 text = folder.title
                 setTextColor(textColor)
             }
-            binding.appIcon.visibility = View.GONE
 
             binding.editButton.apply {
                 setOnClickListener {

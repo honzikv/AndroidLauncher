@@ -35,7 +35,6 @@ class Initializer(
                 "com.google.android.apps.translate"
             )
 
-
         val FOLDER_COLOR = Color.parseColor("#fb212d40")
         val ITEM_COLOR = Color.parseColor("#e8f1f2")
         const val FOLDER_NAME = "Google Apps"

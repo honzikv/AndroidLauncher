@@ -141,7 +141,6 @@ class SettingsMenuAdapter(
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
             is SubHeaderItem -> R.layout.settings_sub_header_icon_right_item
-            is SettingsPageList -> R.layout.settings_page_item
             else -> -1 //never happens
         }
     }
@@ -279,17 +278,21 @@ class SettingsMenuAdapter(
     inner class SubHeaderIconRightViewHolder(val binding: SettingsSubHeaderIconRightItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        //Rotace ikony pro detail menu
+        private fun getRotationAngle() =
+            if (items[adapterPosition].isExpanded) {
+                180f
+            } else {
+                0f
+            }
+
+
         fun bind(data: SubHeaderItem) {
             setOnClickExpand(binding.cardView, this)
             binding.cardView.setOnClickListener {
                 recyclerView.toggleItemsGroup(adapterPosition)
                 binding.expandIcon.animate().rotation(
-                    //Rotace ikony pro detail menu
-                    if (items[adapterPosition].isExpanded) {
-                        180f
-                    } else {
-                        0f
-                    }
+                    getRotationAngle()
                 )
             }
 
@@ -299,8 +302,10 @@ class SettingsMenuAdapter(
                 layoutParams = getCardViewMargin(layoutParams)
             }
 
-            binding.expandIcon.setColorFilter(childTextFillColor)
-
+            binding.expandIcon.apply {
+                setColorFilter(childTextFillColor)
+                rotation = getRotationAngle()
+            }
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 

@@ -19,7 +19,7 @@ import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
-import com.honzikv.androidlauncher.utils.toAlpha
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -126,7 +126,7 @@ class DrawerFragment : Fragment() {
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
-        binding.constraintLayout.setBackgroundColor(toAlpha(theme.drawerTextFillColor, 120))
+        binding.constraintLayout.setBackgroundColor(applyAlpha(theme.drawerTextFillColor, 120))
         binding.appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
         binding.searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
         binding.searchView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)

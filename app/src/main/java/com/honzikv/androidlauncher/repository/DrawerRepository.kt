@@ -35,12 +35,12 @@ class DrawerRepository(private val packageManager: PackageManager) {
         )
 
         //Namapovani na [DrawerApp]
-        systemPackages.forEach { resolveInfo ->
+        systemPackages.forEach {
             apps.add(
                 DrawerApp(
-                    resolveInfo.activityInfo.packageName,
-                    resolveInfo.loadLabel(packageManager).toString(),
-                    resolveInfo.loadIcon(packageManager)
+                    it.activityInfo.packageName,
+                    it.loadLabel(packageManager).toString(),
+                    it.loadIcon(packageManager)
                 )
             )
         }

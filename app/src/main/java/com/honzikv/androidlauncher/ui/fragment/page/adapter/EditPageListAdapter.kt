@@ -58,7 +58,7 @@ class EditPageListAdapter(
                 text = if (pageWithFolders.folderList.isEmpty()) {
                     "Page has no folders"
                 } else {
-                    pageWithFolders.folderList
+                    "Folders: " + pageWithFolders.folderList
                         .toMutableList()
                         .sortedBy { it.folder.position }
                         .reversed()

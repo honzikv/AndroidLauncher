@@ -15,6 +15,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">34sp</item>
         <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="text_header_bold" parent="text_header">
@@ -34,12 +35,14 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">17sp</item>
         <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="text_normal">
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">14sp</item>
         <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="bold_text_style">
@@ -52,6 +55,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">13sp</item>
         <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:breakStrategy">high_quality</item>
         <item name="android:gravity">center_horizontal</item>
     </style>

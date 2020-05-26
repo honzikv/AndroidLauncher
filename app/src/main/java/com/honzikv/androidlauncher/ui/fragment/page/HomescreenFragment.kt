@@ -10,10 +10,12 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.google.android.material.tabs.TabLayoutMediator
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.PageAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -68,6 +70,20 @@ class HomescreenFragment : Fragment() {
             PageAdapter(requireActivity(), onSwipeTouchListener)
 
         binding.viewPager.adapter = viewPagerAdapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        }.attach()
+
+        settingsViewModel.showPageDots.observe(viewLifecycleOwner) {
+            if (!it) {
+                binding.tabLayout.visibility = View.INVISIBLE
+            } else {
+                binding.tabLayout.visibility = View.VISIBLE
+            }
+        }
+
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner) { theme ->
+        }
 
         swipeDownForNotification = MediatorLiveData<Boolean>().apply {
             value = settingsViewModel.getSwipeDownForNotifications()
