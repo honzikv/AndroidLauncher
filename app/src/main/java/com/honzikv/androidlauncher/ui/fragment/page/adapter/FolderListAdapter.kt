@@ -13,7 +13,7 @@ import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
-import com.honzikv.androidlauncher.ui.fragment.page.EditFolderSettingsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.page.FolderSettingsDialogFragment
 
 class FolderListAdapter(context: Context, val recyclerView: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -40,7 +40,7 @@ class FolderListAdapter(context: Context, val recyclerView: RecyclerView) :
         val item = folderList[viewHolder.adapterPosition]
         val fragmentActivity = context as FragmentActivity
 
-        EditFolderSettingsDialogFragment.newInstance(item.folder).apply {
+        FolderSettingsDialogFragment.newInstance(item.folder).apply {
             show(fragmentActivity.supportFragmentManager, "folder_edit_settings")
         }
         return@OnLongClickListener true

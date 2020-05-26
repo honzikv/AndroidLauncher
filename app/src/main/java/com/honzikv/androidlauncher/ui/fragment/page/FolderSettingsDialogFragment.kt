@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
@@ -23,9 +22,8 @@ import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 
-class EditFolderSettingsDialogFragment private constructor() : BottomSheetDialogFragment() {
+class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
@@ -38,7 +36,7 @@ class EditFolderSettingsDialogFragment private constructor() : BottomSheetDialog
          * [bundle] containing serialized folderModel
          */
         fun newInstance(folderModel: FolderModel) =
-            EditFolderSettingsDialogFragment()
+            FolderSettingsDialogFragment()
                 .apply {
                     arguments = Bundle().apply { putString(FOLDER, Gson().toJson(folderModel)) }
                 }
@@ -75,7 +73,6 @@ class EditFolderSettingsDialogFragment private constructor() : BottomSheetDialog
                 changeTitleText.setTextColor(cardViewTextColor)
                 constraintLayout.setBackgroundColor(backgroundColor)
                 cardView.setCardBackgroundColor(cardViewBackgroundColor)
-                cardView.elevation = 18f
                 backgroundColorText.setTextColor(textFillColor)
                 textColorText.setTextColor(textFillColor)
                 changeTitleText.setTextColor(textFillColor)

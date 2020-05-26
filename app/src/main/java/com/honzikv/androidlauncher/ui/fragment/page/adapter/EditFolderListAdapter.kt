@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
-import com.honzikv.androidlauncher.ui.fragment.page.EditFolderSettingsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.page.FolderSettingsDialogFragment
 
 class EditFolderListAdapter(
     val fragmentActivity: FragmentActivity,
@@ -57,7 +57,7 @@ class EditFolderListAdapter(
 
             binding.editButton.apply {
                 setOnClickListener {
-                    EditFolderSettingsDialogFragment.newInstance(folder).show(
+                    FolderSettingsDialogFragment.newInstance(folder).show(
                         fragmentActivity.supportFragmentManager,
                         "editFolderFragment"
                     )
