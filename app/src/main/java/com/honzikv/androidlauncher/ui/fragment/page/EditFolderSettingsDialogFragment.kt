@@ -25,7 +25,7 @@ import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogFragment() {
+class EditFolderSettingsDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
@@ -85,7 +85,6 @@ class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogF
         })
 
 
-        Timber.d("Initializing dialog")
         binding.backgroundColorCircle.also { backgroundCircle ->
             backgroundCircle.setColorFilter(folderModel.backgroundColor)
             backgroundCircle.setOnClickListener {
@@ -106,13 +105,11 @@ class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogF
         }
 
         binding.textColorCircle.also { textColorCircle ->
-            DrawableCompat.wrap(textColorCircle.drawable).apply {
-                setTint(folderModel.itemColor)
-            }
+            binding.textColorCircle.setColorFilter(folderModel.itemColor)
             textColorCircle.imageTintList = ColorStateList.valueOf(SEMITRANSPARENT_STROKE_COLOR)
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
-                    .initialColor(folderModel.backgroundColor)
+                    .initialColor(folderModel.itemColor)
                     .colorMode(ColorMode.HSV)
                     .onColorSelected(object : ColorSelectListener {
                         override fun onColorSelected(color: Int) {
@@ -140,14 +137,10 @@ class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogF
                     folderModel.title = editText.text.toString()
                     homescreenViewModel.updateFolder(folderModel)
                 }
-                setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.cancel()
-                }
-
+                setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
                 show()
             }
         }
-        Timber.d("Dialog initialized")
 
         binding.removeFolderText.setOnClickListener {
             homescreenViewModel.deleteFolder(folderModel.id!!)

@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.databinding.EditHomescreenContainerAppItemBinding
+import com.honzikv.androidlauncher.databinding.EditHomescreenAppItemBinding
 import com.honzikv.androidlauncher.model.DockItemModel
-import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 
 class EditDockAdapter(val delete: (Long) -> Unit) :
     RecyclerView.Adapter<EditDockAdapter.DockItemViewHolder>() {
@@ -24,8 +23,12 @@ class EditDockAdapter(val delete: (Long) -> Unit) :
         this.textColor = textColor
     }
 
+    fun getItem(i: Int) = itemList[i]
+
+    fun getItemList(): MutableList<DockItemModel> = itemList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DockItemViewHolder(
-        EditHomescreenContainerAppItemBinding.inflate(
+        EditHomescreenAppItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
     )
@@ -36,10 +39,7 @@ class EditDockAdapter(val delete: (Long) -> Unit) :
         holder.bind(itemList[position])
     }
 
-    fun getItem(i: Int) = itemList[i]
-    fun getItemList(): MutableList<DockItemModel> = itemList
-
-    inner class DockItemViewHolder(val binding: EditHomescreenContainerAppItemBinding) :
+    inner class DockItemViewHolder(val binding: EditHomescreenAppItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: DockItemModel) {

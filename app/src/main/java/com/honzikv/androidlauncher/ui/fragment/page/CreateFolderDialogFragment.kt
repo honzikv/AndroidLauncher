@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -57,18 +58,21 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
 
     private fun initialize(binding: CreateFolderDialogFragmentBinding) {
         pageId = requireArguments()[PAGE_ID] as Long
-        Timber.d("Page id = $pageId")
 
         binding.confirmButton.setOnClickListener {
-            Timber.d("creating folder")
-            val folder = FolderModel(
-                backgroundColor = backgroundColor,
-                itemColor = textColor,
-                title = binding.folderEditText.text.toString(),
-                pageId = pageId
-            )
-            homescreenViewModel.addFolderToPage(folder, pageId)
-            dismiss()
+            if (binding.folderEditText.text.toString().isEmpty()) {
+                Toast.makeText(context, "Please enter folder name", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                val folder = FolderModel(
+                    backgroundColor = backgroundColor,
+                    itemColor = textColor,
+                    title = binding.folderEditText.text.toString(),
+                    pageId = pageId
+                )
+                homescreenViewModel.addFolderToPage(folder, pageId)
+                dismiss()
+            }
         }
 
         binding.backgroundColorCircle.also { backgroundColorCircle ->
@@ -120,6 +124,7 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
                 confirmButton.setColorFilter(textFillColor)
                 folderEditText.setTextColor(textFillColor)
                 folderEditText.backgroundTintList = ColorStateList.valueOf(cardViewTextColor)
+                folderEditText.setHintTextColor(textFillColor)
             }
 
         })
