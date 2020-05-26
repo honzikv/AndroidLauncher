@@ -9,36 +9,51 @@ import java.lang.IllegalArgumentException
 const val APP_PREFERENCES = "userPreferences"
 const val PREFS_INITIALIZED = "prefsInitialized"
 
-const val FOLDER_COLS_COUNT_FIELD = "folderColsCount"
-const val FOLDERS_COLS_COUNT_DEFAULT = 4
-
-
+/**
+ * Repository poskytujici funkce pro upravu nastaveni aplikace. Nastaveni se uklada do SharedPreferences,
+ * protoze nabizi nejsnazsi zpusob jak data ziskat a ulozit kdekoliv v aplikaci.
+ * Jednotlive funkce get / set slouzi k ziskani a nastaveni hodnot z companion objektu. Jednotlive
+ * promenne ve tride jsou jako LiveData pro real-time aktualizaci
+ */
 class AppSettingsRepository(
     private val preferences: SharedPreferences
 ) {
 
     companion object {
 
+        /**
+         * Zobrazeni doku na plose
+         */
         const val SHOW_DOCK_FIELD = "showDock"
 
+        /**
+         * Tazeni dolu pro zobrazeni panelu s notifikacemi
+         */
         const val SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD = "swipeDownForNotificationPanel"
 
+        /**
+         * Zobrazeni vyhledavani v draweru
+         */
         const val SHOW_SEARCH_BAR_FIELD = "showSearchBar"
 
-        const val DOCK_ITEM_LIMIT_FIELD = "dockItemLimit"
-
-        const val MAX_DOCK_ITEMS = 6
-
-        const val DOCK_ITEM_LIMIT_DEFAULT = 4;
-
-        const val USE_ONE_HANDED_MODE = "useOneHandedMode"
-
+        /**
+         * Zobrazeni aplikaci ve mrizce
+         */
         const val SHOW_DRAWER_AS_GRID_FIELD = "showDrawerAsGrid"
 
+        /**
+         * Pouziti kulatych rohu pro drawer aplikace
+         */
         const val USE_ROUND_CORNERS_FIELD = "useRoundCorners"
 
+        /**
+         * Zobrazeni popisku aplikaci v doku
+         */
         const val SHOW_DOCK_LABELS_FIELD = "showDockLabels"
 
+        /**
+         * Zobrazeni navigace stranek teckami
+         */
         const val SHOW_PAGE_DOTS = "showPageDots"
     }
 
@@ -63,16 +78,13 @@ class AppSettingsRepository(
     val swipeDownForNotifications =
         preferences.booleanLiveData(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
-    fun getSwipeDownForNotifications() = preferences.getBoolean(
-        SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true
-    )
+    fun getSwipeDownForNotifications() =
+        preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
     fun setSwipeDownForNotifications(enable: Boolean) {
-        Timber.d("Setting swipe down for notifications to $enable")
         preferences.edit().apply {
             putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
             apply()
-            Timber.d("Swipe down for notifications enabled = $enable")
         }
     }
 
@@ -81,15 +93,6 @@ class AppSettingsRepository(
     fun setShowDock(show: Boolean) {
         preferences.edit().apply {
             putBoolean(SHOW_DOCK_FIELD, show)
-            apply()
-        }
-    }
-
-    val useOneHandedMode = preferences.booleanLiveData(USE_ONE_HANDED_MODE, false)
-    fun getUseOneHandedMode() = preferences.getBoolean(USE_ONE_HANDED_MODE, false)
-    fun setUseOneHandedMode(use: Boolean) {
-        preferences.edit().apply {
-            putBoolean(USE_ONE_HANDED_MODE, use)
             apply()
         }
     }

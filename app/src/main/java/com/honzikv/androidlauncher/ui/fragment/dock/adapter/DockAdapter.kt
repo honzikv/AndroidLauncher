@@ -12,27 +12,45 @@ import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
+/**
+ * Adapter pro recycler view v DockFragment tride. Trida navic dedi od KoinKomponent tridy
+ */
 class DockAdapter(
+    /**
+     * Zobrazeni popisku v doku
+     */
     private var showLabels: Boolean,
+    /**
+     * Listener pro gesto a dotyk
+     */
     private val onSwipeTouchListener: OnSwipeTouchListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
 
+    /**
+     * Barva popisku ikon
+     */
     private var labelColor = Color.BLACK
+    fun setLabelColor(color: Int) {
+        labelColor = color
+    }
 
+    /**
+     * Aplikacni kontext pro spusteni jednotlivych aplikaci v onClickListeneru
+     */
+    private val context: Context = get()
+
+    /**
+     * OnClickListener zajistujici spusteni aplikaci
+     */
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as DockItemViewHolder
         val item = dockItems[viewHolder.adapterPosition]
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
-    fun setLabelColor(color: Int) {
-        labelColor = color
-    }
-
     private var dockItems = listOf<DockItemModel>()
 
-    private val context: Context = get()
 
     fun setDockItems(dockItems: List<DockItemModel>) {
         this.dockItems = dockItems

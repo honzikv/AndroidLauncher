@@ -98,7 +98,7 @@ dependencies {
     //Kotlin coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
-    //RecyclerView to simulate JavaFX treeView
+    //RecyclerView treeView
     implementation 'com.muditsen.multilevelrecyclerview:multilevelview:1.0.0'
 
     //Room db debug
@@ -106,5 +106,6 @@ dependencies {
 
     //Color picker
     implementation 'me.priyesh:chroma:1.0.2'
+
     implementation 'com.google.android.material:material:1.1.0'
 }
