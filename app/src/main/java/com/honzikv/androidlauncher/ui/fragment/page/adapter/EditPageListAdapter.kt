@@ -55,10 +55,10 @@ class EditPageListAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(pageWithFolders: PageWithFolders) {
             binding.textLeft.apply {
-                if (pageWithFolders.folderList.isEmpty()) {
-                    text = "Page has no folders"
+                text = if (pageWithFolders.folderList.isEmpty()) {
+                    "Page has no folders"
                 } else {
-                    text = pageWithFolders.folderList
+                    pageWithFolders.folderList
                         .toMutableList()
                         .sortedBy { it.folder.position }
                         .reversed()
