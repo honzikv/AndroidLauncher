@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.honzikv.androidlauncher.databinding.EditHomescreenContainerAppItemBinding
 import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 
+/**
+ * Adapter pro recycler view s ikonami aplikaci ve slozce
+ */
 class EditFolderAdapter(private val delete: (Long) -> Unit) :
     RecyclerView.Adapter<EditFolderAdapter.FolderItemViewHolder>() {
 
@@ -24,7 +28,7 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FolderItemViewHolder(
-        EditHomescreenContainerItemBinding.inflate(
+        EditHomescreenContainerAppItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
     )
@@ -38,12 +42,11 @@ class EditFolderAdapter(private val delete: (Long) -> Unit) :
     fun getItem(adapterPosition: Int) = itemList[adapterPosition]
     fun getItemList(): MutableList<FolderItemModel> = itemList
 
-    inner class FolderItemViewHolder(val binding: EditHomescreenContainerItemBinding) :
+    inner class FolderItemViewHolder(val binding: EditHomescreenContainerAppItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: FolderItemModel) {
             binding.appIcon.setImageDrawable(data.icon)
-            binding.editButton.visibility = View.GONE
             binding.removeButton.apply {
                 setColorFilter(textColor)
                 setOnClickListener { delete(data.id!!) }

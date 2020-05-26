@@ -10,7 +10,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.util.MAX_ITEMS_IN_FOLDER
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
@@ -18,7 +18,6 @@ import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderAdapter
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
@@ -138,8 +137,10 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             binding.containerName.text = folderWithItems.folder.title
             val itemCount = "${folderWithItems.itemList.size} / $MAX_ITEMS_IN_FOLDER items"
             binding.itemCountText.text = itemCount
+
             binding.deleteButton.setOnClickListener {
                 homescreenViewModel.deleteFolderWithId(folderWithItems.folder.id!!)
+                dismiss()
             }
 
             if (folderWithItems.itemList.size >= MAX_ITEMS_IN_FOLDER) {

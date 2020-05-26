@@ -66,11 +66,10 @@ class SpinnerItem(
 
 class SubHeaderItem(
     val textLeft: String,
-    val functionOnClick: () -> Unit,
     level: Int
 ) : RecyclerViewItem(level)
 
 class SettingsPageList(
-    val pages: MutableList<PageModel> = mutableListOf(),
+    val pages: LiveData<List<PageModel>>,
     level: Int
 ) : RecyclerViewItem(level)

@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.util
+package com.honzikv.androidlauncher.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -8,9 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * This should theoretically provide smoother user experience since it will transform data in the background
- * instead of main thread as Transformations utility class does
- * Source:
+ * Tato implementace by mela zabranit transformaci na hlavnim vlakne, ktera muze teoreticky zpomalit
+ * vykon aplikace - misto na hlavnim vlakne provede transformaci v Coroutine
  * https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
  */
 object BackgroundTransformations {

@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.util.callback
+package com.honzikv.androidlauncher.utils.callback
 
 open class Event<out T>(private val content: T) {
 

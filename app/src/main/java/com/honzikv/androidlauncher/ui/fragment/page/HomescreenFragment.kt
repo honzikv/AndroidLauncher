@@ -74,7 +74,7 @@ class HomescreenFragment : Fragment() {
             addSource(settingsViewModel.swipeDownForNotifications) { value = it }
         }
 
-        homescreenViewModel.allPages.observe(viewLifecycleOwner, {
+        homescreenViewModel.allPagesWithFolders.observe(viewLifecycleOwner, {
             viewPagerAdapter.setPages(it)
             viewPagerAdapter.notifyDataSetChanged()
         })

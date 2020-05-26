@@ -2,36 +2,43 @@ package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
 import androidx.lifecycle.*
-import com.honzikv.androidlauncher.util.MAX_ITEMS_IN_FOLDER
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.model.*
 import com.honzikv.androidlauncher.repository.HomescreenRepository
-import com.honzikv.androidlauncher.util.BackgroundTransformations
-import com.honzikv.androidlauncher.util.callback.Event
+import com.honzikv.androidlauncher.utils.BackgroundTransformations
+import com.honzikv.androidlauncher.utils.Exception.IntegrityException
+import com.honzikv.androidlauncher.utils.callback.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 
 class HomescreenViewModel(
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager
 ) : ViewModel() {
 
-    private val folderPostErrorMutable = MutableLiveData<Event<String>>()
-    val folderPostError: LiveData<Event<String>> get() = folderPostErrorMutable
+    private val folderPostError = MutableLiveData<Event<String>>()
+    fun getFolderPostError() = folderPostError as LiveData<Event<String>>
 
+    private val pageDeleteError = MutableLiveData<Event<String>>()
+    fun getPageDeleteError() = pageDeleteError as LiveData<Event<String>>
 
-    val allPages = BackgroundTransformations.map(homescreenRepository.allPages) { pageList ->
-        return@map pageList.apply {
-            forEach { pageWithFolders ->
-                pageWithFolders.folderList.forEach { folderWithItems ->
-                    folderWithItems.itemList.forEach { item ->
-                        val info = packageManager.getApplicationInfo(item.packageName, 0)
-                        item.label = info.loadLabel(packageManager).toString()
-                        item.icon = info.loadIcon(packageManager)
+    val allPagesWithFolders =
+        BackgroundTransformations.map(homescreenRepository.allPagesWithFolders) { pageList ->
+            return@map pageList.apply {
+                forEach { pageWithFolders ->
+                    pageWithFolders.folderList.forEach { folderWithItems ->
+                        folderWithItems.itemList.forEach { item ->
+                            val info = packageManager.getApplicationInfo(item.packageName, 0)
+                            item.label = info.loadLabel(packageManager).toString()
+                            item.icon = info.loadIcon(packageManager)
+                        }
                     }
                 }
             }
         }
-    }
+
+    val allPages = homescreenRepository.allPages
 
     fun updateFolder(folderModel: FolderModel) = viewModelScope.launch {
         homescreenRepository.updateFolder(folderModel)
@@ -42,7 +49,12 @@ class HomescreenViewModel(
     }
 
     fun deletePage(pageId: Long) = viewModelScope.launch {
-        homescreenRepository.removePage(pageId)
+        try {
+            homescreenRepository.removePage(pageId)
+        }
+        catch (exception: IntegrityException) {
+            pageDeleteError.postValue(Event(exception.message!!))
+        }
     }
 
     fun addPage(addAsFirst: Boolean) = viewModelScope.launch {
@@ -164,5 +176,9 @@ class HomescreenViewModel(
 
     fun updateFolderItemList(itemList: List<FolderItemModel>) = viewModelScope.launch {
         homescreenRepository.updateFolderItemList(itemList)
+    }
+
+    fun updatePageList(itemList: List<PageModel>) = viewModelScope.launch {
+        homescreenRepository.updatePageList(itemList)
     }
 }

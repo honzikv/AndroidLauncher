@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.util
+package com.honzikv.androidlauncher.utils
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -9,12 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import org.koin.core.get
 import org.koin.core.inject
 
 /**
- * This is basically a subscriber object that triggers system app list update every time app package
- * is changed.
+ * Toto je subscriber, ktery aktualizuje aplikace v [drawerRepository] pri odinstalovani nebo nainstalovani
+ * nove aplikace
  */
 class PackageReceiver : BroadcastReceiver(), KoinComponent {
 

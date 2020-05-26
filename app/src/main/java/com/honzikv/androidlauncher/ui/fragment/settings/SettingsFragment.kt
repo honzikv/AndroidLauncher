@@ -67,12 +67,13 @@ class SettingsFragment : Fragment() {
         binding.multiLevelRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
-            //Removes listeners so buttons react to single click instead of double click
+            //Odstrani onClickListener u kazdeho predmetu, aby slo kliknout na jednotlive casti View
             removeItemClickListeners()
         }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.multiLevelRecyclerView.setBackgroundColor(it.drawerBackgroundColor)
+            lookAndFeelMenu.currentTheme.textRight = it.name
             multiLevelAdapter.apply {
                 changeTheme(it)
                 notifyDataSetChanged()
@@ -101,44 +102,9 @@ class SettingsFragment : Fragment() {
             multiLevelAdapter.notifyDataSetChanged()
         })
 
-        homescreenViewModel.allPages.observe(viewLifecycleOwner, { pagesWithFolders ->
-            binding.multiLevelRecyclerView.removeAllChildren(listOf(homescreenMenu.managePages))
-            Timber.d("childrenSize=${homescreenMenu.managePages.children?.size}")
-            updateHomescreenItems(homescreenMenu, pagesWithFolders)
-        })
-    }
-
-    private fun updateHomescreenItems(
-        homescreenMenu: HomescreenMenu,
-        pagesWithFolders: List<PageWithFolders>
-    ) {
-
-        val pages = mutableListOf<SettingsPageList>()
-        pagesWithFolders.forEach {
-            pages.add(createPageSubMenu(it, homescreenMenu.managePages.level))
-        }
-
-        if (homescreenMenu.managePages.hasChildren()) {
-            homescreenMenu.managePages.children.clear()
-        }
-        homescreenMenu.managePages.addChildren(pages as List<RecyclerViewItem>?)
-        Timber.d("items = ${multiLevelAdapter.itemCount}")
     }
 
 
-    private fun createPageSubMenu(pageWithFolders: PageWithFolders, level: Int): SettingsPageList =
-        SettingsPageList(
-            "Page ${pageWithFolders.page.pageNumber + 1}",
-            {
-                homescreenViewModel.deletePage(pageWithFolders.page.id!!)
-            },
-            {
-                Timber.d("page = ${pageWithFolders.page}")
-                EditPageItemsDialogFragment.newInstance(pageWithFolders.page.id!!)
-                    .show(requireActivity().supportFragmentManager, "pageSettingsFragment")
-            },
-            level + 1
-        )
 
 }
 

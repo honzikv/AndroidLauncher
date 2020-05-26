@@ -11,7 +11,7 @@ interface PageDao {
 
     @Transaction
     @Query("SELECT * FROM PageModel")
-    fun getAllPagesLiveData(): LiveData<List<PageWithFolders>>
+    fun getAllPagesWithFoldersLiveData(): LiveData<List<PageWithFolders>>
 
     @Update
     suspend fun updatePage(page: PageModel)
@@ -54,4 +54,7 @@ interface PageDao {
 
     @Query("SELECT * FROM PageModel WHERE pageNumber = 0")
     suspend fun getFirstPage(): PageModel
+
+    @Query("SELECT * FROM PageModel")
+    fun getAllPagesLiveData(): LiveData<List<PageModel>>
 }

@@ -51,9 +51,10 @@ class SettingsViewModel(
     fun setShowDockLabels(show: Boolean) = settingsRepository.setShowDockLabels(show)
     fun getShowDockLabels() = settingsRepository.getShowDockLabels()
 
-    val dockItemLimit = settingsRepository.dockItemLimit
-
     fun addProfile(vararg profile: ThemeProfileModel) = viewModelScope.launch {
         appThemeRepository.addProfile(*profile)
     }
+
+    fun getShowPageDots(): Boolean = settingsRepository.getShowPageDots()
+    fun setShowPageDots(show: Boolean) = settingsRepository.setShowPageDots(show)
 }

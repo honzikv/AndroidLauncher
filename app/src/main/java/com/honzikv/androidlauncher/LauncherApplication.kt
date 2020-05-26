@@ -1,8 +1,8 @@
 package com.honzikv.androidlauncher
 
 import android.app.Application
-import com.honzikv.androidlauncher.util.initializer.Initializer
-import com.honzikv.androidlauncher.util.module
+import com.honzikv.androidlauncher.utils.initializer.Initializer
+import com.honzikv.androidlauncher.utils.module
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

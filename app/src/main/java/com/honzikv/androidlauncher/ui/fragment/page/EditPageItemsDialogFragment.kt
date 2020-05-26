@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
 import com.honzikv.androidlauncher.model.PageWithFolders
-import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditPageAdapter
-import com.honzikv.androidlauncher.util.MAX_FOLDERS_PER_PAGE
+import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderListAdapter
+import com.honzikv.androidlauncher.utils.MAX_FOLDERS_PER_PAGE
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -30,7 +30,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
     private lateinit var pageWithFoldersLiveData: LiveData<PageWithFolders>
 
-    private lateinit var folderAdapter: EditPageAdapter
+    private lateinit var folderAdapter: EditFolderListAdapter
 
     private var pageId by Delegates.notNull<Long>()
 
@@ -57,7 +57,6 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
         initialize(binding)
         return binding.root
     }
-
 
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -105,7 +104,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
     private fun initialize(binding: EditHomescreenContainerFragmentBinding) {
         folderAdapter =
-            EditPageAdapter(requireActivity()) { homescreenViewModel.deleteFolder(it) }
+            EditFolderListAdapter(requireActivity()) { homescreenViewModel.deleteFolder(it) }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor
@@ -127,7 +126,6 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
                 itemCountText.setTextColor(textFillColor)
             }
         })
-
 
         binding.itemListRecyclerView.apply {
             adapter = folderAdapter

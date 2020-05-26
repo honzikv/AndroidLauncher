@@ -7,9 +7,9 @@ import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.PageWithFolders
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.honzikv.androidlauncher.utils.Exception.IntegrityException
 import timber.log.Timber
+import java.lang.Exception
 
 
 class HomescreenRepository(
@@ -17,7 +17,9 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
-    val allPages: LiveData<List<PageWithFolders>> = pageDao.getAllPagesLiveData()
+    val allPagesWithFolders = pageDao.getAllPagesWithFoldersLiveData()
+
+    val allPages = pageDao.getAllPagesLiveData()
 
     /**
      * Adds new empty page to the database
@@ -58,6 +60,10 @@ class HomescreenRepository(
 
     suspend fun removePage(pageId: Long) {
         val pages = pageDao.getAllPages()
+        if (pages.size == 1) {
+            throw IntegrityException("Cannot delete last page")
+        }
+
         var pageIndex = -1
         for (i in pages.indices) {
             if (pages[i].id == pageId) {
@@ -148,4 +154,7 @@ class HomescreenRepository(
 
     suspend fun updateFolderItemList(itemList: List<FolderItemModel>) =
         folderDao.updateFolderItemList(itemList)
+
+    suspend fun updatePageList(itemList: List<PageModel>) = pageDao.updatePageList(itemList)
+
 }

@@ -2,10 +2,11 @@ package com.honzikv.androidlauncher.ui.fragment.settings.menu
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import com.honzikv.androidlauncher.ui.fragment.page.CreatePageDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.dock.EditDockItemsDialogFragment
+import com.honzikv.androidlauncher.ui.fragment.page.EditPageListDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SubHeaderItem
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 
@@ -18,9 +19,19 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
 
         const val CHANGE_WALLPAPER = "Change Wallpaper"
 
-        const val MANAGE_DOCK_ITEMS = "Manage Dock Items"
+        const val DOCK_SETTINGS = "Dock Settings"
+
+        const val SHOW_DOCK = "Show Dock"
+
+        const val MANAGE_DOCK_ITEMS = "Manage Items"
+
+        const val SHOW_DOCK_LABELS = "Show Icon Labels"
+
+        const val PAGE_SETTINGS = "Page Settings"
 
         const val MANAGE_PAGES = "Manage Pages"
+
+        const val SHOW_PAGE_DOTS = "Show Page Dots"
     }
 
     private val homescreenMenu = HeaderItem(HOMESCREEN_SETTINGS, HOMESCREEN_SETTINGS_SUB, 0)
@@ -34,28 +45,51 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         homescreenMenu.level + 1
     )
 
-    val managePages = SubHeaderItem(
-        MANAGE_PAGES,
-        {
-            val createPageFragment = CreatePageDialogFragment.newInstance()
-            createPageFragment.show(fragmentActivity.supportFragmentManager, "createPage")
-        },
+    private val pageSettings = SubHeaderItem(
+        PAGE_SETTINGS,
         homescreenMenu.level + 1
     )
 
-    val editDockItems = TextLeftItem(MANAGE_DOCK_ITEMS, {
+    private val dockSettings = SubHeaderItem(
+        DOCK_SETTINGS,
+        homescreenMenu.level + 1
+    )
+
+    private val manageDockItems = TextLeftItem(MANAGE_DOCK_ITEMS, {
         EditDockItemsDialogFragment.newInstance()
             .show(fragmentActivity.supportFragmentManager, "editDockItems")
-    }, homescreenMenu.level + 1)
+    }, dockSettings.level + 1)
+
+    private val showDock = SwitchItem(
+        SHOW_DOCK,
+        viewModel.getShowDock(),
+        { viewModel.setShowDock(it) },
+        dockSettings.level + 1
+    )
+
+    private val showDockLabels = SwitchItem(
+        SHOW_DOCK_LABELS,
+        viewModel.getShowDockLabels(),
+        { viewModel.setShowDockLabels(it) },
+        dockSettings.level + 1
+    )
+
+    private val managePages = TextLeftItem(MANAGE_PAGES, {
+        EditPageListDialogFragment.newInstance()
+            .show(fragmentActivity.supportFragmentManager, "editPageListFragment")
+    }, pageSettings.level + 1)
+
+    private val showPageDots = SwitchItem(
+        SHOW_PAGE_DOTS,
+        viewModel.getShowPageDots(),
+        { viewModel.setShowPageDots(it) },
+        pageSettings.level + 1
+    )
 
     init {
-        homescreenMenu.addChildren(
-            listOf(
-                changeWallpaper,
-                editDockItems,
-                managePages
-            )
-        )
+        homescreenMenu.addChildren(listOf(changeWallpaper, pageSettings, dockSettings))
+        pageSettings.addChildren(listOf(managePages, showPageDots))
+        dockSettings.addChildren(listOf(manageDockItems, showDockLabels, showDock))
     }
 
 

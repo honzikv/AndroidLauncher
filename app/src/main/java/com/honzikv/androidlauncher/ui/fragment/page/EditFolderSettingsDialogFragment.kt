@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
 import androidx.lifecycle.observe
-import com.honzikv.androidlauncher.util.SEMITRANSPARENT_STROKE_COLOR
+import com.honzikv.androidlauncher.utils.SEMITRANSPARENT_STROKE_COLOR
 
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.databinding.FolderSettingsFragmentBinding
@@ -23,7 +23,6 @@ import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class EditFolderSettingsDialogFragment private constructor(): BottomSheetDialogFragment() {

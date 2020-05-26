@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.util
+package com.honzikv.androidlauncher.utils
 
 import android.graphics.Color
 
@@ -11,5 +11,7 @@ const val MAX_FOLDERS_PER_PAGE = 4
 const val MAX_ITEMS_IN_DOCK = 4
 
 const val MAX_ITEMS_IN_FOLDER = 8
+
+const val MAX_PAGES = 5
 
 val SEMITRANSPARENT_STROKE_COLOR = Color.parseColor("#90171616")

@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.util.initializer
+package com.honzikv.androidlauncher.utils.initializer
 
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -14,6 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
+/**
+ * Trida, ktera inicializuje pocatecni data pri prvnim startu aplikace
+ */
 class Initializer(
     private val homescreenViewModel: HomescreenViewModel,
     private val settingsViewModel: SettingsViewModel,

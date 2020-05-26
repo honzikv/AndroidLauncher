@@ -1,8 +1,11 @@
-package com.honzikv.androidlauncher.util
+package com.honzikv.androidlauncher.utils
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 //https://gist.github.com/er-abhishek-luthra/9c2962b4c6b3df6b76135393244324b3
+/**
+ * Implementace LiveData z SharedPreferences pro elegantnejsi pouzivani
+ */
 abstract class SharedPreferenceLiveData<T>(
     val sharedPrefs: SharedPreferences,
     private val key: String,

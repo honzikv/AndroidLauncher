@@ -10,11 +10,11 @@ import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 import com.honzikv.androidlauncher.ui.fragment.page.EditFolderSettingsDialogFragment
 
-class EditPageAdapter(
+class EditFolderListAdapter(
     val fragmentActivity: FragmentActivity,
     val delete: (Long) -> Unit
 ) :
-    RecyclerView.Adapter<EditPageAdapter.FolderViewHolder>() {
+    RecyclerView.Adapter<EditFolderListAdapter.FolderViewHolder>() {
 
     private var itemList: MutableList<FolderWithItems> = mutableListOf()
 
@@ -57,8 +57,7 @@ class EditPageAdapter(
 
             binding.editButton.apply {
                 setOnClickListener {
-                    val editFolderFragment = EditFolderSettingsDialogFragment.newInstance(folder)
-                    editFolderFragment.show(
+                    EditFolderSettingsDialogFragment.newInstance(folder).show(
                         fragmentActivity.supportFragmentManager,
                         "editFolderFragment"
                     )

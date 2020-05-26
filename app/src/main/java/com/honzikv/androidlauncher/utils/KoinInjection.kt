@@ -1,15 +1,20 @@
-package com.honzikv.androidlauncher.util
+package com.honzikv.androidlauncher.utils
 
 import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.database.LauncherDatabase
 import com.honzikv.androidlauncher.repository.*
-import com.honzikv.androidlauncher.util.initializer.Initializer
+import com.honzikv.androidlauncher.utils.initializer.Initializer
 import com.honzikv.androidlauncher.viewmodel.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+/**
+ * Protoze vetsina komponent potrebuje nekolik zavislosti najednou rozhodl jsem se pouzit
+ * Dependency Injection Framework - v podstate se jedna o vytvoreni singletonu, ktere muzeme ziskat
+ * ze vsech Fragmentu / Aktivit a z trid implementujici KoinComponent.
+ */
 val module = module {
 
     single {
@@ -24,7 +29,7 @@ val module = module {
     single { get<LauncherDatabase>().homescreenPageDao() }
     single { get<LauncherDatabase>().themeProfileDao() }
 
-    //Repos
+    //Repositories
     single { HomescreenRepository(get(), get()) }
     single { DockRepository(get()) }
     single { DrawerRepository(androidContext().packageManager) }
@@ -45,7 +50,7 @@ val module = module {
         )
     }
 
-    //sharedprefs
+    //Shared Preferences
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     single {
@@ -54,7 +59,7 @@ val module = module {
         )
     }
 
-    //Viewmodels
+    //Viewmodel
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
     viewModel { DrawerViewModel(get(), get(), get()) }
     viewModel { DockViewModel(get(), androidContext().packageManager) }

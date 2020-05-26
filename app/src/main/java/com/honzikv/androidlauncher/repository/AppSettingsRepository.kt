@@ -1,9 +1,8 @@
 package com.honzikv.androidlauncher.repository
 
 import android.content.SharedPreferences
-import android.graphics.Color
-import com.honzikv.androidlauncher.util.booleanLiveData
-import com.honzikv.androidlauncher.util.intLiveData
+import com.honzikv.androidlauncher.utils.booleanLiveData
+import com.honzikv.androidlauncher.utils.intLiveData
 import timber.log.Timber
 import java.lang.IllegalArgumentException
 
@@ -39,6 +38,8 @@ class AppSettingsRepository(
         const val USE_ROUND_CORNERS_FIELD = "useRoundCorners"
 
         const val SHOW_DOCK_LABELS_FIELD = "showDockLabels"
+
+        const val SHOW_PAGE_DOTS = "showPageDots"
     }
 
     val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
@@ -102,7 +103,6 @@ class AppSettingsRepository(
         }
     }
 
-
     val showDockLabels = preferences.booleanLiveData(SHOW_DOCK_LABELS_FIELD, false)
     fun getShowDockLabels() = preferences.getBoolean(SHOW_DOCK_LABELS_FIELD, false)
     fun setShowDockLabels(show: Boolean) {
@@ -112,19 +112,11 @@ class AppSettingsRepository(
         }
     }
 
-    val dockItemLimit = preferences.intLiveData(DOCK_ITEM_LIMIT_FIELD, DOCK_ITEM_LIMIT_DEFAULT)
-    fun getDockItemLimit() = preferences.getInt(DOCK_ITEM_LIMIT_FIELD, DOCK_ITEM_LIMIT_DEFAULT)
-
-    @Throws(IllegalArgumentException::class)
-    fun setDockItemLimit(limit: Int) {
-        if (limit <= 0 || limit > MAX_DOCK_ITEMS) {
-            throw IllegalArgumentException(
-                "Error number of items needs to be between 1 " +
-                        "and $MAX_DOCK_ITEMS, you've entered $limit"
-            )
-        }
+    val showPageDots = preferences.booleanLiveData(SHOW_PAGE_DOTS, true)
+    fun getShowPageDots() = preferences.getBoolean(SHOW_PAGE_DOTS, true)
+    fun setShowPageDots(show: Boolean) {
         preferences.edit().apply {
-            putInt(DOCK_ITEM_LIMIT_FIELD, limit)
+            putBoolean(SHOW_PAGE_DOTS, show)
             apply()
         }
     }

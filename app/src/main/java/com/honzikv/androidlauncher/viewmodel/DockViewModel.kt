@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.honzikv.androidlauncher.util.MAX_ITEMS_IN_DOCK
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.repository.DockRepository
-import com.honzikv.androidlauncher.util.BackgroundTransformations
-import com.honzikv.androidlauncher.util.callback.Event
+import com.honzikv.androidlauncher.utils.BackgroundTransformations
+import com.honzikv.androidlauncher.utils.callback.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -32,7 +32,7 @@ class DockViewModel(
      * Observable to notify error when adding items to dock
      */
     private val dockPostErrorMutable = MutableLiveData<Event<String>>()
-    val dockPostError: LiveData<Event<String>> get() = dockPostErrorMutable
+    fun getDockPostError() = dockPostErrorMutable as LiveData<Event<String>>
 
     val dockItems = BackgroundTransformations.map(dockRepository.dockItemsLiveData) { items ->
         return@map items.apply {

@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
-import com.honzikv.androidlauncher.util.MATERIAL_MIN_LENGTH
-import com.honzikv.androidlauncher.util.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.utils.MATERIAL_MIN_LENGTH
+import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
@@ -95,16 +95,9 @@ class SettingsMenuAdapter(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
-
-            R.layout.settings_sub_header_icon_right_item -> SubHeaderIconRightViewHolder(
+//R.layout.settings_sub_header_icon_right_item
+            else -> SubHeaderIconRightViewHolder(
                 SettingsSubHeaderIconRightItemBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                )
-            )
-
-            //R.layout.edit_homescreen_container_item
-            else -> PageItemViewHolder(
-                SettingsPageItemBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
             )
@@ -136,8 +129,6 @@ class SettingsMenuAdapter(
             R.layout.settings_sub_header_icon_right_item -> (holder as SubHeaderIconRightViewHolder)
                 .bind(item as SubHeaderItem)
 
-            R.layout.settings_page_item -> (holder as PageItemViewHolder)
-                .bind(item as SettingsPageList)
         }
     }
 
@@ -290,13 +281,25 @@ class SettingsMenuAdapter(
 
         fun bind(data: SubHeaderItem) {
             setOnClickExpand(binding.cardView, this)
-            binding.plusDrawable.setOnClickListener { data.functionOnClick() }
+            binding.cardView.setOnClickListener {
+                recyclerView.toggleItemsGroup(adapterPosition)
+                binding.expandIcon.animate().rotation(
+                    //Rotace ikony pro detail menu
+                    if (items[adapterPosition].isExpanded) {
+                        180f
+                    } else {
+                        0f
+                    }
+                )
+            }
 
             binding.cardView.apply {
                 setCardBackgroundColor(cardViewBackgroundColor)
                 radius = RADIUS_CARD_VIEW
                 layoutParams = getCardViewMargin(layoutParams)
             }
+
+            binding.expandIcon.setColorFilter(childTextFillColor)
 
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
@@ -306,21 +309,6 @@ class SettingsMenuAdapter(
                 setTextColor(childTextFillColor)
             }
         }
-    }
-
-    inner class PageItemViewHolder(val binding: SettingsPageItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(data: SettingsPageList) {
-            binding.pageName.text = data.pageName
-            binding.constraintLayout.layoutParams =
-                getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
-
-            binding.editPage.setOnClickListener { data.moveToPageSettingsFragment() }
-
-            binding.deletePage.setOnClickListener { data.remove() }
-        }
-
     }
 
 }

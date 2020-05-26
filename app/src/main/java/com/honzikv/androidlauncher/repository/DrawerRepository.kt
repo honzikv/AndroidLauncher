@@ -12,22 +12,29 @@ import kotlinx.coroutines.*
  */
 class DrawerRepository(private val packageManager: PackageManager) {
 
+    /**
+     * LiveData objekt se vsemi aplikacemi
+     */
     private val appList: MutableLiveData<List<DrawerApp>> = MutableLiveData(mutableListOf())
 
+    /**
+     * Funkce pro ziskani LiveData objektu se vsemi aplikacemi
+     */
     fun getAppList(): LiveData<List<DrawerApp>> = appList
 
     /**
-     * Updates systemApps LiveData with new list of system apps
+     * Aktualizace [appList]. Funkce ziska vsechny nainstalovane aplikace v zarizeni a namapuje je
+     * na [DrawerApp] instance
      */
     suspend fun reloadAppList() = withContext(Dispatchers.Default) {
         val apps = mutableListOf<DrawerApp>()
 
-        //Get all launchable apps
+        //Intent pro ziskani vsech spustitelnych aplikaci
         val systemPackages = packageManager.queryIntentActivities(
             Intent(Intent.ACTION_MAIN, null).apply { addCategory(Intent.CATEGORY_LAUNCHER) }, 0
         )
 
-        //Maps each item obtained via package manager to LauncherApp
+        //Namapovani na [DrawerApp]
         systemPackages.forEach { resolveInfo ->
             apps.add(
                 DrawerApp(
@@ -38,7 +45,7 @@ class DrawerRepository(private val packageManager: PackageManager) {
             )
         }
 
-        //sets new list as LiveData value and sorts it alphabetically
+        //Posle seznam aplikaci do [appList] live dat a seradi je podle abecedy
         appList.postValue(apps.sortedWith(compareBy(DrawerApp::label)))
     }
 
