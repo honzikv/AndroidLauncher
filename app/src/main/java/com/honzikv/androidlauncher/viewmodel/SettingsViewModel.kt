@@ -20,6 +20,10 @@ class SettingsViewModel(
         appThemeRepository.changeTheme(theme)
     }
 
+    fun addProfile(vararg profile: ThemeProfileModel) = viewModelScope.launch {
+        appThemeRepository.addProfile(*profile)
+    }
+
     val swipeDownForNotifications = settingsRepository.swipeDownForNotifications
     fun getSwipeDownForNotifications() = settingsRepository.getSwipeDownForNotifications()
     fun setSwipeDownForNotifications(show: Boolean) {
@@ -28,8 +32,7 @@ class SettingsViewModel(
 
     val showDock = settingsRepository.showDock
     fun getShowDock() = settingsRepository.getShowDock()
-    fun setShowDock(show: Boolean) =
-        viewModelScope.launch { settingsRepository.setShowDock(show) }
+    fun setShowDock(show: Boolean) = viewModelScope.launch { settingsRepository.setShowDock(show) }
 
     val showSearchBar = settingsRepository.showSearchBar
     fun getShowSearchBar() = settingsRepository.getShowSearchBar()
@@ -46,10 +49,6 @@ class SettingsViewModel(
     val showDockLabels = settingsRepository.showDockLabels
     fun setShowDockLabels(show: Boolean) = settingsRepository.setShowDockLabels(show)
     fun getShowDockLabels() = settingsRepository.getShowDockLabels()
-
-    fun addProfile(vararg profile: ThemeProfileModel) = viewModelScope.launch {
-        appThemeRepository.addProfile(*profile)
-    }
 
     val showPageDots = settingsRepository.showPageDots
     fun getShowPageDots(): Boolean = settingsRepository.getShowPageDots()

@@ -42,6 +42,9 @@ class EditDockAdapter(val delete: (Long) -> Unit) :
     inner class DockItemViewHolder(val binding: EditHomescreenAppItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Nastaveni modelovych dat na View
+         */
         fun bind(data: DockItemModel) {
             binding.appIcon.setImageDrawable(data.icon)
             binding.textLeft.apply {

@@ -9,6 +9,7 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SubHeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
+import timber.log.Timber
 
 class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentActivity) :
     MultiLevelMenu() {
@@ -63,14 +64,20 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
     private val showDock = SwitchItem(
         SHOW_DOCK,
         viewModel.getShowDock(),
-        { viewModel.setShowDock(it) },
+        {
+            Timber.d("callback setting showDock")
+            viewModel.setShowDock(it)
+        },
         dockSettings.level + 1
     )
 
     private val showDockLabels = SwitchItem(
         SHOW_DOCK_LABELS,
         viewModel.getShowDockLabels(),
-        { viewModel.setShowDockLabels(it) },
+        {
+            Timber.d("callback setting showLabels")
+            viewModel.setShowDockLabels(it)
+        },
         dockSettings.level + 1
     )
 

@@ -19,11 +19,7 @@ class DockAdapter(
     /**
      * Zobrazeni popisku v doku
      */
-    private var showLabels: Boolean,
-    /**
-     * Listener pro gesto a dotyk
-     */
-    private val onSwipeTouchListener: OnSwipeTouchListener
+    private var showLabels: Boolean
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent {
 
@@ -51,7 +47,9 @@ class DockAdapter(
 
     private var dockItems = listOf<DockItemModel>()
 
-
+    /**
+     * Nastavi predmety v doku, melo by byt serazeno podle pozice pro spravnou funkcionalitu
+     */
     fun setDockItems(dockItems: List<DockItemModel>) {
         this.dockItems = dockItems
     }
@@ -76,12 +74,17 @@ class DockAdapter(
     inner class DockItemViewHolder(val binding: IconWithTitleBelowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Nastaveni onClickListeneru a onTouchListeneru pri vytvoreni objektu
+         */
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
-            itemView.setOnTouchListener(onSwipeTouchListener)
         }
 
+        /**
+         * Binding dat na view
+         */
         fun bind(data: DockItemModel) {
             if (showLabels) {
                 binding.label.visibility = View.VISIBLE

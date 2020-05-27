@@ -25,8 +25,6 @@ class SettingsFragment : Fragment() {
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
-    private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
-
     private lateinit var multiLevelAdapter: SettingsMenuAdapter
 
     private lateinit var binding: SettingsFragmentBinding

@@ -14,6 +14,8 @@ import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
+import kotlinx.android.synthetic.main.settings_switch_item.view.*
+import timber.log.Timber
 
 class SettingsMenuAdapter(
     private var items: MutableList<RecyclerViewItem>,
@@ -53,6 +55,7 @@ class SettingsMenuAdapter(
     }
 
     fun setOnClickExpand(view: View, holder: RecyclerView.ViewHolder) {
+        Timber.d("Expanding viewholder $holder")
         view.setOnClickListener {
             recyclerView.toggleItemsGroup(holder.adapterPosition)
         }
@@ -167,12 +170,15 @@ class SettingsMenuAdapter(
                 radius = RADIUS_CARD_VIEW
                 layoutParams = getCardViewMargin(layoutParams)
             }
+
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
+
             binding.headerText.apply {
                 text = data.headerText
                 setTextColor(cardViewTextColor)
             }
+
             binding.subText.apply {
                 text = data.headerSubText
                 setTextColor(cardViewTextColor)
@@ -184,7 +190,6 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SwitchItem) {
-            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -192,9 +197,12 @@ class SettingsMenuAdapter(
                 text = data.textLeft
                 setTextColor(childTextFillColor)
             }
-            binding.radioButton.apply {
+
+            binding.switchItem.apply {
+                setOnCheckedChangeListener(null)
                 isChecked = data.isChecked
                 setOnCheckedChangeListener { _, isChecked ->
+                    Timber.d("Clicked $switchItem")
                     data.performClick(isChecked)
                 }
                 //Todo color
@@ -206,7 +214,6 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: SpinnerItem) {
-            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -241,7 +248,6 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftRightItem) {
-            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -262,7 +268,6 @@ class SettingsMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: TextLeftItem) {
-            setOnClickExpand(binding.constraintLayout, this)
             binding.constraintLayout.layoutParams =
                 getConstraintLayoutMargin(data.level, binding.constraintLayout.layoutParams)
 
@@ -288,7 +293,6 @@ class SettingsMenuAdapter(
 
 
         fun bind(data: SubHeaderItem) {
-            setOnClickExpand(binding.cardView, this)
             binding.cardView.setOnClickListener {
                 recyclerView.toggleItemsGroup(adapterPosition)
                 binding.expandIcon.animate().rotation(

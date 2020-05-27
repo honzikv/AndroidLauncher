@@ -10,7 +10,7 @@ import com.honzikv.androidlauncher.model.FolderWithItems
 interface FolderDao {
 
     @Update
-    fun updateFolderItem(folderItem: FolderItemModel)
+    suspend fun updateFolderItem(folderItem: FolderItemModel)
 
     @Update
     suspend fun updateFolder(folder: FolderModel)

@@ -19,6 +19,7 @@ import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
+import com.honzikv.androidlauncher.utils.DRAWER_GRID_COLUMNS
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
@@ -118,7 +119,7 @@ class DrawerFragment : Fragment() {
 
     private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {
         binding.appDrawerRecyclerView.layoutManager = if (use) {
-            GridLayoutManager(context, 5)
+            GridLayoutManager(context, DRAWER_GRID_COLUMNS)
         } else {
             LinearLayoutManager(context)
         }

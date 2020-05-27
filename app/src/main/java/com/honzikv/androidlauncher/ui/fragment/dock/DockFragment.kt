@@ -9,7 +9,9 @@ import androidx.lifecycle.observe
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
@@ -43,13 +45,31 @@ class DockFragment : Fragment() {
         return binding.root
     }
 
+    private val itemTouchSwipeUpCallback = object : ItemTouchHelper.SimpleCallback(
+        0, ItemTouchHelper.UP or ItemTouchHelper.DOWN
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            if (direction == ItemTouchHelper.UP) {
+                navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
+            }
+        }
+
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: DockFragmentBinding) {
         onSwipeTouchListener = object :
             OnSwipeTouchListener(requireContext()) {
             override fun onSwipeTop() {
                 super.onSwipeTop()
-                Timber.d("Swiping top")
                 navigateToAppDrawer()
             }
 
@@ -59,7 +79,7 @@ class DockFragment : Fragment() {
             }
         }
 
-        dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels(), onSwipeTouchListener)
+        dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels())
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.cardView.setCardBackgroundColor(it.dockBackgroundColor)
@@ -78,11 +98,11 @@ class DockFragment : Fragment() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = dockAdapter
+            ItemTouchHelper(itemTouchSwipeUpCallback).attachToRecyclerView(this)
         }
 
         binding.recyclerView.setOnTouchListener(onSwipeTouchListener)
         binding.recyclerView.setOnLongClickListener {
-            Timber.d("EditDockItemListDialog is starting")
             EditDockItemsDialogFragment.newInstance()
                 .show(requireActivity().supportFragmentManager, "editDock")
 

@@ -12,6 +12,8 @@ const val MAX_ITEMS_IN_DOCK = 4
 
 const val MAX_ITEMS_IN_FOLDER = 8
 
+const val DRAWER_GRID_COLUMNS = 5
+
 const val MAX_PAGES = 5
 
 val SEMITRANSPARENT_STROKE_COLOR = Color.parseColor("#90171616")

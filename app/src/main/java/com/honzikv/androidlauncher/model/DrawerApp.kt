@@ -12,6 +12,12 @@ data class DrawerApp(
     val icon: Drawable
 ) {
 
+    var isChecked = false
+
+    fun check() {
+        isChecked = !isChecked
+    }
+
     /**
      * Override pro debug
      */

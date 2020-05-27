@@ -60,6 +60,7 @@ class AppSettingsRepository(
     val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
     fun getUseRoundCorners() = preferences.getBoolean(USE_ROUND_CORNERS_FIELD, true)
     fun setUseRoundCorners(use: Boolean) {
+        Timber.d("Setting use round corners to $use")
         preferences.edit().apply {
             putBoolean(USE_ROUND_CORNERS_FIELD, use)
             apply()
@@ -69,6 +70,7 @@ class AppSettingsRepository(
     val showDrawerAsGrid = preferences.booleanLiveData(SHOW_DRAWER_AS_GRID_FIELD, false)
     fun getShowDrawerAsGrid() = preferences.getBoolean(SHOW_DRAWER_AS_GRID_FIELD, false)
     fun setShowDrawerAsGrid(show: Boolean) {
+        Timber.d("Setting show drawer as grid to $show")
         preferences.edit().apply {
             putBoolean(SHOW_DRAWER_AS_GRID_FIELD, show)
             apply()
@@ -82,6 +84,7 @@ class AppSettingsRepository(
         preferences.getBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
     fun setSwipeDownForNotifications(enable: Boolean) {
+        Timber.d("Setting swipe down for notifications to $enable")
         preferences.edit().apply {
             putBoolean(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, enable)
             apply()
@@ -91,6 +94,7 @@ class AppSettingsRepository(
     val showDock = preferences.booleanLiveData(SHOW_DOCK_FIELD, true)
     fun getShowDock() = preferences.getBoolean(SHOW_DOCK_FIELD, true)
     fun setShowDock(show: Boolean) {
+        Timber.d("Setting show dock to $show")
         preferences.edit().apply {
             putBoolean(SHOW_DOCK_FIELD, show)
             apply()
@@ -100,6 +104,7 @@ class AppSettingsRepository(
     val showSearchBar = preferences.booleanLiveData(SHOW_SEARCH_BAR_FIELD, true)
     fun getShowSearchBar() = preferences.getBoolean(SHOW_SEARCH_BAR_FIELD, true)
     fun setShowSearchBar(show: Boolean) {
+        Timber.d("Setting show search bar to $show")
         preferences.edit().apply {
             putBoolean(SHOW_SEARCH_BAR_FIELD, show)
             apply()
@@ -109,6 +114,7 @@ class AppSettingsRepository(
     val showDockLabels = preferences.booleanLiveData(SHOW_DOCK_LABELS_FIELD, false)
     fun getShowDockLabels() = preferences.getBoolean(SHOW_DOCK_LABELS_FIELD, false)
     fun setShowDockLabels(show: Boolean) {
+        Timber.d("Setting show dock labels to $show")
         preferences.edit().apply {
             putBoolean(SHOW_DOCK_LABELS_FIELD, show)
             apply()
@@ -118,6 +124,7 @@ class AppSettingsRepository(
     val showPageDots = preferences.booleanLiveData(SHOW_PAGE_DOTS, true)
     fun getShowPageDots() = preferences.getBoolean(SHOW_PAGE_DOTS, true)
     fun setShowPageDots(show: Boolean) {
+        Timber.d("Setting show page dots to $show")
         preferences.edit().apply {
             putBoolean(SHOW_PAGE_DOTS, show)
             apply()
