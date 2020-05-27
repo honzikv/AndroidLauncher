@@ -11,30 +11,54 @@ import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.IconWithTitleRightCheckboxBinding
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 
+/**
+ * Adapter pro recycler view v app picker fragmentu
+ */
 class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder>() {
 
     companion object {
+        /**
+         * Pro nastaveni barev checkboxu
+         */
         private val states = arrayOf(
             intArrayOf(-android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_checked)
         )
     }
 
+    /**
+     * Vsechny aplikace
+     */
     private var items = listOf<DrawerApp>()
 
+    /**
+     * Barva popisku ikon
+     */
     private var textColor = Color.WHITE
 
+    /**
+     * Pocet vybranych predmetu
+     */
     private var itemsSelected = MutableLiveData(0)
 
+    /**
+     * Barvy checkboxu
+     */
     private val checkboxThumbColors = intArrayOf(
         Color.WHITE,
         Color.BLACK
     )
 
+    /**
+     * Setter pro [items]
+     */
     fun setItems(items: List<DrawerApp>) {
         this.items = items
     }
 
+    /**
+     * Setter pro nastaveni tematu - volano kdykoliv pri zmene LiveDat
+     */
     fun setTheme(theme: ThemeProfileModel) {
         this.textColor = theme.drawerTextFillColor
         checkboxThumbColors[0] = theme.switchBackgroundColor
@@ -62,6 +86,9 @@ class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder
     inner class AppItemViewHolder(val binding: IconWithTitleRightCheckboxBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Bind dat a UI
+         */
         fun bind(data: DrawerApp) {
             binding.icon.setImageDrawable(data.icon)
             binding.label.apply {

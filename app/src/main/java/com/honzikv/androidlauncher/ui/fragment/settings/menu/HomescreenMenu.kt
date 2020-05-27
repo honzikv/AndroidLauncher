@@ -11,6 +11,10 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import timber.log.Timber
 
+/**
+ * Header menu pro nastaveni domovske obrazovky. Trida existuje pouze proto, aby nebyl fragment nastaveni
+ * prilis dlouhy a nepreheldny - vytvori header spolu s potomky, ktere se zobrazi po rozkliknuti.
+ */
 class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentActivity) :
     MultiLevelMenu() {
 

@@ -7,14 +7,15 @@ import com.honzikv.androidlauncher.repository.AppSettingsRepository
 import com.honzikv.androidlauncher.repository.AppThemeRepository
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel obsahujici seznam vsech aplikaci
+ */
 class DrawerViewModel(
     private val drawerRepository: DrawerRepository
 ) : ViewModel() {
 
     /**
-     * AppList is a mediator live data that subscribes to repository live data and updates it
-     * to ensure all apps are loaded, repository live data is also being updated by system package
-     * changes - e.g when new app is installed the repository is notified and updates the livedata
+     * Seznam vsech aplikaci
      */
     private val appList: MediatorLiveData<List<DrawerApp>> =
         MediatorLiveData<List<DrawerApp>>().apply {
@@ -24,6 +25,9 @@ class DrawerViewModel(
             }
         }
 
+    /**
+     * Aktualizuje seznam vsech aplikaci
+     */
     private fun updateAppDrawerData() =
         viewModelScope.launch { drawerRepository.reloadAppList() }
 

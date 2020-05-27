@@ -9,17 +9,20 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 /**
- * This application uses single activity architecture
+ * Aplikace pouziva pouze jednu aktivitu a vymenuje fragmenty. Aktivita bezi dokud se aplikace neukonci
  */
 class LauncherActivity : AppCompatActivity() {
 
+    /**
+     * DrawerRepository pro nacteni dat
+     */
     private val drawerRepository: DrawerRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //Load apps for drawer so it does not stutter on first launch of the drawer
+        //Nacteni vsech aplikaci v pozadi
         lifecycleScope.launch { drawerRepository.reloadAppList() }
+        //Nastavi layout s NavHostFragmentem, ktery zajisti HomescreenFragment a prechody
         setContentView(R.layout.activity_launcher)
     }
 

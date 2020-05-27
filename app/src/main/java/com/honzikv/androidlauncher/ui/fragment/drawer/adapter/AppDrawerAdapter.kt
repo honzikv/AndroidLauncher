@@ -16,18 +16,35 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 import java.util.*
 
-
+/**
+ * Adapter pro aplikace v recycler view v Drawer fragmentu
+ */
 class AppDrawerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), KoinComponent, Filterable {
 
+    /**
+     * Zda-li se ma pouzit mrizka - pro mrizku je potreba pouzit jiny ViewHolder
+     */
     var useGrid = false
 
+    /**
+     * Vsechny aplikace
+     */
     private var drawerItemsAll: List<DrawerApp> = mutableListOf()
 
+    /**
+     * Aplikace pri pouziti filteru
+     */
     private var drawerItemsFiltered: MutableList<DrawerApp> = mutableListOf()
 
+    /**
+     * Barva popisku
+     */
     private var labelColor: Int = Color.BLACK
 
+    /**
+     * Filter pro nalezeni aplikaci
+     */
     private val searchFilter = object : Filter() {
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -35,7 +52,9 @@ class AppDrawerAdapter :
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(drawerItemsAll)
             } else {
+                //Vyhledavane slovo
                 val searchConstraint = constraint.toString().toLowerCase(Locale.ROOT)
+                //Pridame vsechny aplikace, ktere obsahuji vyhledavane slovo
                 drawerItemsAll.filterTo(filteredList) {
                     it.label.toLowerCase(Locale.ROOT).contains(searchConstraint)
                 }
@@ -47,11 +66,15 @@ class AppDrawerAdapter :
 
         @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            //Nastavi zmeny a rekne adapteru ze doslo ke zmene dat
             drawerItemsFiltered = results?.values as MutableList<DrawerApp>
             notifyDataSetChanged()
         }
     }
 
+    /**
+     * Vrati item view type podle typu layoutu
+     */
     override fun getItemViewType(position: Int): Int {
         return if (useGrid) {
             R.layout.icon_with_title_below
@@ -60,6 +83,9 @@ class AppDrawerAdapter :
         }
     }
 
+    /**
+     * OnClickListener pro spusteni aplikace
+     */
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = drawerItemsFiltered[viewHolder.adapterPosition]
@@ -67,13 +93,9 @@ class AppDrawerAdapter :
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
-    private val onLongClickListener = View.OnLongClickListener { view ->
-        val viewHolder = view?.tag as RecyclerView.ViewHolder
-        val item = drawerItemsFiltered[viewHolder.adapterPosition]
-        val context: Context = get()
-        return@OnLongClickListener true
-    }
-
+    /**
+     * Aktualizuje data
+     */
     fun updateData(drawerItems: List<DrawerApp>) {
         this.drawerItemsAll = drawerItems
         this.drawerItemsFiltered.apply {
@@ -82,8 +104,11 @@ class AppDrawerAdapter :
         }
     }
 
-    fun setLabelColor(color: Int) {
-        this.labelColor = color
+    /**
+     * Setter pro [labelColor]
+     */
+    fun setLabelColor(labelColor: Int) {
+        this.labelColor = labelColor
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -112,18 +137,18 @@ class AppDrawerAdapter :
         }
     }
 
-    override fun getFilter(): Filter {
-        return searchFilter
-    }
+    override fun getFilter() = searchFilter
 
     inner class IconWithTitleRightViewHolder(private val itemBinding: IconWithTitleRightBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         init {
+            //Nastaveni onClickListeneru
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
         }
 
+        //Binding dat na UI
         fun bind(drawerApp: DrawerApp) {
             itemBinding.icon.setImageDrawable(drawerApp.icon)
             itemBinding.label.text = drawerApp.label
@@ -134,10 +159,12 @@ class AppDrawerAdapter :
     inner class IconWithTitleBelowViewHolder(private val itemBinding: IconWithTitleBelowBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         init {
+            //Nastaveni onClickListeneru
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
         }
 
+        //Binding dat na UI
         fun bind(drawerApp: DrawerApp) {
             itemBinding.icon.setImageDrawable(drawerApp.icon)
             itemBinding.label.text = drawerApp.label

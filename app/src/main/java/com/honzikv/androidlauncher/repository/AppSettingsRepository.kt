@@ -2,10 +2,12 @@ package com.honzikv.androidlauncher.repository
 
 import android.content.SharedPreferences
 import com.honzikv.androidlauncher.utils.booleanLiveData
-import com.honzikv.androidlauncher.utils.intLiveData
 import timber.log.Timber
 import java.lang.IllegalArgumentException
 
+/**
+ * Vytazene konstanty, protoze je potrebuje [Initializer] trida
+ */
 const val APP_PREFERENCES = "userPreferences"
 const val PREFS_INITIALIZED = "prefsInitialized"
 
@@ -57,6 +59,9 @@ class AppSettingsRepository(
         const val SHOW_PAGE_DOTS = "showPageDots"
     }
 
+    /**
+     * Pouziti zakulacenych rohu u draweru - LiveData, getter a setter
+     */
     val useRoundCorners = preferences.booleanLiveData(USE_ROUND_CORNERS_FIELD, true)
     fun getUseRoundCorners() = preferences.getBoolean(USE_ROUND_CORNERS_FIELD, true)
     fun setUseRoundCorners(use: Boolean) {
@@ -67,6 +72,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Zobrazeni aplikaci v draweru ve mrizce - misto linearniho seznamu - LiveData, getter a setter
+     */
     val showDrawerAsGrid = preferences.booleanLiveData(SHOW_DRAWER_AS_GRID_FIELD, false)
     fun getShowDrawerAsGrid() = preferences.getBoolean(SHOW_DRAWER_AS_GRID_FIELD, false)
     fun setShowDrawerAsGrid(show: Boolean) {
@@ -77,6 +85,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Swipe down gesto pro zobrazeni notifikaci - LiveData, getter a setter
+     */
     val swipeDownForNotifications =
         preferences.booleanLiveData(SWIPE_DOWN_FOR_NOTIFICATION_PANEL_FIELD, true)
 
@@ -91,6 +102,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Zobrazeni doku na plose - LiveData, getter a setter
+     */
     val showDock = preferences.booleanLiveData(SHOW_DOCK_FIELD, true)
     fun getShowDock() = preferences.getBoolean(SHOW_DOCK_FIELD, true)
     fun setShowDock(show: Boolean) {
@@ -101,6 +115,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Zobrazeni vyhledavani v draweru - LiveData, getter a setter
+     */
     val showSearchBar = preferences.booleanLiveData(SHOW_SEARCH_BAR_FIELD, true)
     fun getShowSearchBar() = preferences.getBoolean(SHOW_SEARCH_BAR_FIELD, true)
     fun setShowSearchBar(show: Boolean) {
@@ -111,6 +128,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Zobrazeni popisku ikon v doku - LiveData, getter a setter
+     */
     val showDockLabels = preferences.booleanLiveData(SHOW_DOCK_LABELS_FIELD, false)
     fun getShowDockLabels() = preferences.getBoolean(SHOW_DOCK_LABELS_FIELD, false)
     fun setShowDockLabels(show: Boolean) {
@@ -121,6 +141,9 @@ class AppSettingsRepository(
         }
     }
 
+    /**
+     * Zobrazeni tecek pro indikaci stranky - LiveData, getter a setter
+     */
     val showPageDots = preferences.booleanLiveData(SHOW_PAGE_DOTS, true)
     fun getShowPageDots() = preferences.getBoolean(SHOW_PAGE_DOTS, true)
     fun setShowPageDots(show: Boolean) {

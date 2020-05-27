@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 /**
  * Tato implementace by mela zabranit transformaci na hlavnim vlakne, ktera muze teoreticky zpomalit
  * vykon aplikace - misto na hlavnim vlakne provede transformaci v Coroutine
- * https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
+ * prevzato z https://stackoverflow.com/questions/47374580/how-can-i-perform-livedata-transformations-on-a-background-thread
  */
 object BackgroundTransformations {
 

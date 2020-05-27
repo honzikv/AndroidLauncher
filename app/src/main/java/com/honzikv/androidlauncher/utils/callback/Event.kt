@@ -1,11 +1,18 @@
 package com.honzikv.androidlauncher.utils.callback
 
+/**
+ * Jednoducha trida, ktera slouzi jako callback pri necekane udalosti v coroutine - napr. pri mazani
+ * posledni stranky. Tato trida se musi zabalit do LiveData a pote ji lze pozorovat a cist.
+ */
 open class Event<out T>(private val content: T) {
 
+    /**
+     * Zda-li byla udalost zpracovana
+     */
     private var hasBeenHandled = false
 
     /**
-     * Returns the content and prevents its use again.
+     * Vrati obsah, pokud ho jiz nekdo neprecetl
      */
     fun getContentIfNotHandledOrReturnNull(): T? {
         return if (hasBeenHandled) {

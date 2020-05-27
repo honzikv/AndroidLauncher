@@ -77,6 +77,9 @@ class DockAdapter(
         holder.bind(dockItems[position])
     }
 
+    /**
+     * ViewHolder pro ikonu v doku
+     */
     inner class DockItemViewHolder(val binding: IconWithTitleBelowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

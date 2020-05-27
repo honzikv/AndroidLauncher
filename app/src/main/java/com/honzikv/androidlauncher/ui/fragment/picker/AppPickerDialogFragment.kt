@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.picker
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +19,17 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import kotlin.properties.Delegates
 
+/**
+ * Dialogove okno pro vyber ze seznamu aplikaci - spolecne jak pro slozky, tak pro dok.
+ */
 class AppPickerDialogFragment private constructor() : DialogFragment() {
 
     companion object {
         private const val CONTAINER_ID = "containerId"
+
+        /**
+         * Dok pouziva id jako -1, protoze Room vzdy cisluje id podle kladnych cisel
+         */
         fun getDockFolderId() = -1L
         fun newInstance(folderId: Long) =
             AppPickerDialogFragment().apply {
@@ -37,8 +45,14 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
 
     private val dockViewModel: DockViewModel by sharedViewModel()
 
+    /**
+     * Id slozky
+     */
     private var folderId by Delegates.notNull<Long>()
 
+    /**
+     * Adapter pro nastaveni ikon v recycler view
+     */
     private lateinit var appPickerAdapter: AppPickerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +71,10 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
+    @SuppressLint("SetTextI18n")
     private fun initialize(binding: AppPickerDialogFragmentBinding) {
         appPickerAdapter = AppPickerAdapter()
 
@@ -64,6 +82,7 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
             binding.appsSelected.text = "Apps selected: $it"
         }
 
+        //Nastaveni barev podle aktualniho tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor
             val cardViewBackgroundColor = theme.drawerBackgroundColor
@@ -80,6 +99,7 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
             }
         })
 
+        //Nastaveni aplikaci do adapteru
         drawerViewModel.getDrawerApps().observe(viewLifecycleOwner, { items ->
             appPickerAdapter.setItems(items)
             appPickerAdapter.notifyDataSetChanged()
@@ -91,9 +111,8 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
         }
 
 
-        //Dock has id of -1 (which is never used by SQLite DB in Folder table)
+        //pokud neni folderId == -1, pak se jedna o slozku
         if (folderId != getDockFolderId()) {
-            //inject only neccessary viewmodel
             binding.okButton.setOnClickListener {
                 val selectedApps = appPickerAdapter.getSelectedItems()
                 selectedApps.forEach {
@@ -110,6 +129,10 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
             binding.okButton.setOnClickListener {
                 val selectedApps = appPickerAdapter.getSelectedItems()
                 selectedApps.forEach {
+                    /*
+                    Nastavime zaskrtnuti na false, jinak by se pri pristim spusteni dialogu mohlo
+                    stat, ze budou zaskrtnuty znovu
+                     */
                     it.isChecked = false
                 }
                 dockViewModel.addItemsToDock(selectedApps)

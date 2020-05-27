@@ -32,12 +32,20 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
     private lateinit var pageWithFoldersLiveData: LiveData<PageWithFolders>
 
+
     private lateinit var folderAdapter: EditFolderListAdapter
 
+    /**
+     * Id stranky
+     */
     private var pageId by Delegates.notNull<Long>()
 
     companion object {
         private const val PAGE_ID = "pageId"
+
+        /**
+         * Parametr je ID stranky, kterou budeme upravovat
+         */
         fun newInstance(pageId: Long) = EditPageItemsDialogFragment()
             .apply {
                 arguments = Bundle().apply { putLong(PAGE_ID, pageId) }
@@ -60,6 +68,9 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
         return binding.root
     }
 
+    /**
+     * ItemTouchHelper callback pro moznost menit poradi slozek
+     */
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         0
@@ -73,6 +84,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition
 
+            //Algoritmus pro vymenu pozic tazenim
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
                     Collections.swap(folderAdapter.getItemList(), i, i + 1)
@@ -99,6 +111,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
         }
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            //Aktualizace zmen v databazi je opet nutna pouze pri ukonceni dialogoveho okna
             super.clearView(recyclerView, viewHolder)
             homescreenViewModel.updateFolderList(folderAdapter.getItemList().map { it.folder })
         }
@@ -108,6 +121,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
         folderAdapter =
             EditFolderListAdapter(requireActivity()) { homescreenViewModel.deleteFolder(it) }
 
+        //Zmena barev podle aktualniho tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor
             val cardViewBackgroundColor = theme.drawerBackgroundColor
@@ -117,9 +131,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
                 constraintLayout.setBackgroundColor(
-                    applyAlpha(backgroundColor,
-                        SETTINGS_BACKGROUND_ALPHA
-                    )
+                    applyAlpha(backgroundColor, SETTINGS_BACKGROUND_ALPHA)
                 )
 
                 folderAdapter.setTextColor(textFillColor)
@@ -141,6 +153,8 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
 
         binding.addButton.visibility = View.GONE
         binding.deleteButton.visibility = View.GONE
+
+        //Nastaveni jednotlivych slozek do adapteru
         pageWithFoldersLiveData.observe(viewLifecycleOwner, { pageWithFolders ->
             binding.addButton.visibility = View.VISIBLE
             binding.deleteButton.visibility = View.VISIBLE
@@ -151,6 +165,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             val itemCount = "${pageWithFolders.folderList.size} / $MAX_FOLDERS_PER_PAGE folders"
             binding.itemCountText.text = itemCount
 
+            //Slozky seradime podle pozice obracene (tzn. pozice 0 je nahore, stejne jako na plose)
             folderAdapter.setItemList(pageWithFolders.folderList.toMutableList().apply {
                 sortBy { it.folder.position }
                 reverse()
@@ -160,11 +175,13 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             binding.itemListRecyclerView.scheduleLayoutAnimation()
         })
 
+        //Smaze stranku, pokud je posledni vyhodi vyjimku kterou zachyti dialog predtim
         binding.deleteButton.setOnClickListener {
             homescreenViewModel.deletePage(pageId)
             dismiss()
         }
 
+        //Validace pro zajisteni, ze nepridame vice nez [MAX_FOLDERS_PER_PAGE] slozek
         binding.addButton.setOnClickListener {
             if (pageWithFoldersLiveData.value!!.folderList.size >= MAX_FOLDERS_PER_PAGE) {
                 Toast.makeText(context, "Page is full", Toast.LENGTH_LONG)

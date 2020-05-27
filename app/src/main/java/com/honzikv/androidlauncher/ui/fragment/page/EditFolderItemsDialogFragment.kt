@@ -22,10 +22,17 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
+/**
+ * Dialogove okno pro upravu predmetu ve slozce
+ */
 class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
 
     companion object {
         private const val FOLDER_ID = "folderId"
+
+        /**
+         * vytvori dialog pro id [folderId]
+         */
         fun newInstance(folderId: Long) = EditFolderItemsDialogFragment()
             .apply {
                 arguments = Bundle().apply { putLong(FOLDER_ID, folderId) }
@@ -36,10 +43,17 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * LiveData slozky s aplikacemi
+     */
     private lateinit var folder: LiveData<FolderWithItems>
 
+    /**
+     * Adapter jednotlivych aplikaci pro recycler view
+     */
     private lateinit var itemAdapter: EditFolderAdapter
 
+    //ItemTouchHelper callback pro umozneni zmeny pozice tazenim
     private val itemTouchDragToReorderCallBack = object : ItemTouchHelper.SimpleCallback(
 
         ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
@@ -54,6 +68,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition
 
+            //Algoritmus pro zmenu pozice pri tazeni
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
                     Collections.swap(itemAdapter.getItemList(), i, i + 1)
@@ -80,6 +95,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
         }
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            //Update dat je potreba pouze po ukonceni dialogoveho okna
             super.clearView(recyclerView, viewHolder)
             homescreenViewModel.updateFolderItemList(itemAdapter.getItemList())
         }
@@ -102,6 +118,9 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
     private fun initialize(binding: EditHomescreenContainerFragmentBinding) {
         itemAdapter =
             EditFolderAdapter {
@@ -113,7 +132,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             ItemTouchHelper(itemTouchDragToReorderCallBack).attachToRecyclerView(this)
         }
 
-        //Style page
+        //Nastaveni barev podle aktualniho tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor
             val cardViewBackgroundColor = theme.drawerBackgroundColor
@@ -137,6 +156,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             }
         })
 
+        //Aktualizace dat pri zmene
         folder.observe(viewLifecycleOwner) { folderWithItems ->
             binding.containerName.text = folderWithItems.folder.title
             val itemCount = "${folderWithItems.itemList.size} / $MAX_ITEMS_IN_FOLDER items"
@@ -147,16 +167,20 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
                 dismiss()
             }
 
+            //Skryje nebo zobrazi ikonu na pridani podle poctu ikon ve slozce
             if (folderWithItems.itemList.size >= MAX_ITEMS_IN_FOLDER) {
                 binding.addButton.visibility = View.GONE
             } else {
                 binding.addButton.visibility = View.VISIBLE
             }
 
+            //Nastavi spusteni item picker fragmentu
             binding.addButton.setOnClickListener {
                 AppPickerDialogFragment.newInstance(folderWithItems.folder.id!!)
                     .show(requireActivity().supportFragmentManager, "itemPicker")
             }
+
+            //Nastavi predmety do adapteru a seradi je podle pozice
             itemAdapter.setItemList(
                 folderWithItems.itemList.toMutableList().apply { sortBy { it.position } })
             itemAdapter.notifyDataSetChanged()

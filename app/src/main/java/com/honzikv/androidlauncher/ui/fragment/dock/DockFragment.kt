@@ -26,16 +26,28 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
+/**
+ * Fragment doku
+ */
 class DockFragment : Fragment() {
 
     private val dockViewModel: DockViewModel by sharedViewModel()
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * Adapter obstaravajici zobrazeni ikon v recycler view
+     */
     private lateinit var dockAdapter: DockAdapter
 
+    /**
+     * Listener pro gesta
+     */
     private lateinit var onSwipeTouchListener: RecyclerTouchListener
 
+    /**
+     * NavController pro navigaci do jinych fragmentu
+     */
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -48,39 +60,26 @@ class DockFragment : Fragment() {
         return binding.root
     }
 
-    private val itemTouchSwipeUpCallback = object : ItemTouchHelper.SimpleCallback(
-        0, ItemTouchHelper.UP or ItemTouchHelper.DOWN
-    ) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return false
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            if (direction == ItemTouchHelper.UP) {
-                navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)
-            }
-        }
-
-    }
-
+    /**
+     * Inicializace UI
+     */
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: DockFragmentBinding) {
         dockAdapter = DockAdapter(settingsViewModel.getShowDockLabels())
         navController = findNavController()
 
+        //Pozorovani tematu a nastaveni pri zmene
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.cardView.setCardBackgroundColor(it.dockBackgroundColor)
             dockAdapter.setLabelColor(it.dockTextColor)
         })
 
+        //Pozorovani zobrazeni popisku ikon
         settingsViewModel.showDockLabels.observe(viewLifecycleOwner, {
             dockAdapter.setShowLabels(it)
         })
 
+        //Pozorovani predmetu doku a nastaveni pri zmene
         dockViewModel.dockItems.observe(viewLifecycleOwner, { itemList ->
             if (itemList.isEmpty()) {
                 dockAdapter.setDockItems(mutableListOf(
@@ -92,19 +91,21 @@ class DockFragment : Fragment() {
                     }
                 ))
             } else {
+                //Serazeni podle pozice a ulozeni do adapteru
                 dockAdapter.setDockItems(itemList.toMutableList().apply { sortBy { it.position } })
             }
             dockAdapter.notifyDataSetChanged()
+            binding.recyclerView.scheduleLayoutAnimation()
         })
 
+        //Nastaveni recycler view
         binding.recyclerView.apply {
             layoutManager =
                 GridLayoutManager(requireContext(), MAX_ITEMS_IN_DOCK)
             adapter = dockAdapter
-            ItemTouchHelper(itemTouchSwipeUpCallback).attachToRecyclerView(this)
         }
 
-
+        //Nastaveni listeneru pro gesta
         onSwipeTouchListener = object :
             RecyclerTouchListener(requireContext(), binding.recyclerView) {
             override fun onSwipeTop() {
@@ -131,15 +132,13 @@ class DockFragment : Fragment() {
             }
         }
 
+        //Pripojeni listeneru k recyclerView
         binding.recyclerView.addOnItemTouchListener(onSwipeTouchListener)
-
     }
 
-    private fun navigateToSettings() {
-        Timber.d("Navigating from homescreen fragment to settings fragment")
-        navController.navigate(R.id.action_homescreenPageFragment_to_settingsFragment)
-    }
-
+    /**
+     * Presune se z tohoto fragmentu do [DrawerFragment]
+     */
     private fun navigateToAppDrawer() {
         Timber.d("Navigating from homescreen fragment to app drawer fragment")
         navController.navigate(R.id.action_homescreenPageFragment_to_appDrawerFragment)

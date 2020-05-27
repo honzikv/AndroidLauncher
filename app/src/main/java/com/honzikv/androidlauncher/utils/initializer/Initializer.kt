@@ -43,11 +43,16 @@ class Initializer(
         const val FOLDER_NAME = "Google Apps"
     }
 
+    /**
+     * Vrati, zda-li je aplikace inicializovana
+     */
     fun isAppInitialized(): Boolean {
-        Timber.d("isAppInitialized=${sharedPreferences.getBoolean(PREFS_INITIALIZED, false)}")
         return sharedPreferences.getBoolean(PREFS_INITIALIZED, false)
     }
 
+    /**
+     * Nastavi, ze first time start probehl uspesne
+     */
     private fun commitInitialized() {
         sharedPreferences.edit().apply {
             putBoolean(PREFS_INITIALIZED, true)
@@ -56,23 +61,29 @@ class Initializer(
         Timber.d("Successfully set default variables")
     }
 
+    /**
+     * Inicializuje pocatecni nastaveni
+     */
     suspend fun initialize() = withContext(Dispatchers.Default) {
         Timber.i("Initializing first launch settings ...")
         withContext(Dispatchers.Default) { createThemes() }
         val page = createFirstPage()
-        Timber.d("$page")
         createDefaultAppsFolder(page)
         commitInitialized()
     }
 
-    private fun isAppInstalled(packageName: String): Boolean {
-        return try {
-            packageManager.getApplicationInfo(packageName, 0).enabled
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
-        }
+    /**
+     * Zjisti, zda-li je aplikace nainstalovana
+     */
+    private fun isAppInstalled(packageName: String): Boolean = try {
+        packageManager.getApplicationInfo(packageName, 0).enabled
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
     }
 
+    /**
+     * Vytvori "Google Apps" slozku
+     */
     private suspend fun createDefaultAppsFolder(page: PageModel) = withContext(Dispatchers.IO) {
         val folderId = homescreenViewModel.addFolderSuspend(
             FolderModel(
@@ -214,19 +225,15 @@ class Initializer(
 
         Timber.d("Default theme profiles created, inserting them into database")
         settingsViewModel.addProfile(
-            lightTheme,
-            darkTheme,
-            amoled,
-            cleanWhite,
-            blueTheme,
-            blackwoods,
-            spaceOrange,
-            nuclearWaste,
-            cocaCola
+            lightTheme, darkTheme, amoled, cleanWhite, blueTheme,
+            blackwoods, spaceOrange, nuclearWaste, cocaCola
         )
         Timber.d("Default theme profiles have been inserted")
     }
 
+    /**
+     * Vytvori stranku
+     */
     private suspend fun createFirstPage(): PageModel {
         Timber.d("creating first page")
         homescreenViewModel.addPageSuspend()

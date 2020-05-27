@@ -27,15 +27,23 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-
+/**
+ * Fragment pro Drawer se vsemi aplikacemi
+ */
 class DrawerFragment : Fragment() {
 
     private val drawerViewModel: DrawerViewModel by sharedViewModel()
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * Adapter pro vytvoreni jednotlivych ikon
+     */
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
+    /**
+     * NavController pro navigaci do jinych fragmentu
+     */
     private lateinit var navController: NavController
 
     private lateinit var binding: AppDrawerFragmentBinding
@@ -52,16 +60,19 @@ class DrawerFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize() {
-        appDrawerAdapter =
-            AppDrawerAdapter()
+        appDrawerAdapter = AppDrawerAdapter()
 
         binding.appDrawerRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = appDrawerAdapter
         }
 
+        //Nastavni filter v searchView pro vyhledavani
         binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = false
@@ -71,38 +82,44 @@ class DrawerFragment : Fragment() {
             }
         })
 
+        //Nastavi gesta pro navigaci zpet
         binding.constraintLayout.setOnTouchListener(object :
             OnSwipeTouchListener(binding.root.context) {
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
-                returnToHomePageFragment()
+                navigateToHomescreenFragment()
             }
         })
 
+        //Nastavi ikonu pro navigaci do fragmentu s nastavenim
         binding.settingsIcon.setOnClickListener {
             navigateToSettings()
         }
 
+        //Pozorovani zda-li se maji pouzivat zakulacene rohy
         settingsViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
             useRoundCardView(binding, use)
         })
 
+        //Pozorovani pro aktualizaci barev
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             updateTheme(binding, theme)
         })
 
+        //Pozorovani pro pouziti mrizky misto linearniho seznamu
         settingsViewModel.showDrawerAsGrid.observe(viewLifecycleOwner, { useGrid ->
             useDrawerAsGrid(binding, useGrid)
             appDrawerAdapter.useGrid = useGrid
             appDrawerAdapter.notifyDataSetChanged()
         })
 
+        //Pozorovani seznamu vsech aplikaci a aktualizace pri zmene
         drawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
-            Timber.d("Running recycler view animation")
             appDrawerAdapter.notifyDataSetChanged()
         })
 
+        //Pozorovani zda-li se ma vyhledavani zobrazit
         settingsViewModel.showSearchBar.observe(viewLifecycleOwner, { show ->
             if (show) {
                 binding.searchView.visibility = View.VISIBLE
@@ -114,11 +131,17 @@ class DrawerFragment : Fragment() {
         })
     }
 
+    /**
+     * Zmeni layout manager na GridLayoutManager pokud [use] je true, jinak na LinearLayoutManager
+     */
     private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {
         binding.appDrawerRecyclerView.layoutManager =
             createOverScrollLayoutManager(requireContext(), use)
     }
 
+    /**
+     * Aktualizuje barvy UI
+     */
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
 
@@ -132,6 +155,9 @@ class DrawerFragment : Fragment() {
         }
     }
 
+    /**
+     * Nastavi zakulacene rohy pokud je [use] true
+     */
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
         if (use) {
             binding.appDrawerCardView.radius =
@@ -144,16 +170,22 @@ class DrawerFragment : Fragment() {
         }
     }
 
-    private fun returnToHomePageFragment() {
+    /**
+     * Presune se na fragment s domovskou obrazovkou
+     */
+    private fun navigateToHomescreenFragment() =
         navController.navigate(R.id.action_appDrawerFragment_to_homescreenPageFragment)
-        Timber.d("From drawer to homepage")
-    }
 
-    private fun navigateToSettings() {
+    /**
+     * Presune se na fragment s nastavenim
+     */
+    private fun navigateToSettings() =
         navController.navigate(R.id.action_appDrawerFragment_to_settingsFragment)
-        Timber.d("Navigating from drawer to settings")
-    }
 
+    /**
+     * Nastavi LayoutManageru moznost detekovat "overscroll" abychom mohli drawer zavrit i tazenim
+     * nahoru pokud jsme na zacatku
+     */
     private fun createOverScrollLayoutManager(
         context: Context,
         useGridLayoutManager: Boolean
@@ -166,8 +198,9 @@ class DrawerFragment : Fragment() {
                     state: RecyclerView.State?
                 ): Int {
                     val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
+                    //Pro < 0 se zavre prilis snadno - uzivatel by mohl zavrit i omylem
                     if (dy - scrollRange < -60) {
-                        returnToHomePageFragment()
+                        navigateToHomescreenFragment()
                     }
                     return scrollRange
                 }
@@ -183,7 +216,7 @@ class DrawerFragment : Fragment() {
                 val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
                 if (dy - scrollRange < -60) {
                     Timber.d("User overscrolled")
-                    returnToHomePageFragment()
+                    navigateToHomescreenFragment()
                 }
                 return scrollRange
             }

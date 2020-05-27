@@ -25,11 +25,14 @@ class DockViewModel(
     }
 
     /**
-     * Observable to notify error when adding items to dock
+     * Pro callback s chybou pro ukladani aplikaci do doku
      */
     private val dockPostErrorMutable = MutableLiveData<Event<String>>()
     fun getDockPostError() = dockPostErrorMutable as LiveData<Event<String>>
 
+    /**
+     * Aplikace v doku spolu s nactenymi ikonami a popisky
+     */
     val dockItems = BackgroundTransformations.map(dockRepository.dockItemsLiveData) { items ->
         return@map items.apply {
             forEach { item ->
@@ -42,6 +45,9 @@ class DockViewModel(
 
     private suspend fun getAllItems() = dockRepository.getAllItems()
 
+    /**
+     * Prida aplikace do doku
+     */
     fun addItemsToDock(selectedApps: MutableList<DrawerApp>) = viewModelScope.launch {
         val items = getAllItems()
         var newItems = mutableListOf<DockItemModel>()
@@ -68,22 +74,31 @@ class DockViewModel(
         //Error handling pokud prekrocime limit v doku
         if (items.size + newItems.size > MAX_ITEMS_IN_DOCK) {
             val addCount = MAX_ITEMS_IN_DOCK - items.size
+
             if (addCount == 0) {
+                //nic se nepridalo
                 dockPostErrorMutable.postValue(Event(DOCK_FULL_NOTHING_ADDED))
                 return@launch
             }
 
             newItems = newItems.subList(0, addCount)
+            //pridalo se neco, ale nejake aplikace uz se nevesly
             dockPostErrorMutable.postValue(Event(DOCK_IS_FULL_SOMETHING_ADDED))
         }
 
         dockRepository.addItems(newItems)
     }
 
+    /**
+     * Odstrani aplikaci s [id] z doku
+     */
     fun removeItem(id: Long) = viewModelScope.launch {
         dockRepository.removeDockItem(id)
     }
 
+    /**
+     * Aktualizuje seznam aplikaci [itemList] v doku
+     */
     fun updateItemList(itemList: List<DockItemModel>) = viewModelScope.launch {
         dockRepository.updateItemList(itemList)
     }

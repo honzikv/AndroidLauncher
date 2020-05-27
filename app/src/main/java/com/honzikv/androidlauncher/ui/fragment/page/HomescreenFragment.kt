@@ -73,6 +73,7 @@ class HomescreenFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
 
+
         settingsViewModel.showPageDots.observe(viewLifecycleOwner) {
             if (!it) {
                 binding.tabLayout.visibility = View.INVISIBLE

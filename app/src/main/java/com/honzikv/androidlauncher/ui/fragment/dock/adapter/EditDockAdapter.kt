@@ -7,17 +7,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.databinding.EditHomescreenAppItemBinding
 import com.honzikv.androidlauncher.model.DockItemModel
 
-class EditDockAdapter(val delete: (Long) -> Unit) :
+/**
+ * Adapter pro predmety, ktere se zobrazi v recycler view pri uprave doku
+ */
+class EditDockAdapter(
+    /**
+     * Funkce pro smazani prvku z databaze, parametr je id v databazi
+     */
+    val delete: (Long) -> Unit) :
     RecyclerView.Adapter<EditDockAdapter.DockItemViewHolder>() {
 
+    /**
+     * Seznam s danymi predmety v doku
+     */
     private var itemList: MutableList<DockItemModel> = mutableListOf()
 
+    /**
+     * Barva popisku
+     */
     private var textColor = Color.BLACK
 
+    /**
+     * Setter pro [itemList]
+     */
     fun setItemList(itemList: MutableList<DockItemModel>) {
         this.itemList = itemList
     }
 
+    /**
+     * Setter pro [textColor]
+     */
     fun setTextColor(textColor: Int) {
         this.textColor = textColor
     }
@@ -38,7 +57,11 @@ class EditDockAdapter(val delete: (Long) -> Unit) :
         holder.bind(itemList[position])
     }
 
-    inner class DockItemViewHolder(val binding: EditHomescreenAppItemBinding) :
+    inner class DockItemViewHolder(
+        /**
+         * Binding layoutu ikony v doku
+         */
+        val binding: EditHomescreenAppItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         /**

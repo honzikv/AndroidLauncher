@@ -7,9 +7,8 @@ import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.PageWithFolders
-import com.honzikv.androidlauncher.utils.Exception.IntegrityException
+import com.honzikv.androidlauncher.utils.exception.IntegrityException
 import timber.log.Timber
-import java.lang.Exception
 
 /**
  * Repository pro upravu modelovych dat homescreenu - slozky a stranky
@@ -19,9 +18,10 @@ class HomescreenRepository(
     private val folderDao: FolderDao
 ) {
 
+    /**
+     * Vsechny stranky se slozkami jako LiveData
+     */
     val allPagesWithFolders = pageDao.getAllPagesWithFoldersLiveData()
-
-    val allPages = pageDao.getAllPagesLiveData()
 
     /**
      * Prida novou prazdnou stranku na konec

@@ -53,11 +53,8 @@ val module = module {
     //Shared Preferences
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
-    single {
-        Initializer(
-            get(), get(), get(), androidContext().packageManager
-        )
-    }
+    //First Launch Initializer
+    single { Initializer(get(), get(), get(), androidContext().packageManager) }
 
     //Viewmodel
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }

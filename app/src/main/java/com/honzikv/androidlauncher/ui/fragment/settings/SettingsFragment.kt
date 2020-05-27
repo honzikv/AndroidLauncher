@@ -19,19 +19,23 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
+/**
+ * Fragment s nastavenim aplikace
+ */
 class SettingsFragment : Fragment() {
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * Adapter pro multi level recycler view
+     */
     private lateinit var multiLevelAdapter: SettingsMenuAdapter
-
-    private lateinit var binding: SettingsFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SettingsFragmentBinding.inflate(inflater)
+        val binding = SettingsFragmentBinding.inflate(inflater)
         setupMenu(binding)
         return binding.root
     }
@@ -64,15 +68,14 @@ class SettingsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = multiLevelAdapter
             //Odstrani onClickListener u kazdeho predmetu, aby slo kliknout na jednotlive casti View
+            //Jinak by neslo klikat na switche, dropdown menu apod.
             removeItemClickListeners()
         }
 
+        //Nastaveni barev podle aktualniho tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             binding.multiLevelRecyclerView.setBackgroundColor(
-                applyAlpha(
-                    it.drawerBackgroundColor,
-                    SETTINGS_BACKGROUND_ALPHA
-                )
+                applyAlpha(it.drawerBackgroundColor, SETTINGS_BACKGROUND_ALPHA)
             )
             lookAndFeelMenu.currentTheme.textRight = it.name
             multiLevelAdapter.apply {
@@ -81,6 +84,7 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        //Prida vsechny temata do select theme spinneru
         settingsViewModel.allThemes.observe(viewLifecycleOwner, {
             val selectTheme = lookAndFeelMenu.selectTheme
 

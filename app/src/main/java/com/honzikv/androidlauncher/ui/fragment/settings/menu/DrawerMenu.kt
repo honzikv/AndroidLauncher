@@ -4,8 +4,16 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 
-class DrawerMenu(viewModel: SettingsViewModel) : MultiLevelMenu() {
-
+/**
+ * Header pro nastaveni Draweru. Trida existuje pouze proto, aby nebyl fragment nastaveni
+ * prilis dlouhy a nepreheldny - vytvori header spolu s potomky, ktere se zobrazi po rozkliknuti.
+ */
+class DrawerMenu(
+    /**
+     * SettingsViewModel z fragmentu
+     */
+    viewModel: SettingsViewModel
+) : MultiLevelMenu() {
 
     companion object {
         const val DRAWER_SETTINGS = "Drawer"
@@ -24,7 +32,7 @@ class DrawerMenu(viewModel: SettingsViewModel) : MultiLevelMenu() {
         SHOW_SEARCH_BAR,
         viewModel.getShowSearchBar(),
         { viewModel.setShowSearchBar(it) },
-        1
+        drawerSettings.level + 1
     )
 
     private val showAsGrid = SwitchItem(
@@ -42,13 +50,7 @@ class DrawerMenu(viewModel: SettingsViewModel) : MultiLevelMenu() {
     )
 
     init {
-        drawerSettings.addChildren(
-            listOf(
-                showSearchBar,
-                showAsGrid,
-                useRoundCorners
-            )
-        )
+        drawerSettings.addChildren(listOf(showSearchBar, showAsGrid, useRoundCorners))
     }
 
     override fun getRoot() = drawerSettings

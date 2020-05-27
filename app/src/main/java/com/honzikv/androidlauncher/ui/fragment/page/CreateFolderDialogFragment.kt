@@ -19,7 +19,10 @@ import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import kotlin.properties.Delegates
 
-
+/**
+ * Dialog pro vytvoreni slozky - jedna se o male okno, ktere se zobrazi ve spodu obrazovky
+ * - bottom sheet
+ */
 class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     companion object {
@@ -37,9 +40,19 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * Id stranky, do ktere se slozka ulozi
+     */
     private var pageId by Delegates.notNull<Long>()
 
+    /**
+     * Barva pozadi dialogu
+     */
     private var backgroundColor = Color.WHITE
+
+    /**
+     * Barva textu dialogu
+     */
     private var textColor = Color.DKGRAY
 
     override fun onCreateView(
@@ -51,9 +64,14 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
     private fun initialize(binding: CreateFolderDialogFragmentBinding) {
+        //Ziskani pageId z argumentu
         pageId = requireArguments()[PAGE_ID] as Long
 
+        //Nastaveni kontroly pokud uzivatel nezadal nazev slozky
         binding.confirmButton.setOnClickListener {
             if (binding.folderEditText.text.toString().isEmpty()) {
                 Toast.makeText(context, "Please enter folder name", Toast.LENGTH_LONG)
@@ -70,6 +88,7 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
             }
         }
 
+        //Nastaveni vyberu barvy pomoci dialogoveho okna s color pickerem
         binding.backgroundColorCircle.also { backgroundColorCircle ->
             backgroundColorCircle.setColorFilter(backgroundColor)
             backgroundColorCircle.setOnClickListener {
@@ -87,6 +106,7 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
             }
         }
 
+        //Nastaveni vyberu barvy pomoci dialogoveho okna s color pickerem
         binding.textColorCircle.also { textColorCircle ->
             textColorCircle.setColorFilter(textColor)
             textColorCircle.setOnClickListener {
@@ -104,6 +124,7 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
             }
         }
 
+        //Nastaveni barvy dialogu podle aktualniho tema
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val cardViewTextColor = theme.drawerTextFillColor
             val backgroundColor = theme.drawerSearchBackgroundColor

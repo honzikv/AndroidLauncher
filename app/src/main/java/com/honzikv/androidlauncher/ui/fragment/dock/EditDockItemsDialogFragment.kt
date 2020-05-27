@@ -22,12 +22,18 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
+/**
+ * Dialogove okno pro zmenu predmetu v doku
+ */
 class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
     private val dockViewModel: DockViewModel by sharedViewModel()
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
+    /**
+     * Adapter zajistujici zobrazeni predmetu v seznamu
+     */
     private lateinit var itemAdapter: EditDockAdapter
 
     companion object {
@@ -50,6 +56,9 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
         return binding.root
     }
 
+    /**
+     * ItemTouchHelper implementace, pomoci ktere muze uzivatel menit pozice ikon v doku
+     */
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         0
@@ -62,6 +71,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             val fromPosition = viewHolder.adapterPosition
             val toPosition = target.adapterPosition
 
+            //Algoritmus pro zmenu pozic pri tazeni
             if (fromPosition < toPosition) {
                 for (i in fromPosition until toPosition) {
                     Collections.swap(itemAdapter.getItemList(), i, i + 1)
@@ -88,6 +98,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
         }
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            //Update dat v databazi staci po zavreni tohoto view
             super.clearView(recyclerView, viewHolder)
             dockViewModel.updateItemList(itemAdapter.getItemList())
         }
@@ -95,11 +106,9 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initialize(binding: EditHomescreenContainerFragmentBinding) {
-        itemAdapter =
-            EditDockAdapter {
-                dockViewModel.removeItem(it)
-            }
+        itemAdapter = EditDockAdapter { dockViewModel.removeItem(it) }
 
+        //Pozorovani tema pro zmenu barev
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val backgroundColor = theme.drawerSearchBackgroundColor
             val cardViewBackgroundColor = theme.drawerBackgroundColor
@@ -125,9 +134,12 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             }
         })
 
+        //Odstraneni delete ikonky, protoze pro tento fragment nema smysl - layout se pouziva
+        // i v jinych tridach
         binding.deleteButton.visibility = View.GONE
         binding.containerName.text = "Dock"
 
+        //Pozorovani predmetu, ktere aktualizujeme pri zmene a nastavime dulezite hodnoty
         dockViewModel.dockItems.observe(viewLifecycleOwner, { dockItemList ->
             val itemCountText = "${dockItemList.size} / $MAX_ITEMS_IN_DOCK items"
             binding.itemCountText.text = itemCountText
@@ -137,7 +149,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             itemAdapter.notifyDataSetChanged()
         })
 
-        //Observe for error when new apps are getting uploaded
+        //Pozorovani pro chybu, kterou zobrazime jako toast zpravu
         dockViewModel.getDockPostError().observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandledOrReturnNull()?.let { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
@@ -151,6 +163,8 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
         }
 
         binding.okButton.setOnClickListener { dismiss() }
+
+        //Prechod do app picker dialogu
         binding.addButton.setOnClickListener {
             AppPickerDialogFragment.newInstance(AppPickerDialogFragment.getDockFolderId())
                 .show(requireActivity().supportFragmentManager, "editDockApps")

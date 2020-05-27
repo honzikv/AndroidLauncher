@@ -11,7 +11,7 @@ import com.honzikv.androidlauncher.databinding.FolderListBinding
 import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 
 /**
- * [context] must be of type FragmentActivity
+ *
  */
 class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchListener) :
     RecyclerView.Adapter<PageAdapter.PageViewHolder>() {

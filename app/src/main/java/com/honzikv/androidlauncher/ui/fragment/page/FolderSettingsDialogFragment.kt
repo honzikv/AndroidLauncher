@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 
 import androidx.lifecycle.observe
-import com.honzikv.androidlauncher.utils.SEMITRANSPARENT_STROKE_COLOR
 
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.databinding.FolderSettingsFragmentBinding
@@ -23,6 +22,10 @@ import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
+/**
+ * Dialog s nastavenim slozky - jedna se o male okno, ktere se zobrazi ve spodu obrazovky
+ * - bottom sheet
+ */
 class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
@@ -33,7 +36,7 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
         const val FOLDER = "folder"
 
         /**
-         * [bundle] containing serialized folderModel
+         * [folderModel] - slozka, ktera se bude upravovat
          */
         fun newInstance(folderModel: FolderModel) =
             FolderSettingsDialogFragment()
@@ -61,7 +64,11 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
     private fun initialize(binding: FolderSettingsFragmentBinding) {
+        //Zmena barev UI podle tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val cardViewTextColor = theme.drawerTextFillColor
             val backgroundColor = theme.drawerSearchBackgroundColor
@@ -81,7 +88,7 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
             }
         })
 
-
+        //Ikona pro nastaveni pozadi slozky, ktera spusti dialog s color pickerem
         binding.backgroundColorCircle.also { backgroundCircle ->
             backgroundCircle.setColorFilter(folderModel.backgroundColor)
             backgroundCircle.setOnClickListener {
@@ -101,9 +108,9 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
             }
         }
 
+        //Ikona pro nastaveni barvy textu slozky, ktera spusti dialog s color pickerem
         binding.textColorCircle.also { textColorCircle ->
-            binding.textColorCircle.setColorFilter(folderModel.itemColor)
-            textColorCircle.imageTintList = ColorStateList.valueOf(SEMITRANSPARENT_STROKE_COLOR)
+            textColorCircle.setColorFilter(folderModel.itemColor)
             textColorCircle.setOnClickListener {
                 ChromaDialog.Builder()
                     .initialColor(folderModel.itemColor)
@@ -120,6 +127,7 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
             }
         }
 
+        //Nastavi upravu nazvu - spusti edit text dialog
         binding.changeTitleText.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Change Folder Name")
@@ -139,15 +147,15 @@ class FolderSettingsDialogFragment private constructor() : BottomSheetDialogFrag
             }
         }
 
+        //Smazani folderu a ukonceni dilaogu
         binding.removeFolderText.setOnClickListener {
             homescreenViewModel.deleteFolder(folderModel.id!!)
             dismiss()
         }
 
+        //Spusteni dialogu pro upravu jednotlivych aplikaci ve slozce
         binding.editApps.setOnClickListener {
-            EditFolderItemsDialogFragment.newInstance(
-                folderModel.id!!
-            )
+            EditFolderItemsDialogFragment.newInstance(folderModel.id!!)
                 .show(requireActivity().supportFragmentManager, "editFolderItemsDialog")
         }
     }

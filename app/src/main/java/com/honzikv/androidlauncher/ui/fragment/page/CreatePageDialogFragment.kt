@@ -16,10 +16,17 @@ import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
+/**
+ * Dialog pro vytvoreni nove stranky - jedna se o male okno, ktere se zobrazi ve spodu obrazovky
+ * - bottom sheet
+ */
 class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment() {
 
     companion object {
 
+        /**
+         * Konstanty pro zmenu vzhledu checkboxu
+         */
         private val states = arrayOf(
             intArrayOf(-android.R.attr.state_checked),
             intArrayOf(android.R.attr.state_checked)
@@ -46,9 +53,12 @@ class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment(
         return binding.root
     }
 
+    /**
+     * Inicializace UI
+     */
     private fun initialize(binding: CreatePageDialogFragmentBinding) {
+        //Nastaveni barev podle aktualniho tematu
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
-            val cardViewTextColor = theme.drawerTextFillColor
             val backgroundColor = theme.drawerSearchBackgroundColor
             val cardViewBackgroundColor = theme.drawerBackgroundColor
             val textFillColor = theme.drawerTextFillColor
@@ -65,6 +75,7 @@ class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment(
             }
         })
 
+        //Potvrzeni prida novou stranku a ukonci dialogove okno
         binding.confirmButton.setOnClickListener {
             Timber.d("Adding page")
             homescreenViewModel.addPage(binding.pageAsFirstCheckBox.isChecked)

@@ -1,6 +1,6 @@
 package com.honzikv.androidlauncher.utils
 
-import android.graphics.Color
+//Globalni konstanty
 
 const val MATERIAL_MIN_LENGTH = 8
 
@@ -19,5 +19,3 @@ const val DRAWER_GRID_COLUMNS = 5
 const val SETTINGS_BACKGROUND_ALPHA = 200
 
 const val MAX_PAGES = 5
-
-val SEMITRANSPARENT_STROKE_COLOR = Color.parseColor("#90171616")
