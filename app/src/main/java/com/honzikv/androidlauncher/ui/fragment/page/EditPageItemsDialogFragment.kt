@@ -15,6 +15,8 @@ import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBi
 import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderListAdapter
 import com.honzikv.androidlauncher.utils.MAX_FOLDERS_PER_PAGE
+import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -114,7 +116,11 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             binding.apply {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
-                constraintLayout.setBackgroundColor(backgroundColor)
+                constraintLayout.setBackgroundColor(
+                    applyAlpha(backgroundColor,
+                        SETTINGS_BACKGROUND_ALPHA
+                    )
+                )
 
                 folderAdapter.setTextColor(textFillColor)
                 folderAdapter.notifyDataSetChanged()
@@ -151,6 +157,7 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             })
 
             folderAdapter.notifyDataSetChanged()
+            binding.itemListRecyclerView.scheduleLayoutAnimation()
         })
 
         binding.deleteButton.setOnClickListener {

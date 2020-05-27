@@ -23,13 +23,13 @@ val module = module {
             .build()
     }
 
-    //Daos
+    //Dao
     single { get<LauncherDatabase>().dockDao() }
     single { get<LauncherDatabase>().folderDao() }
     single { get<LauncherDatabase>().homescreenPageDao() }
     single { get<LauncherDatabase>().themeProfileDao() }
 
-    //Repositories
+    //Repository
     single { HomescreenRepository(get(), get()) }
     single { DockRepository(get()) }
     single { DrawerRepository(androidContext().packageManager) }
@@ -61,7 +61,7 @@ val module = module {
 
     //Viewmodel
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }
-    viewModel { DrawerViewModel(get(), get(), get()) }
+    viewModel { DrawerViewModel(get()) }
     viewModel { DockViewModel(get(), androidContext().packageManager) }
     viewModel { SettingsViewModel(get(), get()) }
 }

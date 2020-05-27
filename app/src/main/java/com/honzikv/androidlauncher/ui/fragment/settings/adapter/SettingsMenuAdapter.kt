@@ -159,6 +159,7 @@ class SettingsMenuAdapter(
         }
     }
 
+
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is Header -> R.layout.settings_title
@@ -168,7 +169,7 @@ class SettingsMenuAdapter(
             is SpinnerItem -> R.layout.settings_spinner_item
             is TextLeftItem -> R.layout.settings_text_left_item
             is SubHeaderItem -> R.layout.settings_sub_header_icon_right_item
-            else -> -1 //never happens
+            else -> -1
         }
     }
 

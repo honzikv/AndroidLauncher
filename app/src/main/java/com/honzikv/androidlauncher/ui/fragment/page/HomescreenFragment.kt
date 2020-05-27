@@ -70,7 +70,7 @@ class HomescreenFragment : Fragment() {
 
         binding.viewPager.adapter = viewPagerAdapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
 
         settingsViewModel.showPageDots.observe(viewLifecycleOwner) {
@@ -81,7 +81,12 @@ class HomescreenFragment : Fragment() {
             }
         }
 
-        settingsViewModel.currentTheme.observe(viewLifecycleOwner) { theme ->
+        settingsViewModel.showDock.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.dockFragment.visibility = View.VISIBLE
+            } else {
+                binding.dockFragment.visibility = View.GONE
+            }
         }
 
         swipeDownForNotification = MediatorLiveData<Boolean>().apply {

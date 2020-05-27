@@ -1,6 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -11,11 +12,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
-import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
@@ -99,10 +100,6 @@ class DrawerFragment : Fragment() {
         drawerViewModel.getDrawerApps().observe(viewLifecycleOwner, {
             appDrawerAdapter.updateData(it)
             Timber.d("Running recycler view animation")
-            runAnimationOnRecyclerView(
-                binding.appDrawerRecyclerView,
-                R.anim.drawer_layout_animation_fall_down
-            )
             appDrawerAdapter.notifyDataSetChanged()
         })
 
@@ -118,21 +115,21 @@ class DrawerFragment : Fragment() {
     }
 
     private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {
-        binding.appDrawerRecyclerView.layoutManager = if (use) {
-            GridLayoutManager(context, DRAWER_GRID_COLUMNS)
-        } else {
-            LinearLayoutManager(context)
-        }
+        binding.appDrawerRecyclerView.layoutManager =
+            createOverScrollLayoutManager(requireContext(), use)
     }
 
     private fun updateTheme(binding: AppDrawerFragmentBinding, theme: ThemeProfileModel) {
         appDrawerAdapter.setLabelColor(theme.drawerTextFillColor)
-        binding.constraintLayout.setBackgroundColor(applyAlpha(theme.drawerTextFillColor, 120))
-        binding.appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
-        binding.searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
-        binding.searchView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
-        binding.settingsIcon.setColorFilter(theme.drawerBackgroundColor)
-        binding.allApps.setTextColor(theme.drawerBackgroundColor)
+
+        binding.apply {
+            constraintLayout.setBackgroundColor(applyAlpha(theme.drawerTextFillColor, 120))
+            appDrawerCardView.setCardBackgroundColor(theme.drawerBackgroundColor)
+            searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
+            searchView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            settingsIcon.setColorFilter(theme.drawerBackgroundColor)
+            allApps.setTextColor(theme.drawerBackgroundColor)
+        }
     }
 
     private fun useRoundCardView(binding: AppDrawerFragmentBinding, use: Boolean) {
@@ -155,6 +152,42 @@ class DrawerFragment : Fragment() {
     private fun navigateToSettings() {
         navController.navigate(R.id.action_appDrawerFragment_to_settingsFragment)
         Timber.d("Navigating from drawer to settings")
+    }
+
+    private fun createOverScrollLayoutManager(
+        context: Context,
+        useGridLayoutManager: Boolean
+    ): RecyclerView.LayoutManager {
+        if (!useGridLayoutManager) {
+            return object : LinearLayoutManager(context) {
+                override fun scrollVerticallyBy(
+                    dy: Int,
+                    recycler: RecyclerView.Recycler?,
+                    state: RecyclerView.State?
+                ): Int {
+                    val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
+                    if (dy - scrollRange < -60) {
+                        returnToHomePageFragment()
+                    }
+                    return scrollRange
+                }
+            }
+        }
+
+        return object : GridLayoutManager(context, DRAWER_GRID_COLUMNS) {
+            override fun scrollVerticallyBy(
+                dy: Int,
+                recycler: RecyclerView.Recycler?,
+                state: RecyclerView.State?
+            ): Int {
+                val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
+                if (dy - scrollRange < -60) {
+                    Timber.d("User overscrolled")
+                    returnToHomePageFragment()
+                }
+                return scrollRange
+            }
+        }
     }
 
 }

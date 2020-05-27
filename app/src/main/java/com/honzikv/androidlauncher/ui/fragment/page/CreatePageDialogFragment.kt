@@ -1,5 +1,7 @@
 package com.honzikv.androidlauncher.ui.fragment.page
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,19 +14,28 @@ import com.honzikv.androidlauncher.databinding.CreatePageDialogFragmentBinding
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment() {
 
     companion object {
-        fun newInstance() =
-            CreatePageDialogFragment()
+
+        private val states = arrayOf(
+            intArrayOf(-android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_checked)
+        )
+
+        fun newInstance() = CreatePageDialogFragment()
     }
 
     private val homescreenViewModel: HomescreenViewModel by sharedViewModel()
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
+
+    private val checkboxThumbColors = intArrayOf(
+        Color.WHITE,
+        Color.BLACK
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +59,9 @@ class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment(
                 createPage.setTextColor(textFillColor)
                 confirmButton.setColorFilter(textFillColor)
                 pageAsFirstText.setTextColor(textFillColor)
-                //todo checkbox
+                checkboxThumbColors[0] = theme.switchBackgroundColor
+                checkboxThumbColors[1] = theme.switchThumbColorOn
+                pageAsFirstCheckBox.buttonTintList = ColorStateList(states, checkboxThumbColors)
             }
         })
 

@@ -2,12 +2,10 @@ package com.honzikv.androidlauncher.ui.fragment.page.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.databinding.EditHomescreenAppItemBinding
 import com.honzikv.androidlauncher.model.FolderItemModel
-import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 
 /**
  * Adapter pro recycler view s ikonami aplikaci ve slozce

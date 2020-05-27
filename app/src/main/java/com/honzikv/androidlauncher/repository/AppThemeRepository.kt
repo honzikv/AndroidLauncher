@@ -55,7 +55,7 @@ class AppThemeRepository(
     /**
      * LiveData s aktualnim profilem
      */
-    fun getCurrentTheme(): LiveData<ThemeProfileModel> = currentTheme
+    fun getCurrentTheme() = currentTheme as LiveData<ThemeProfileModel>
 
     /**
      * Nacte zvolene tema, pokud neexistuje vytvori [lightTheme]

@@ -6,7 +6,11 @@
         <item name="colorAccent">#F1FFFFFF</item>
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:navigationBarColor">#00000000</item>
+        <item name="android:navigationBarColor">#BC000000</item>
+    </style>
+
+    <style name="recycler_view_animation_falldown">
+        <item name="android:layoutAnimation">@anim/drawer_layout_animation_fall_down</item>
     </style>
 
 

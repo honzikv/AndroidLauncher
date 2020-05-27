@@ -38,8 +38,6 @@ class HomescreenViewModel(
             }
         }
 
-    val allPages = homescreenRepository.allPages
-
     fun updateFolder(folderModel: FolderModel) = viewModelScope.launch {
         homescreenRepository.updateFolder(folderModel)
     }
@@ -80,23 +78,6 @@ class HomescreenViewModel(
         homescreenRepository.deleteFolderWithId(folderId)
     }
 
-    fun swapFolderPositions(folder1: FolderModel, folder2: FolderModel) = viewModelScope.launch {
-        val swap = folder1.position
-        folder1.position = folder2.position
-        folder2.position = swap
-        homescreenRepository.updateFolders(folder1, folder2)
-    }
-
-    fun swapFolderItemsPositions(item1: FolderItemModel, item2: FolderItemModel) =
-        viewModelScope.launch {
-            Timber.d("$item1 \n $item2")
-            val swap = item1.position
-            item1.position = item2.position
-            item2.position = swap
-            Timber.d("$item1 \n $item2")
-            homescreenRepository.updateFolderItems(item1, item2)
-        }
-
     fun addItemsToFolder(folderId: Long, selectedApps: MutableList<DrawerApp>) =
         viewModelScope.launch {
             Timber.d("Adding items to folder")
@@ -113,7 +94,6 @@ class HomescreenViewModel(
             //filter duplicates
             selectedApps.forEach { app ->
                 if (!items.any { it.packageName == app.packageName }) {
-                    Timber.d("This app is unique, adding")
                     lastPosition += 1
                     newItems.add(
                         FolderItemModel(
@@ -126,7 +106,6 @@ class HomescreenViewModel(
             }
 
             if (items.size + newItems.size > MAX_ITEMS_IN_FOLDER) {
-                Timber.d("folder limit reached")
                 val addCount = MAX_ITEMS_IN_FOLDER - items.size
                 if (addCount == 0) {
                     TODO()
@@ -153,7 +132,6 @@ class HomescreenViewModel(
                 }
             }
         }
-
 
     fun deleteFolderItem(id: Long) = viewModelScope.launch {
         homescreenRepository.deleteFolderItem(id)

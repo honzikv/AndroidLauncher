@@ -15,6 +15,8 @@ import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBi
 import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditPageListAdapter
 import com.honzikv.androidlauncher.utils.MAX_PAGES
+import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -107,7 +109,11 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
             binding.apply {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
-                constraintLayout.setBackgroundColor(backgroundColor)
+                constraintLayout.setBackgroundColor(
+                    applyAlpha(backgroundColor,
+                        SETTINGS_BACKGROUND_ALPHA
+                    )
+                )
 
                 pageAdapter.setTextColor(textFillColor)
                 pageAdapter.notifyDataSetChanged()
@@ -131,6 +137,7 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
                 sortBy { it.page.pageNumber }
             })
             pageAdapter.notifyDataSetChanged()
+            binding.itemListRecyclerView.scheduleLayoutAnimation()
 
             val itemCount = "${pages.size} / $MAX_PAGES pages"
             binding.itemCountText.text = itemCount

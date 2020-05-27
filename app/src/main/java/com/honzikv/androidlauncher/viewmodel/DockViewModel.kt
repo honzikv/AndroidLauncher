@@ -24,10 +24,6 @@ class DockViewModel(
         const val DOCK_IS_FULL_SOMETHING_ADDED = "Dock is full, not all items were added"
     }
 
-    init {
-        Timber.d("creating dock view model")
-    }
-
     /**
      * Observable to notify error when adding items to dock
      */
@@ -51,12 +47,12 @@ class DockViewModel(
         var newItems = mutableListOf<DockItemModel>()
 
         var insertPosition = if (items.isEmpty()) {
-            -1 //-1 so it is inserted to 0th index
+            -1
         } else {
             items.maxBy { it.position }!!.position
         }
 
-        //Filter duplicates
+        //Filtrovani duplicitnich aplikaci
         selectedApps.forEach { app ->
             if (!items.any { it.packageName == app.packageName }) {
                 insertPosition += 1
@@ -69,17 +65,14 @@ class DockViewModel(
             }
         }
 
-        //if there are too many items selected add only those that dont exceed the MAX_ITEMS_IN_DOCK limit
+        //Error handling pokud prekrocime limit v doku
         if (items.size + newItems.size > MAX_ITEMS_IN_DOCK) {
-            Timber.d("dock limit reached")
             val addCount = MAX_ITEMS_IN_DOCK - items.size
             if (addCount == 0) {
-                Timber.d("dock full error")
                 dockPostErrorMutable.postValue(Event(DOCK_FULL_NOTHING_ADDED))
                 return@launch
             }
 
-            Timber.d("cant add all items to dock")
             newItems = newItems.subList(0, addCount)
             dockPostErrorMutable.postValue(Event(DOCK_IS_FULL_SOMETHING_ADDED))
         }

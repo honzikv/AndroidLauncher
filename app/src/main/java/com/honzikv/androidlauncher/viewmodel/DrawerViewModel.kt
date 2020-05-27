@@ -8,9 +8,7 @@ import com.honzikv.androidlauncher.repository.AppThemeRepository
 import kotlinx.coroutines.launch
 
 class DrawerViewModel(
-    private val drawerRepository: DrawerRepository,
-    appThemeRepository: AppThemeRepository,
-    private val appSettingsRepository: AppSettingsRepository
+    private val drawerRepository: DrawerRepository
 ) : ViewModel() {
 
     /**

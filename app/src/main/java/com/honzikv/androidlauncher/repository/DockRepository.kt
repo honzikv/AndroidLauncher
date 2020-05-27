@@ -9,6 +9,9 @@ import com.honzikv.androidlauncher.model.DockItemModel
 class DockRepository(
     private val dockDao: DockDao
 ) {
+    /**
+     * LiveData se seznamem aplikaci v doku
+     */
     val dockItemsLiveData = dockDao.getAllItemsLiveData()
 
     /**

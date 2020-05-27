@@ -13,7 +13,10 @@
         <action
             android:id="@+id/action_homescreenPageFragment_to_appDrawerFragment"
             app:destination="@id/appDrawerFragment"
-            app:exitAnim="@android:anim/fade_out" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_homescreenPageFragment_to_settingsFragment"
             app:destination="@id/settingsFragment"

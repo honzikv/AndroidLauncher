@@ -19,7 +19,6 @@ import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
 import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.ui.fragment.dock.adapter.DockAdapter
-import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.utils.gestures.RecyclerTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel

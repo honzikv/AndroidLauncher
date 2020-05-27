@@ -3,13 +3,10 @@ package com.honzikv.androidlauncher.ui.fragment.page.adapter
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.databinding.EditHomescreenContainerItemBinding
 import com.honzikv.androidlauncher.databinding.EditHomescreenPageItemBinding
-import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.ui.fragment.page.EditPageItemsDialogFragment
 

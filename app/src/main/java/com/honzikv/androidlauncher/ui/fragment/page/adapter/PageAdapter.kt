@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.FolderListBinding
 import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
-import timber.log.Timber
 
 /**
  * [context] must be of type FragmentActivity
@@ -33,7 +32,6 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
 
     fun setPages(newPageList: List<PageWithFolders>) {
         val sorted = newPageList.sortedBy { it.page.pageNumber }
-        Timber.d("size = ${sorted.size}")
         this.pages = sorted
     }
 
@@ -41,12 +39,12 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-            itemView.tag = this
+            itemView.setOnTouchListener(onSwipeTouchListener)
         }
 
         @SuppressLint("ClickableViewAccessibility")
         fun bind(page: PageWithFolders) {
-            val folderAdapter = FolderListAdapter(context, binding.folderListRecyclerView)
+            val folderAdapter = FolderAdapter(context, binding.folderListRecyclerView)
             folderAdapter.setFolderList(
                 page.folderList.toMutableList().apply { sortBy { it.folder.position } })
             binding.folderListRecyclerView.apply {
@@ -55,7 +53,7 @@ class PageAdapter(val context: Context, val onSwipeTouchListener: OnSwipeTouchLi
                 layoutManager = LinearLayoutManager(context).apply {
                     reverseLayout = true
                 }
-                (adapter as FolderListAdapter).notifyDataSetChanged()
+                (adapter as FolderAdapter).notifyDataSetChanged()
             }
         }
     }

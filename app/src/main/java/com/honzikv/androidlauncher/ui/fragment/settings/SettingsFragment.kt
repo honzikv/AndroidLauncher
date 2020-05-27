@@ -13,6 +13,8 @@ import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu
+import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import com.multilevelview.models.RecyclerViewItem
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -66,7 +68,12 @@ class SettingsFragment : Fragment() {
         }
 
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
-            binding.multiLevelRecyclerView.setBackgroundColor(it.drawerBackgroundColor)
+            binding.multiLevelRecyclerView.setBackgroundColor(
+                applyAlpha(
+                    it.drawerBackgroundColor,
+                    SETTINGS_BACKGROUND_ALPHA
+                )
+            )
             lookAndFeelMenu.currentTheme.textRight = it.name
             multiLevelAdapter.apply {
                 setTheme(it)
@@ -97,7 +104,6 @@ class SettingsFragment : Fragment() {
         })
 
     }
-
 
 
 }

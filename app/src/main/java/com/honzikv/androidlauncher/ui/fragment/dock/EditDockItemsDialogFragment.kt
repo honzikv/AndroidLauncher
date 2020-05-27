@@ -15,10 +15,11 @@ import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.dock.adapter.EditDockAdapter
+import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 import java.util.*
 
 class EditDockItemsDialogFragment private constructor() : DialogFragment() {
@@ -107,7 +108,11 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             binding.apply {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
-                constraintLayout.setBackgroundColor(backgroundColor)
+                constraintLayout.setBackgroundColor(
+                    applyAlpha(backgroundColor,
+                        SETTINGS_BACKGROUND_ALPHA
+                    )
+                )
 
                 itemAdapter.setTextColor(textFillColor)
                 itemAdapter.notifyDataSetChanged()

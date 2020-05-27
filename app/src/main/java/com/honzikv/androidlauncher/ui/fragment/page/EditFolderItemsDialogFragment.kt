@@ -15,6 +15,8 @@ import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderAdapter
+import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -120,7 +122,9 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             binding.apply {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
-                constraintLayout.setBackgroundColor(backgroundColor)
+                constraintLayout.setBackgroundColor(
+                    applyAlpha(backgroundColor, SETTINGS_BACKGROUND_ALPHA)
+                )
 
                 itemAdapter.setTextColor(textFillColor)
                 itemAdapter.notifyDataSetChanged()
@@ -145,6 +149,8 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
 
             if (folderWithItems.itemList.size >= MAX_ITEMS_IN_FOLDER) {
                 binding.addButton.visibility = View.GONE
+            } else {
+                binding.addButton.visibility = View.VISIBLE
             }
 
             binding.addButton.setOnClickListener {
@@ -154,6 +160,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             itemAdapter.setItemList(
                 folderWithItems.itemList.toMutableList().apply { sortBy { it.position } })
             itemAdapter.notifyDataSetChanged()
+            binding.itemListRecyclerView.scheduleLayoutAnimation()
         }
 
         binding.okButton.setOnClickListener { dismiss() }

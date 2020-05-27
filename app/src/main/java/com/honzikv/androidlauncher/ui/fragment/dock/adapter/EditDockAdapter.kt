@@ -2,7 +2,6 @@ package com.honzikv.androidlauncher.ui.fragment.dock.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.databinding.EditHomescreenAppItemBinding
