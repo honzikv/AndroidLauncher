@@ -116,6 +116,7 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
                 deleteButton.setColorFilter(textFillColor)
                 okButton.setColorFilter(textFillColor)
                 containerName.setTextColor(textFillColor)
+                itemCountText.setTextColor(textFillColor)
             }
         }
 
@@ -147,8 +148,7 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
             if (pagesWithFolders.value!!.size >= MAX_PAGES) {
                 Toast.makeText(context, "Page limit exceeded", Toast.LENGTH_LONG)
                     .show()
-            }
-            else {
+            } else {
                 CreatePageDialogFragment.newInstance()
                     .show(requireActivity().supportFragmentManager, "createPage")
             }

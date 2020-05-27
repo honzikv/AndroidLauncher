@@ -3,11 +3,14 @@ package com.honzikv.androidlauncher.utils.initializer
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Color.*
 import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.ThemeProfileModel
+import com.honzikv.androidlauncher.repository.AppThemeRepository.Companion.lightTheme
 import com.honzikv.androidlauncher.repository.PREFS_INITIALIZED
+import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,8 +38,8 @@ class Initializer(
                 "com.google.android.apps.translate"
             )
 
-        val FOLDER_COLOR = Color.parseColor("#fb212d40")
-        val ITEM_COLOR = Color.parseColor("#e8f1f2")
+        val FOLDER_COLOR = parseColor("#fb212d40")
+        val ITEM_COLOR = parseColor("#e8f1f2")
         const val FOLDER_NAME = "Google Apps"
     }
 
@@ -99,87 +102,127 @@ class Initializer(
         homescreenViewModel.addItems(items)
     }
 
+    /**
+     * Vytvori temata aplikace
+     */
     private suspend fun createThemes() = withContext(Dispatchers.IO) {
         Timber.d("Creating default theme profiles")
-        //https://flatuicolors.com/palette/us
-        val lightTheme =
-            ThemeProfileModel(
-                drawerBackgroundColor = Color.parseColor("#dfe6e9"),
-                drawerTextFillColor = Color.parseColor("#2d3436"),
-                drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
-                drawerSearchTextColor = Color.parseColor("#636e72"),
-                dockBackgroundColor = Color.parseColor("#99dfe6e9"),
-                dockTextColor = Color.parseColor("#2d3436"),
-                isUserProfile = false,
-                name = "Light Theme"
-            )
 
-        //https://flatuicolors.com/palette/us
         val darkTheme = ThemeProfileModel(
-            drawerBackgroundColor = Color.parseColor("#2d3436"),
-            drawerTextFillColor = Color.parseColor("#dfe6e9"),
-            drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
-            drawerSearchTextColor = Color.parseColor("#2d3436"),
-            dockBackgroundColor = Color.parseColor("#99636e72"),
-            dockTextColor = Color.parseColor("#b2bec3"),
             name = "Dark Theme",
-            isUserProfile = false
+            drawerBackgroundColor = parseColor("#2f3542"),
+            drawerTextFillColor = parseColor("#ecf0f1"),
+            drawerSearchBackgroundColor = parseColor("#34495e"),
+            drawerSearchTextColor = parseColor("#bdc3c7"),
+            dockTextColor = parseColor("#95a5a6"),
+            dockBackgroundColor = applyAlpha(parseColor("#34495e"), 200),
+            switchBackgroundColor = parseColor("#95a5a6"),
+            switchThumbColorOff = parseColor("#ff6b81"),
+            switchThumbColorOn = parseColor("#7bed9f")
         )
 
-        //https://flatuicolors.com/palette/es
         val blueTheme = ThemeProfileModel(
-            drawerBackgroundColor = Color.parseColor("#2c2c54"),
-            drawerTextFillColor = Color.parseColor("#f7f1e3"),
-            drawerSearchBackgroundColor = Color.parseColor("#40407a"),
-            drawerSearchTextColor = Color.parseColor("#aaa69d"),
-            dockBackgroundColor = Color.parseColor("#99706fd3"),
-            dockTextColor = Color.parseColor("#d1ccc0"),
             name = "Blue",
-            isUserProfile = false
+            drawerBackgroundColor = parseColor("#2c2c54"),
+            drawerTextFillColor = parseColor("#f7f1e3"),
+            drawerSearchBackgroundColor = parseColor("#40407a"),
+            drawerSearchTextColor = parseColor("#aaa69d"),
+            dockBackgroundColor = applyAlpha(parseColor("#706fd3"), 200),
+            dockTextColor = parseColor("#d1ccc0"),
+            switchBackgroundColor = parseColor("#57606f"),
+            switchThumbColorOn = parseColor("#7bed9f"),
+            switchThumbColorOff = parseColor("#a4b0be")
         )
 
-        val amoLED = ThemeProfileModel(
-            drawerBackgroundColor = Color.BLACK,
-            drawerTextFillColor = Color.parseColor("#e5e5e5"),
-            drawerSearchBackgroundColor = Color.parseColor("#14213d"),
-            drawerSearchTextColor = Color.parseColor("#ffffff"),
-            dockBackgroundColor = Color.parseColor("#50e5e5e5"),
-            dockTextColor = Color.parseColor("#fca311"),
-            name = "amoLED",
-            isUserProfile = false
+        val amoled = ThemeProfileModel(
+            name = "AMOLED",
+            drawerBackgroundColor = parseColor("#000000"),
+            drawerTextFillColor = parseColor("#d2dae2"),
+            drawerSearchBackgroundColor = parseColor("#1e272e"),
+            drawerSearchTextColor = parseColor("#34e7e4"),
+            dockBackgroundColor = applyAlpha(parseColor("#1e272e"), 200),
+            dockTextColor = parseColor("#d2dae2"),
+            switchBackgroundColor = parseColor("#808e9b"),
+            switchThumbColorOn = parseColor("#a4b0be"),
+            switchThumbColorOff = parseColor("#a4b0be")
+        )
+
+        val blackwoods = ThemeProfileModel(
+            name = "Black Woods",
+            drawerBackgroundColor = parseColor("#0c1618"),
+            drawerTextFillColor = parseColor("#faf4d3"),
+            drawerSearchBackgroundColor = parseColor("#004643"),
+            drawerSearchTextColor = parseColor("#faf4d3"),
+            dockBackgroundColor = applyAlpha(parseColor("#f6be9a"), 200),
+            dockTextColor = parseColor("#0c1618"),
+            switchBackgroundColor = parseColor("#6b6254"),
+            switchThumbColorOn = parseColor("#d1ac00"),
+            switchThumbColorOff = parseColor("#d1ac00")
+        )
+
+        val spaceOrange = ThemeProfileModel(
+            name = "Space Orange",
+            drawerBackgroundColor = parseColor("#0c2461"),
+            drawerTextFillColor = parseColor("#fad390"),
+            drawerSearchBackgroundColor = parseColor("#e55039"),
+            drawerSearchTextColor = parseColor("#f8c291"),
+            dockBackgroundColor = applyAlpha(parseColor("#0a3d62"), 200),
+            dockTextColor = parseColor("#b8e994"),
+            switchBackgroundColor = parseColor("#60a3bc"),
+            switchThumbColorOn = parseColor("#e58e26"),
+            switchThumbColorOff = parseColor("#fad390")
+        )
+
+        val nuclearWaste = ThemeProfileModel(
+            name = "Nuclear Waste",
+            drawerBackgroundColor = parseColor("#2f243a"),
+            drawerTextFillColor = parseColor("#c7f9cc"),
+            drawerSearchBackgroundColor = parseColor("#57cc99"),
+            drawerSearchTextColor = parseColor("#444054"),
+            dockBackgroundColor = applyAlpha(parseColor("#2f243a"), 200),
+            dockTextColor = parseColor("#bebbbb"),
+            switchBackgroundColor = parseColor("#dfe4ea"),
+            switchThumbColorOn = parseColor("#70a1ff"),
+            switchThumbColorOff = parseColor("#dfe4ea")
+        )
+
+        val cleanWhite = ThemeProfileModel(
+            name = "Clean White",
+            drawerBackgroundColor = parseColor("#ffffff"),
+            drawerTextFillColor = parseColor("#2f3542"),
+            drawerSearchBackgroundColor = parseColor("#ced6e0"),
+            drawerSearchTextColor = parseColor("#57606f"),
+            dockBackgroundColor = applyAlpha(parseColor("#dfe4ea"), 200),
+            dockTextColor = parseColor("#2f3542"),
+            switchBackgroundColor = parseColor("#a4b0be"),
+            switchThumbColorOn = parseColor("#ff4757"),
+            switchThumbColorOff = parseColor("#2f3542")
         )
 
         val cocaCola = ThemeProfileModel(
-            drawerBackgroundColor = Color.parseColor("#fb212d40"),
-            drawerTextFillColor = Color.parseColor("#e5e5e5"),
-            drawerSearchBackgroundColor = Color.parseColor("#7d4e57"),
-            drawerSearchTextColor = Color.parseColor("#e5e5e5"),
-            dockBackgroundColor = Color.parseColor("#a0364156"),
-            dockTextColor = Color.parseColor("#e6ebe0"),
             name = "Coca Cola",
-            isUserProfile = false
-        )
-
-        val toxik = ThemeProfileModel(
-            drawerBackgroundColor = Color.parseColor("#2f243a"),
-            drawerTextFillColor = Color.parseColor("#c7f9cc"),
-            drawerSearchBackgroundColor = Color.parseColor("#57cc99"),
-            drawerSearchTextColor = Color.parseColor("#444054"),
-            dockBackgroundColor = Color.parseColor("#9a2f243a"),
-            dockTextColor = Color.parseColor("#bebbbb"),
-            name = "Toxik",
-            isUserProfile = false
-
+            drawerBackgroundColor = parseColor("#fb212d40"),
+            drawerTextFillColor = parseColor("#e5e5e5"),
+            drawerSearchBackgroundColor = parseColor("#7d4e57"),
+            drawerSearchTextColor = parseColor("#e5e5e5"),
+            dockBackgroundColor = applyAlpha(parseColor("#364156"), 200),
+            dockTextColor = parseColor("#e6ebe0"),
+            switchBackgroundColor = parseColor("#747d8c"),
+            switchThumbColorOn = parseColor("#5352ed"),
+            switchThumbColorOff = parseColor("#a4b0be")
         )
 
         Timber.d("Default theme profiles created, inserting them into database")
         settingsViewModel.addProfile(
             lightTheme,
             darkTheme,
+            amoled,
+            cleanWhite,
             blueTheme,
-            amoLED,
-            cocaCola,
-            toxik
+            blackwoods,
+            spaceOrange,
+            nuclearWaste,
+            cocaCola
         )
         Timber.d("Default theme profiles have been inserted")
     }

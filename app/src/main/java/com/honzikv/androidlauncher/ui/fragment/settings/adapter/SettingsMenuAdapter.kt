@@ -1,14 +1,16 @@
 package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.*
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.utils.MATERIAL_MIN_LENGTH
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
@@ -17,23 +19,13 @@ import com.multilevelview.models.RecyclerViewItem
 import kotlinx.android.synthetic.main.settings_switch_item.view.*
 import timber.log.Timber
 
+
 class SettingsMenuAdapter(
     private var items: MutableList<RecyclerViewItem>,
     private val recyclerView: MultiLevelRecyclerView
 ) :
     MultiLevelAdapter(items) {
 
-    fun changeTheme(theme: ThemeProfileModel) {
-        cardViewTextColor = theme.drawerTextFillColor
-        cardViewBackgroundColor = theme.drawerSearchBackgroundColor
-        childTextFillColor = theme.drawerTextFillColor
-    }
-
-    private var cardViewTextColor: Int = Color.WHITE
-
-    private var cardViewBackgroundColor: Int = Color.BLACK
-
-    private var childTextFillColor: Int = Color.WHITE
 
     companion object {
 
@@ -52,7 +44,39 @@ class SettingsMenuAdapter(
                 marginStart = MATERIAL_MIN_LENGTH * 4
                 marginEnd = MATERIAL_MIN_LENGTH * 4
             }
+
+        private val states = arrayOf(
+            intArrayOf(-android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_checked)
+        )
     }
+
+    fun setTheme(theme: ThemeProfileModel) {
+        cardViewTextColor = theme.drawerTextFillColor
+        cardViewBackgroundColor = theme.drawerSearchBackgroundColor
+        childTextFillColor = theme.drawerTextFillColor
+
+        switchTrackColors[0] = theme.switchBackgroundColor
+        switchTrackColors[1] = theme.switchBackgroundColor
+        switchThumbColors[1] = theme.switchThumbColorOn
+        switchThumbColors[0] = theme.switchThumbColorOff
+    }
+
+    private var cardViewTextColor: Int = Color.WHITE
+
+    private var cardViewBackgroundColor: Int = Color.BLACK
+
+    private var childTextFillColor: Int = Color.WHITE
+
+    private val switchThumbColors = intArrayOf(
+        Color.WHITE,
+        Color.WHITE
+    )
+
+    private val switchTrackColors = intArrayOf(
+        Color.BLACK,
+        Color.BLACK
+    )
 
     fun setOnClickExpand(view: View, holder: RecyclerView.ViewHolder) {
         Timber.d("Expanding viewholder $holder")
@@ -205,7 +229,16 @@ class SettingsMenuAdapter(
                     Timber.d("Clicked $switchItem")
                     data.performClick(isChecked)
                 }
-                //Todo color
+
+                DrawableCompat.setTintList(
+                    DrawableCompat.wrap(thumbDrawable),
+                    ColorStateList(states, switchThumbColors)
+                )
+
+                DrawableCompat.setTintList(
+                    DrawableCompat.wrap(trackDrawable),
+                    ColorStateList(states, switchTrackColors)
+                )
             }
         }
     }

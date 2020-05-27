@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
-import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
@@ -42,6 +41,11 @@ class DockAdapter(
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as DockItemViewHolder
         val item = dockItems[viewHolder.adapterPosition]
+
+        //Pro prazdny predmet, ktery je pritomen aby se dok zobrazil
+        if (item.packageName == "") {
+            return@OnClickListener
+        }
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
@@ -57,6 +61,8 @@ class DockAdapter(
     fun setShowLabels(show: Boolean) {
         this.showLabels = show
     }
+
+    fun getItem(position: Int) = dockItems[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return DockItemViewHolder(

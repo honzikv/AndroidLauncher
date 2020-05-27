@@ -25,6 +25,12 @@ data class ThemeProfileModel(
 
     val dockTextColor: Int,
 
+    val switchThumbColorOn: Int,
+
+    val switchThumbColorOff: Int,
+
+    val switchBackgroundColor: Int,
+
     var name: String,
 
     val isUserProfile: Boolean = true

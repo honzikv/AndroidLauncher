@@ -76,8 +76,9 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
                 cardView.setCardBackgroundColor(cardViewBackgroundColor)
                 okButton.setColorFilter(textFillColor)
                 chooseApps.setTextColor(textFillColor)
-                appPickerAdapter.setTextColor(textFillColor)
+                appPickerAdapter.setTheme(theme)
                 appPickerAdapter.notifyDataSetChanged()
+                appsSelected.setTextColor(textFillColor)
             }
         })
 

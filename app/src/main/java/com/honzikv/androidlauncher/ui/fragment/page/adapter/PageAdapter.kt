@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.FolderListBinding
-import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
+import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 import timber.log.Timber
 
 /**

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.honzikv.androidlauncher.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.model.ThemeProfileModel
-import timber.log.Timber
+import com.honzikv.androidlauncher.utils.applyAlpha
 
 /**
  * Trida, slouzici jako repository pro tema aplikace - obsahuje funkce pro zmenu a pridani novych
@@ -23,16 +23,17 @@ class AppThemeRepository(
         /**
          * Vychozi tema v aplikaci
          */
-        val DEFAULT_THEME = ThemeProfileModel(
-            id = null,
-            drawerBackgroundColor = Color.parseColor("#dfe6e9"),
-            drawerTextFillColor = Color.parseColor("#2d3436"),
-            drawerSearchBackgroundColor = Color.parseColor("#0984e3"),
-            drawerSearchTextColor = Color.parseColor("#636e72"),
-            dockBackgroundColor = Color.parseColor("#dfe6e9"),
-            dockTextColor = Color.parseColor("#2d3436"),
-            isUserProfile = false,
-            name = "Light Theme"
+        val lightTheme = ThemeProfileModel(
+            name = "Light Theme",
+            drawerBackgroundColor = Color.parseColor("#ecf0f1"),
+            drawerTextFillColor = Color.parseColor("#2c3e50"),
+            drawerSearchBackgroundColor = Color.parseColor("#70a1ff"),
+            drawerSearchTextColor = Color.parseColor("#34495e"),
+            dockTextColor = Color.parseColor("#2c3e50"),
+            dockBackgroundColor = applyAlpha(Color.parseColor("#7f8c8d"), 200),
+            switchBackgroundColor = Color.parseColor("#34495e"),
+            switchThumbColorOn = Color.parseColor("#1abc9c"),
+            switchThumbColorOff = Color.parseColor("#ecf0f1")
         )
 
         /**
@@ -57,11 +58,11 @@ class AppThemeRepository(
     fun getCurrentTheme(): LiveData<ThemeProfileModel> = currentTheme
 
     /**
-     * Nacte zvolene tema, pokud neexistuje vytvori [DEFAULT_THEME]
+     * Nacte zvolene tema, pokud neexistuje vytvori [lightTheme]
      */
     private fun loadTheme(): ThemeProfileModel {
         return Gson().fromJson(
-            preferences.getString(APP_THEME_FIELD, Gson().toJson(DEFAULT_THEME)),
+            preferences.getString(APP_THEME_FIELD, Gson().toJson(lightTheme)),
             ThemeProfileModel::class.java
         )
     }

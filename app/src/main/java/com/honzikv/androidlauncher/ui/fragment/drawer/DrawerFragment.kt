@@ -18,7 +18,7 @@ import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.ui.anim.runAnimationOnRecyclerView
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
-import com.honzikv.androidlauncher.ui.gestures.OnSwipeTouchListener
+import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.utils.DRAWER_GRID_COLUMNS
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
@@ -78,7 +78,7 @@ class DrawerFragment : Fragment() {
             }
         })
 
-        binding.settingsIcon.setOnClickListener { view ->
+        binding.settingsIcon.setOnClickListener {
             navigateToSettings()
         }
 

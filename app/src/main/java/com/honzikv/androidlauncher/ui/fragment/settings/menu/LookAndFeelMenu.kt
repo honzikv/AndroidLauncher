@@ -17,12 +17,12 @@ class LookAndFeelMenu(
 
     companion object {
         const val LOOK_AND_FEEL = "Look and Feel"
-        const val LOOK_AND_FEEL_SUB = "Customize theme of your launcher"
+        const val LOOK_AND_FEEL_SUB = "Change App's Look and Feel"
 
-        const val CURRENTLY_SELECTED_THEME = "Currently Selected Theme"
+        const val CURRENTLY_SELECTED_THEME = "Current Theme "
 
         const val SELECT_THEME = "Change Theme"
-        const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notification Panel"
+        const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notifications"
 
     }
 

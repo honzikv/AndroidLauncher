@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.ui.gestures
+package com.honzikv.androidlauncher.utils.gestures
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,8 +16,8 @@ open class OnSwipeTouchListener(context: Context) : View.OnTouchListener {
     private val gestureDetector = GestureDetector(context, GestureListener())
 
     companion object {
-        private const val SWIPE_THRESHOLD = 100
-        private const val SWIPE_VELOCITY_THRESHOLD = 100
+        const val SWIPE_THRESHOLD = 70
+        const val SWIPE_VELOCITY_THRESHOLD = 70
     }
 
     @SuppressLint("ClickableViewAccessibility")

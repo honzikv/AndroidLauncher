@@ -1,13 +1,12 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">#FC000000</item>
+        <item name="colorAccent">#F1FFFFFF</item>
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#00000000</item>
     </style>
 
 
@@ -53,11 +52,9 @@
 
     <style name="label_below_icon">
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:breakStrategy">high_quality</item>
-        <item name="android:gravity">center_horizontal</item>
     </style>
 
 </resources>

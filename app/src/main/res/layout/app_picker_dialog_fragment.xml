@@ -13,6 +13,7 @@
         style="@style/text_header_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Choose Apps"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -52,10 +53,10 @@
 
     <TextView
         android:id="@+id/appsSelected"
+        style="@style/text_dialog_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        style="@style/text_dialog_item"
+        android:layout_marginStart="16dp"
         android:text="Apps Selected"
         app:layout_constraintEnd_toEndOf="@+id/chooseApps"
         app:layout_constraintHorizontal_bias="0.0"

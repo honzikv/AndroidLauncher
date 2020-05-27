@@ -1,5 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.picker.adapter
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,8 +9,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.IconWithTitleRightCheckboxBinding
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 
 class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder>() {
+
+    companion object {
+        private val states = arrayOf(
+            intArrayOf(-android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_checked)
+        )
+    }
 
     private var items = listOf<DrawerApp>()
 
@@ -17,12 +26,19 @@ class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder
 
     private var itemsSelected = MutableLiveData(0)
 
-    fun setTextColor(textColor: Int) {
-        this.textColor = textColor
-    }
+    private val checkboxThumbColors = intArrayOf(
+        Color.WHITE,
+        Color.BLACK
+    )
 
     fun setItems(items: List<DrawerApp>) {
         this.items = items
+    }
+
+    fun setTheme(theme: ThemeProfileModel) {
+        this.textColor = theme.drawerTextFillColor
+        checkboxThumbColors[0] = theme.switchBackgroundColor
+        checkboxThumbColors[1] = theme.switchThumbColorOn
     }
 
     fun getSelectedItems() = items.filter { it.isChecked }.toMutableList()
@@ -56,6 +72,7 @@ class AppPickerAdapter : RecyclerView.Adapter<AppPickerAdapter.AppItemViewHolder
             binding.checkBox.apply {
                 //Nastaveni checkboxu, jinak po scrollovani muze holder zaskrtnout nezaskrtla data
                 isChecked = items[adapterPosition].isChecked
+                buttonTintList = ColorStateList(states, checkboxThumbColors)
                 setOnClickListener {
 
                     if (items[adapterPosition].isChecked) {
