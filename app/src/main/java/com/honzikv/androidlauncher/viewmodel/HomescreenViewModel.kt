@@ -14,6 +14,9 @@ import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+/**
+ * View model poskytujici operace pro plochu
+ */
 class HomescreenViewModel(
     private val homescreenRepository: HomescreenRepository,
     private val packageManager: PackageManager

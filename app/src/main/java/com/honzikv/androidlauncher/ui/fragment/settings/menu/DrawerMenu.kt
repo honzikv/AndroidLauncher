@@ -28,6 +28,9 @@ class DrawerMenu(
 
     private val drawerSettings = HeaderItem(DRAWER_SETTINGS, DRAWER_SETTINGS_SUB, 0)
 
+    /**
+     * Zobrazeni vyhledavani
+     */
     private val showSearchBar = SwitchItem(
         SHOW_SEARCH_BAR,
         viewModel.getShowSearchBar(),
@@ -35,6 +38,9 @@ class DrawerMenu(
         drawerSettings.level + 1
     )
 
+    /**
+     * Zobrazeni aplikaci ve mrizce
+     */
     private val showAsGrid = SwitchItem(
         SHOW_AS_GRID,
         viewModel.getShowDrawerAsGrid(),
@@ -42,6 +48,9 @@ class DrawerMenu(
         drawerSettings.level + 1
     )
 
+    /**
+     * Zakulaceni rohu
+     */
     private val useRoundCorners = SwitchItem(
         USE_ROUND_CORNERS,
         viewModel.getUseRoundCorners(),

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 
 //Fork z https://gist.github.com/er-abhishek-luthra/9c2962b4c6b3df6b76135393244324b3
 /**
- * Umoznuje vytvorit LiveData, ktere sleduje SharedPreferences hodnoty
+ * Umoznuje vytvorit LiveData, ktera sleduji SharedPreferences hodnoty
  */
 abstract class SharedPreferenceLiveData<T>(
     val sharedPrefs: SharedPreferences, private val key: String, private val defValue: T

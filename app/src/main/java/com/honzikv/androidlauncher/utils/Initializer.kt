@@ -231,7 +231,7 @@ class Initializer(
     }
 
     /**
-     * Vytvori stranku
+     * Vytvori prvni stranku
      */
     private suspend fun createFirstPage(): PageModel {
         Timber.d("creating first page")

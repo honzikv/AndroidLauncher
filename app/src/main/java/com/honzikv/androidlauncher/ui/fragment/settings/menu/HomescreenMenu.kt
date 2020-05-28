@@ -43,6 +43,9 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
 
     override fun getRoot() = homescreenMenu
 
+    /**
+     * Zmena pozadi
+     */
     private val changeWallpaper = TextLeftItem(
         CHANGE_WALLPAPER, {
             fragmentActivity.startActivity(Intent(Intent.ACTION_SET_WALLPAPER))
@@ -50,21 +53,33 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         homescreenMenu.level + 1
     )
 
+    /**
+     * Subheader s nastavenim stranky
+     */
     private val pageSettings = SubHeaderItem(
         PAGE_SETTINGS,
         homescreenMenu.level + 1
     )
 
+    /**
+     * Subheader s nastavenim doku
+     */
     private val dockSettings = SubHeaderItem(
         DOCK_SETTINGS,
         homescreenMenu.level + 1
     )
 
+    /**
+     * Spusteni dialogu s nastavenim aplikaci v doku
+     */
     private val manageDockItems = TextLeftItem(MANAGE_DOCK_ITEMS, {
         EditDockItemsDialogFragment.newInstance()
             .show(fragmentActivity.supportFragmentManager, "editDockItems")
     }, dockSettings.level + 1)
 
+    /**
+     * Zobrazeni doku
+     */
     private val showDock = SwitchItem(
         SHOW_DOCK,
         viewModel.getShowDock(),
@@ -75,6 +90,9 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         dockSettings.level + 1
     )
 
+    /**
+     * Zobrazeni popisku u ikon v doku
+     */
     private val showDockLabels = SwitchItem(
         SHOW_DOCK_LABELS,
         viewModel.getShowDockLabels(),
@@ -85,11 +103,17 @@ class HomescreenMenu(viewModel: SettingsViewModel, fragmentActivity: FragmentAct
         dockSettings.level + 1
     )
 
+    /**
+     * Spusteni dialogu pro upravu stranek
+     */
     private val managePages = TextLeftItem(MANAGE_PAGES, {
         EditPageListDialogFragment.newInstance()
             .show(fragmentActivity.supportFragmentManager, "editPageListFragment")
     }, pageSettings.level + 1)
 
+    /**
+     * Zobrazeni tecek nad strankami
+     */
     private val showPageDots = SwitchItem(
         SHOW_PAGE_DOTS,
         viewModel.getShowPageDots(),

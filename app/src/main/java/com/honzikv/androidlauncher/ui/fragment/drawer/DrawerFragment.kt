@@ -30,10 +30,6 @@ import timber.log.Timber
  */
 class DrawerFragment : Fragment() {
 
-    companion object {
-        const val OVERSCROLL_VAL = -160
-    }
-
     private val drawerViewModel: DrawerViewModel by sharedViewModel()
 
     private val settingsViewModel: SettingsViewModel by sharedViewModel()

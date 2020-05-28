@@ -45,19 +45,19 @@ class SettingsFragment : Fragment() {
         val itemList = mutableListOf<RecyclerViewItem>()
         itemList.add(Header("Settings", 0))
 
-        //Create a look and feel settings submenu
+        //Vytvoreni look and feel menu
         val lookAndFeelMenu = LookAndFeelMenu(settingsViewModel, requireContext()).apply {
             position = itemList.size
             itemList.add(getRoot())
         }
 
-        //Create a drawer settings submenu
+        //Vytvoreni drawer menu
         val drawerMenu = DrawerMenu(settingsViewModel).apply {
             position = itemList.size
             itemList.add(getRoot())
         }
 
-        //Create a homescreen settings submenu
+        //Vytvoreni homescreen settings submenu
         val homescreenMenu = HomescreenMenu(settingsViewModel, requireActivity()).apply {
             position = itemList.size
             itemList.add(getRoot())
@@ -102,6 +102,7 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        //Zmena barev pri zmene tema
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, {
             val currentTheme = lookAndFeelMenu.currentTheme
             currentTheme.textRight = it.name

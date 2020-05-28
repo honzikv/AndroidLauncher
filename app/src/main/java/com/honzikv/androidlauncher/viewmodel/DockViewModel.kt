@@ -13,6 +13,9 @@ import com.honzikv.androidlauncher.utils.Event
 import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import kotlinx.coroutines.launch
 
+/**
+ * View model pro dok
+ */
 class DockViewModel(
     private val dockRepository: DockRepository,
     private val packageManager: PackageManager
@@ -42,6 +45,9 @@ class DockViewModel(
         }
     }
 
+    /**
+     * Vrati vsechny aplikace v doku
+     */
     private suspend fun getAllItems() = dockRepository.getAllItems()
 
     /**

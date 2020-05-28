@@ -8,7 +8,7 @@ import com.honzikv.androidlauncher.repository.AppThemeRepository
 import kotlinx.coroutines.launch
 
 /**
- * ViewModel pro nastaveni aplikace
+ * View model pro nastaveni aplikace
  */
 class SettingsViewModel(
     private val settingsRepository: AppSettingsRepository,

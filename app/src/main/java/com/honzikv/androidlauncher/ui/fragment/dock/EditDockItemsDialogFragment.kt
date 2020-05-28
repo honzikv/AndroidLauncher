@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 /**
- * Dialogove okno pro zmenu predmetu v doku
+ * Dialogove okno pro zmenu aplikaci umistenych v doku
  */
 class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
@@ -37,8 +37,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
     private lateinit var itemAdapter: EditDockAdapter
 
     companion object {
-        fun newInstance() =
-            EditDockItemsDialogFragment()
+        fun newInstance() = EditDockItemsDialogFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +59,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
      * ItemTouchHelper implementace, pomoci ktere muze uzivatel menit pozice ikon v doku
      */
     private val itemTouchDragToReorderCallback = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-        0
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
     ) {
         override fun onMove(
             recyclerView: RecyclerView,
@@ -163,6 +161,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
             ItemTouchHelper(itemTouchDragToReorderCallback).attachToRecyclerView(this)
         }
 
+        //po kliknuti na ok ikonku se dialog zavre
         binding.okButton.setOnClickListener { dismiss() }
 
         //Prechod do app picker dialogu

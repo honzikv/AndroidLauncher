@@ -32,6 +32,9 @@ class DrawerViewModel(
     private fun updateAppDrawerData() =
         viewModelScope.launch { drawerRepository.reloadAppList() }
 
+    /**
+     * Vrati vsechny aplikace
+     */
     fun getDrawerApps(): LiveData<List<DrawerApp>> = appList
 
 }

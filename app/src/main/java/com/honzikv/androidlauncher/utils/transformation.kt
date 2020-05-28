@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Tato implementace by mela zabranit transformaci na hlavnim vlakne, ktera muze teoreticky zpomalit
- * vykon aplikace - misto na hlavnim vlakne provede transformaci v Coroutine
+ * vykon aplikace - misto na hlavnim vlakne provede transformaci v Dispatchers.Default thread poolu
  */
 object BackgroundTransformations {
 

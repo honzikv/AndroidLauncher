@@ -12,7 +12,7 @@ import com.honzikv.androidlauncher.model.DockItemModel
  */
 class EditDockAdapter(
     /**
-     * Funkce pro smazani prvku z databaze, parametr je id v databazi
+     * Funkce pro smazani prvku z databaze, parametr je id prvku v databazi
      */
     val delete: (Long) -> Unit
 ) :

@@ -12,7 +12,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 
 /**
- * Adapter pro recycler view v DockFragment tride. Trida navic dedi od KoinKomponent tridy
+ * Adapter pro recycler view v DockFragment tride. Trida navic dedi od KoinComponent tridy
  */
 class DockAdapter(
     /**
@@ -26,6 +26,10 @@ class DockAdapter(
      * Barva popisku ikon
      */
     private var labelColor = Color.BLACK
+
+    /**
+     * Setter pro [labelColor]
+     */
     fun setLabelColor(color: Int) {
         labelColor = color
     }
@@ -49,6 +53,9 @@ class DockAdapter(
         context.startActivity(context.packageManager.getLaunchIntentForPackage(item.packageName))
     }
 
+    /**
+     * Vsechny aplikace v doku
+     */
     private var dockItems = listOf<DockItemModel>()
 
     /**
@@ -58,6 +65,9 @@ class DockAdapter(
         this.dockItems = dockItems
     }
 
+    /**
+     * Nastaveni zobrazeni popisku
+     */
     fun setShowLabels(show: Boolean) {
         this.showLabels = show
     }

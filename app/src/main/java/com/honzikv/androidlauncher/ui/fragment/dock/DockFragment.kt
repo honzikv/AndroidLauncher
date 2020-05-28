@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 /**
- * Fragment doku
+ * Fragment doku umisteneho ve fragmentu plochy - HomescreenFragment
  */
 class DockFragment : Fragment() {
 
