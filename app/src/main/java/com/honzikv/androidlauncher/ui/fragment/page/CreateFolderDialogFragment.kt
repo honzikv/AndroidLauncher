@@ -124,7 +124,7 @@ class CreateFolderDialogFragment private constructor() : BottomSheetDialogFragme
             }
         }
 
-        //Nastaveni barvy dialogu podle aktualniho tema
+        //Nastaveni barev podle aktualniho tema
         settingsViewModel.currentTheme.observe(viewLifecycleOwner, { theme ->
             val cardViewTextColor = theme.drawerTextFillColor
             val backgroundColor = theme.drawerSearchBackgroundColor

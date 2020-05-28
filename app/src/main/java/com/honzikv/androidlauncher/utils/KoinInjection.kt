@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.database.LauncherDatabase
 import com.honzikv.androidlauncher.repository.*
-import com.honzikv.androidlauncher.utils.initializer.Initializer
 import com.honzikv.androidlauncher.viewmodel.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -54,7 +53,14 @@ val module = module {
     single { androidContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE) }
 
     //First Launch Initializer
-    single { Initializer(get(), get(), get(), androidContext().packageManager) }
+    single {
+        Initializer(
+            get(),
+            get(),
+            get(),
+            androidContext().packageManager
+        )
+    }
 
     //Viewmodel
     viewModel { HomescreenViewModel(get(), androidContext().packageManager) }

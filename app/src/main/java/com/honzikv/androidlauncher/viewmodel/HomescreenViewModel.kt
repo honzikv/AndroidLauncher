@@ -6,8 +6,8 @@ import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.model.*
 import com.honzikv.androidlauncher.repository.HomescreenRepository
 import com.honzikv.androidlauncher.utils.BackgroundTransformations
-import com.honzikv.androidlauncher.utils.exception.IntegrityException
-import com.honzikv.androidlauncher.utils.callback.Event
+import com.honzikv.androidlauncher.utils.IntegrityException
+import com.honzikv.androidlauncher.utils.Event
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -67,7 +67,11 @@ class HomescreenViewModel(
         try {
             homescreenRepository.removePage(pageId)
         } catch (exception: IntegrityException) {
-            pageDeleteError.postValue(Event(exception.message!!))
+            pageDeleteError.postValue(
+                Event(
+                    exception.message!!
+                )
+            )
         }
     }
 
@@ -138,12 +142,20 @@ class HomescreenViewModel(
             if (items.size + newItems.size > MAX_ITEMS_IN_FOLDER) {
                 val addCount = MAX_ITEMS_IN_FOLDER - items.size
                 if (addCount == 0) {
-                    folderPostError.postValue(Event(FOLDER_FULL_NO_ITEMS_ADDED))
+                    folderPostError.postValue(
+                        Event(
+                            FOLDER_FULL_NO_ITEMS_ADDED
+                        )
+                    )
                     return@launch
                 }
 
                 newItems = newItems.subList(0, addCount)
-                folderPostError.postValue(Event(FOLDER_FULL_SOMETHING_ADDED))
+                folderPostError.postValue(
+                    Event(
+                        FOLDER_FULL_SOMETHING_ADDED
+                    )
+                )
             }
 
             //Pridani aplikaci do slozky

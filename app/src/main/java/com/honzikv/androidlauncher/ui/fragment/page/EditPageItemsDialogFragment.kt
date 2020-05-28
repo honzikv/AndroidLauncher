@@ -172,7 +172,6 @@ class EditPageItemsDialogFragment private constructor() : DialogFragment() {
             })
 
             folderAdapter.notifyDataSetChanged()
-            binding.itemListRecyclerView.scheduleLayoutAnimation()
         })
 
         //Smaze stranku, pokud je posledni vyhodi vyjimku kterou zachyti dialog predtim

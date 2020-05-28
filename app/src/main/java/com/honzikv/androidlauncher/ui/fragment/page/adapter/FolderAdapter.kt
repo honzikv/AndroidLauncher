@@ -15,26 +15,37 @@ import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
 import com.honzikv.androidlauncher.ui.fragment.page.FolderSettingsDialogFragment
 import com.honzikv.androidlauncher.utils.COLUMNS_IN_FOLDER
 
+/**
+ * Adapter pro zobrazeni slozek na strance
+ */
 class FolderAdapter(context: Context, val recyclerView: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
-     * List of all folders displayed on current page
+     * Seznam vsech slozek na strance
      */
     private var folderList: List<FolderWithItems> = mutableListOf()
 
+    /**
+     * Setter pro [folderList]
+     */
     fun setFolderList(folderList: List<FolderWithItems>) {
         this.folderList = folderList
     }
 
+    /**
+     * OnClickListener pro zobrazeni detailu po kliknuti
+     */
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = folderList[viewHolder.adapterPosition]
         item.showItems = !item.showItems
-        recyclerView.smoothScrollToPosition(viewHolder.adapterPosition)
         notifyDataSetChanged()
     }
 
+    /**
+     * OnLongClickListener pro spusteni dialogu s upravou slozky po podrzeni
+     */
     private val onLongClickListener = View.OnLongClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = folderList[viewHolder.adapterPosition]
@@ -67,6 +78,10 @@ class FolderAdapter(context: Context, val recyclerView: RecyclerView) :
         }
     }
 
+    /**
+     * ItemViewType je dvojiho typu - podle layoutu. Protoze id layoutu jsou unikatni lze je pouzit
+     * rovnou jako view type
+     */
     override fun getItemViewType(position: Int) =
         if (folderList[position].showItems) {
             R.layout.folder_detail
@@ -74,18 +89,24 @@ class FolderAdapter(context: Context, val recyclerView: RecyclerView) :
             R.layout.folder_header
         }
 
+    /**
+     * ViewHolder pro zobrazeni detailu - tzn. i se seznamem aplikaci
+     */
     inner class FolderDetailViewHolder(private val binding: FolderDetailBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        //Nastaveni listeneru
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
             itemView.setOnLongClickListener(onLongClickListener)
         }
 
+        //Binding dat a UI
         fun bind(data: FolderWithItems) {
             binding.recyclerView.apply {
                 layoutManager = GridLayoutManager(context, COLUMNS_IN_FOLDER)
+                //Serazeni aplikaci podle pozice a predani je adapteru
                 adapter =
                     FolderItemAdapter(data.itemList.toMutableList().apply { sortBy { it.position } })
                 (adapter as FolderItemAdapter).setLabelColor(data.folder.itemColor)
@@ -94,20 +115,26 @@ class FolderAdapter(context: Context, val recyclerView: RecyclerView) :
                 setTextColor(data.folder.itemColor)
                 text = data.folder.title
             }
+
             binding.minimizeIcon.setColorFilter(data.folder.itemColor)
             binding.folderCardView.setCardBackgroundColor(data.folder.backgroundColor)
         }
     }
 
+    /**
+     * ViewHolder pro zobrazeni bez detailu
+     */
     inner class FolderHeaderViewHolder(private val binding: FolderHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        //Nastaveni listeneru
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
             itemView.setOnLongClickListener(onLongClickListener)
         }
 
+        //Binding dat a UI
         fun bind(data: FolderWithItems) {
             binding.folderName.apply {
                 text = data.folder.title

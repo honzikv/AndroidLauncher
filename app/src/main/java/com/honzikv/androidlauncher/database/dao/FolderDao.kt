@@ -6,6 +6,9 @@ import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderWithItems
 
+/**
+ * Dao pro manipulaci se slozkou a jejimi aplikacemi
+ */
 @Dao
 interface FolderDao {
 
@@ -21,20 +24,8 @@ interface FolderDao {
     @Query("SELECT * FROM FolderModel WHERE id = :folderId")
     suspend fun getFolder(folderId: Long): FolderModel
 
-    @Query("SELECT * FROM FolderModel WHERE id = :folderId")
-    fun getFolderLiveData(folderId: Long): LiveData<FolderModel>
-
-    @Delete
-    suspend fun deleteFolder(folder: FolderModel)
-
-    @Insert
-    suspend fun addFolderItem(folderItem: FolderItemModel)
-
     @Query("DELETE FROM FolderModel WHERE :folderId = id")
     suspend fun deleteFolderWithId(folderId: Long)
-
-    @Update
-    suspend fun updateFolders(vararg folders: FolderModel)
 
     @Transaction
     @Query("SELECT * FROM FolderModel WHERE :folderId = id")

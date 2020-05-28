@@ -7,7 +7,7 @@ import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.PageWithFolders
-import com.honzikv.androidlauncher.utils.exception.IntegrityException
+import com.honzikv.androidlauncher.utils.IntegrityException
 import timber.log.Timber
 
 /**
@@ -162,11 +162,6 @@ class HomescreenRepository(
      * Smaze slozku s id [folderId]
      */
     suspend fun deleteFolderWithId(folderId: Long) = folderDao.deleteFolderWithId(folderId)
-
-    /**
-     * Aktualizuje vsechny slozky predane v parametru [folders]
-     */
-    suspend fun updateFolders(vararg folders: FolderModel) = folderDao.updateFolders(*folders)
 
     /**
      * Aktualizuje seznam vsech slozek predany v parametru [folderList]

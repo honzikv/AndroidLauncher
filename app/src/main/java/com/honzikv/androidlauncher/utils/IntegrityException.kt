@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.utils.exception
+package com.honzikv.androidlauncher.utils
 
 import java.lang.Exception
 

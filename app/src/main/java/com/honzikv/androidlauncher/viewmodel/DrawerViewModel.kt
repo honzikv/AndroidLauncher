@@ -26,7 +26,7 @@ class DrawerViewModel(
         }
 
     /**
-     * Aktualizuje seznam vsech aplikaci
+     * Aktualizuje seznam vsech aplikaci. Provede se ve vedlejsim vlakne.
      */
     private fun updateAppDrawerData() =
         viewModelScope.launch { drawerRepository.reloadAppList() }

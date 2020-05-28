@@ -184,7 +184,6 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             itemAdapter.setItemList(
                 folderWithItems.itemList.toMutableList().apply { sortBy { it.position } })
             itemAdapter.notifyDataSetChanged()
-            binding.itemListRecyclerView.scheduleLayoutAnimation()
         }
 
         binding.okButton.setOnClickListener { dismiss() }

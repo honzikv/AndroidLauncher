@@ -4,7 +4,6 @@ import android.content.Context
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.HeaderItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SpinnerItem
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SwitchItem
 import com.honzikv.androidlauncher.ui.fragment.settings.adapter.TextLeftRightItem
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 
@@ -32,12 +31,17 @@ class LookAndFeelMenu(
         const val CURRENTLY_SELECTED_THEME = "Current Theme "
 
         const val SELECT_THEME = "Change Theme"
-        const val SWIPE_DOWN_NOTIFICATIONS = "Swipe Down for Notifications"
 
     }
 
+    /**
+     * Header karticka s napisem "Look And Feel"
+     */
     private val lookAndFeel = HeaderItem(LOOK_AND_FEEL, LOOK_AND_FEEL_SUB, 0)
 
+    /**
+     * Zobrazeni aktualniho tematu v aplikaci
+     */
     val currentTheme = TextLeftRightItem(
         CURRENTLY_SELECTED_THEME,
         "",
@@ -45,6 +49,9 @@ class LookAndFeelMenu(
         lookAndFeel.level + 1
     )
 
+    /**
+     * Spinner pro vyber tematu
+     */
     val selectTheme = SpinnerItem(
         SELECT_THEME,
         mutableListOf(),
@@ -53,19 +60,8 @@ class LookAndFeelMenu(
         lookAndFeel.level + 1
     )
 
-    private val swipeDownToOpenNotificationsSwitchItem = SwitchItem(
-        SWIPE_DOWN_NOTIFICATIONS,
-        viewModel.getSwipeDownForNotifications(),
-        { viewModel.setSwipeDownForNotifications(it) },
-        lookAndFeel.level + 1
-    )
-
     init {
-        lookAndFeel.addChildren(
-            listOf(
-                currentTheme, selectTheme, swipeDownToOpenNotificationsSwitchItem
-            )
-        )
+        lookAndFeel.addChildren(listOf(currentTheme, selectTheme))
     }
 
 

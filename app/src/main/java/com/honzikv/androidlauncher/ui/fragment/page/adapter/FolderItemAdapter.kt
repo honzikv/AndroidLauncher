@@ -11,18 +11,36 @@ import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
 import org.koin.core.KoinComponent
 import org.koin.core.get
 
+/**
+ * Adapter pro jednotlive predmety ve slozce ve fragmentu HomescreenFragment
+ */
 class FolderItemAdapter(
+    /**
+     * Seznam predmetu
+     */
     private val items: List<FolderItemModel>
 ) : RecyclerView.Adapter<FolderItemAdapter.ItemViewHolder>(), KoinComponent {
 
+    /**
+     * Barva textu popisku
+     */
     private var labelColor = Color.BLACK
 
+    /**
+     * Injekce kontextu pro ziskani package manageru pro spusteni aplikace
+     */
     val context: Context = get()
 
+    /**
+     * Setter pro [labelColor]
+     */
     fun setLabelColor(color: Int) {
         this.labelColor = color
     }
 
+    /**
+     * OnClickListener zajistujici spusteni aplikace po kliknuti na ikonu
+     */
     private val onClickListener = View.OnClickListener { view ->
         val viewHolder = view?.tag as RecyclerView.ViewHolder
         val item = items[viewHolder.adapterPosition]
@@ -40,14 +58,19 @@ class FolderItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) =
         holder.bind(items[position])
 
+    /**
+     * ViewHolder pro nastaveni vzhledu jednotlivych ikon
+     */
     inner class ItemViewHolder(private val itemBinding: IconWithTitleBelowBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
+        //Nastaveni OnClickListeneru
         init {
             itemView.tag = this
             itemView.setOnClickListener(onClickListener)
         }
 
+        //Binding UI a dat
         fun bind(folderItem: FolderItemModel) {
             itemBinding.icon.setImageDrawable(folderItem.icon)
             itemBinding.label.text = folderItem.label

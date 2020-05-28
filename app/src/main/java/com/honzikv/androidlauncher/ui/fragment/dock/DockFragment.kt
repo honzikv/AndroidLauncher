@@ -12,15 +12,12 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
 import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.ui.fragment.dock.adapter.DockAdapter
 import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
-import com.honzikv.androidlauncher.utils.gestures.RecyclerTouchListener
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -39,11 +36,6 @@ class DockFragment : Fragment() {
      * Adapter obstaravajici zobrazeni ikon v recycler view
      */
     private lateinit var dockAdapter: DockAdapter
-
-    /**
-     * Listener pro gesta
-     */
-    private lateinit var onSwipeTouchListener: RecyclerTouchListener
 
     /**
      * NavController pro navigaci do jinych fragmentu
@@ -83,10 +75,8 @@ class DockFragment : Fragment() {
         dockViewModel.dockItems.observe(viewLifecycleOwner, { itemList ->
             if (itemList.isEmpty()) {
                 dockAdapter.setDockItems(mutableListOf(
-                    DockItemModel(
-                        position = 0,
-                        packageName = ""
-                    ).apply {
+                    //Nastavi "prazdny predmet" aby recycler view zustal viditelny
+                    DockItemModel(position = 0, packageName = "").apply {
                         icon = ColorDrawable(Color.TRANSPARENT)
                     }
                 ))
@@ -105,35 +95,6 @@ class DockFragment : Fragment() {
             adapter = dockAdapter
         }
 
-        //Nastaveni listeneru pro gesta
-        onSwipeTouchListener = object :
-            RecyclerTouchListener(requireContext(), binding.recyclerView) {
-            override fun onSwipeTop() {
-                super.onSwipeTop()
-                navigateToAppDrawer()
-            }
-
-            override fun onClick(view: View, position: Int) {
-                super.onClick(view, position)
-                val item = dockAdapter.getItem(position)
-
-                //Pro prazdny predmet, ktery je pritomen aby se dok zobrazil
-                if (item.packageName.isNotEmpty()) {
-                    requireContext().startActivity(
-                        requireContext().packageManager.getLaunchIntentForPackage(item.packageName)
-                    )
-                }
-            }
-
-            override fun onLongClick(view: View, position: Int) {
-                super.onLongClick(view, position)
-                EditDockItemsDialogFragment.newInstance()
-                    .show(requireActivity().supportFragmentManager, "editDock")
-            }
-        }
-
-        //Pripojeni listeneru k recyclerView
-        binding.recyclerView.addOnItemTouchListener(onSwipeTouchListener)
     }
 
     /**

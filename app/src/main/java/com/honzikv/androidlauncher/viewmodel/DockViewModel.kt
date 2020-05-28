@@ -10,9 +10,8 @@ import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.repository.DockRepository
 import com.honzikv.androidlauncher.utils.BackgroundTransformations
-import com.honzikv.androidlauncher.utils.callback.Event
+import com.honzikv.androidlauncher.utils.Event
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DockViewModel(
     private val dockRepository: DockRepository,
@@ -77,13 +76,21 @@ class DockViewModel(
 
             if (addCount == 0) {
                 //nic se nepridalo
-                dockPostErrorMutable.postValue(Event(DOCK_FULL_NOTHING_ADDED))
+                dockPostErrorMutable.postValue(
+                    Event(
+                        DOCK_FULL_NOTHING_ADDED
+                    )
+                )
                 return@launch
             }
 
             newItems = newItems.subList(0, addCount)
             //pridalo se neco, ale nejake aplikace uz se nevesly
-            dockPostErrorMutable.postValue(Event(DOCK_IS_FULL_SOMETHING_ADDED))
+            dockPostErrorMutable.postValue(
+                Event(
+                    DOCK_IS_FULL_SOMETHING_ADDED
+                )
+            )
         }
 
         dockRepository.addItems(newItems)

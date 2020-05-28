@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.honzikv.androidlauncher.model.DockItemModel
 
+/**
+ * Dao objekt pro manipulaci s dokem
+ */
 @Dao
 interface DockDao {
 
@@ -12,9 +15,6 @@ interface DockDao {
 
     @Query("SELECT * FROM DockItemModel ORDER BY id")
     suspend fun getAllItems(): MutableList<DockItemModel>
-
-    @Insert
-    suspend fun addItem(item: DockItemModel)
 
     @Insert
     suspend fun addItems(list: List<DockItemModel>)

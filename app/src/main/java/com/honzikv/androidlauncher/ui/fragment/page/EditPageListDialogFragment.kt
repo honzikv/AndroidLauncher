@@ -152,7 +152,6 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
                 sortBy { it.page.pageNumber }
             })
             pageAdapter.notifyDataSetChanged()
-            binding.itemListRecyclerView.scheduleLayoutAnimation()
 
             val itemCount = "${pages.size} / $MAX_PAGES pages"
             binding.itemCountText.text = itemCount

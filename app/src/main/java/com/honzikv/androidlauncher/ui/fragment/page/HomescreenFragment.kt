@@ -14,7 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.HomescreenFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.PageAdapter
-import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -30,8 +29,6 @@ class HomescreenFragment : Fragment() {
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
     private lateinit var viewPagerAdapter: PageAdapter
-
-    private lateinit var onSwipeTouchListener: OnSwipeTouchListener
 
     private lateinit var swipeDownForNotification: MediatorLiveData<Boolean>
 
@@ -51,28 +48,19 @@ class HomescreenFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialize(binding: HomescreenFragmentBinding) {
-        onSwipeTouchListener = object :
-            OnSwipeTouchListener(requireContext()) {
-            override fun onSwipeTop() {
-                super.onSwipeTop()
-                navigateToAppDrawer()
-            }
 
-            override fun onSwipeBottom() {
-                super.onSwipeBottom()
-                pullDownNotificationBar()
-            }
-        }
-
-        binding.constraintLayout.setOnTouchListener(onSwipeTouchListener)
-        viewPagerAdapter =
-            PageAdapter(requireActivity(), onSwipeTouchListener)
-
+        viewPagerAdapter = PageAdapter(requireActivity())
         binding.viewPager.adapter = viewPagerAdapter
+
+        binding.menuButton.setOnClickListener { navigateToAppDrawer() }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
 
+        //Nastaveni barvy ikony
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner) {
+            binding.menuButton.setColorFilter(it.dockBackgroundColor)
+        }
 
         settingsViewModel.showPageDots.observe(viewLifecycleOwner) {
             if (!it) {
@@ -99,16 +87,6 @@ class HomescreenFragment : Fragment() {
             viewPagerAdapter.setPages(it)
             viewPagerAdapter.notifyDataSetChanged()
         })
-    }
-
-    @SuppressLint("WrongConstant")
-    private fun pullDownNotificationBar() {
-        if (swipeDownForNotification.value!!) {
-            val statusBarService = activity?.getSystemService("statusbar") ?: return
-            val statusBarManager = Class.forName("android.app.StatusBarManager")
-            val showStatusBar = statusBarManager.getMethod("expandNotificationsPanel")
-            showStatusBar.invoke(statusBarService)
-        }
     }
 
     private fun navigateToAppDrawer() {

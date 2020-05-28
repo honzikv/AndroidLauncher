@@ -1,4 +1,4 @@
-package com.honzikv.androidlauncher.utils.callback
+package com.honzikv.androidlauncher.utils
 
 /**
  * Jednoducha trida, ktera slouzi jako callback pri necekane udalosti v coroutine - napr. pri mazani

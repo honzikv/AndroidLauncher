@@ -1,8 +1,7 @@
-package com.honzikv.androidlauncher.utils.initializer
+package com.honzikv.androidlauncher.utils
 
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.Color.*
 import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
@@ -10,7 +9,6 @@ import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.repository.AppThemeRepository.Companion.lightTheme
 import com.honzikv.androidlauncher.repository.PREFS_INITIALIZED
-import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import kotlinx.coroutines.Dispatchers

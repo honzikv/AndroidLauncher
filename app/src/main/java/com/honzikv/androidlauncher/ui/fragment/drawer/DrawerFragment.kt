@@ -19,7 +19,6 @@ import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
 import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
-import com.honzikv.androidlauncher.utils.gestures.OnSwipeTouchListener
 import com.honzikv.androidlauncher.utils.DRAWER_GRID_COLUMNS
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
@@ -79,15 +78,6 @@ class DrawerFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 appDrawerAdapter.filter.filter(newText)
                 return false
-            }
-        })
-
-        //Nastavi gesta pro navigaci zpet
-        binding.constraintLayout.setOnTouchListener(object :
-            OnSwipeTouchListener(binding.root.context) {
-            override fun onSwipeBottom() {
-                super.onSwipeBottom()
-                navigateToHomescreenFragment()
             }
         })
 
