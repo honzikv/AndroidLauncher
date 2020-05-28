@@ -14,7 +14,7 @@ import com.honzikv.androidlauncher.model.*
 @Database(
     entities = [FolderModel::class, FolderItemModel::class, DockItemModel::class,
         PageModel::class, ThemeProfileModel::class],
-    version = 1
+    version = 2
 )
 abstract class LauncherDatabase : RoomDatabase() {
 
