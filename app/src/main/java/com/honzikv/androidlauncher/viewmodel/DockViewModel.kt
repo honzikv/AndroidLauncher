@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.repository.DockRepository
 import com.honzikv.androidlauncher.utils.BackgroundTransformations
 import com.honzikv.androidlauncher.utils.Event
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import kotlinx.coroutines.launch
 
 class DockViewModel(

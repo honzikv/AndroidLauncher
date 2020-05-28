@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.databinding.IconWithTitleRightCheckboxBinding
+import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 
 /**

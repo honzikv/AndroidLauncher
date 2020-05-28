@@ -11,10 +11,10 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
 import com.honzikv.androidlauncher.ui.fragment.dock.adapter.EditDockAdapter
+import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_DOCK
 import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
@@ -118,7 +118,8 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
                 cardViewPageHeader.setCardBackgroundColor(cardViewBackgroundColor)
                 cardViewRecyclerView.setCardBackgroundColor(cardViewBackgroundColor)
                 constraintLayout.setBackgroundColor(
-                    applyAlpha(backgroundColor,
+                    applyAlpha(
+                        backgroundColor,
                         SETTINGS_BACKGROUND_ALPHA
                     )
                 )

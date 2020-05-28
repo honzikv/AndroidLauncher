@@ -5,7 +5,8 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.honzikv.androidlauncher.model.DrawerApp
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * [packageManager] - package manager to obtain all app packages

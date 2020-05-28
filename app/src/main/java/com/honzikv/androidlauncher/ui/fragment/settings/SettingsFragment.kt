@@ -1,15 +1,16 @@
 package com.honzikv.androidlauncher.ui.fragment.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.honzikv.androidlauncher.databinding.SettingsFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.settings.adapter.*
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.Displayable
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.Header
+import com.honzikv.androidlauncher.ui.fragment.settings.adapter.SettingsMenuAdapter
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.DrawerMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.HomescreenMenu
 import com.honzikv.androidlauncher.ui.fragment.settings.menu.LookAndFeelMenu

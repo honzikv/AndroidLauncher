@@ -14,7 +14,8 @@ class EditDockAdapter(
     /**
      * Funkce pro smazani prvku z databaze, parametr je id v databazi
      */
-    val delete: (Long) -> Unit) :
+    val delete: (Long) -> Unit
+) :
     RecyclerView.Adapter<EditDockAdapter.DockItemViewHolder>() {
 
     /**
@@ -61,7 +62,8 @@ class EditDockAdapter(
         /**
          * Binding layoutu ikony v doku
          */
-        val binding: EditHomescreenAppItemBinding) :
+        val binding: EditHomescreenAppItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         /**

@@ -8,10 +8,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.model.FolderItemModel
-import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.FolderDetailBinding
 import com.honzikv.androidlauncher.databinding.FolderHeaderBinding
+import com.honzikv.androidlauncher.model.FolderItemModel
+import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.ui.fragment.page.FolderSettingsDialogFragment
 import com.honzikv.androidlauncher.utils.COLUMNS_IN_FOLDER
 
@@ -108,7 +108,8 @@ class FolderAdapter(context: Context, val recyclerView: RecyclerView) :
                 layoutManager = GridLayoutManager(context, COLUMNS_IN_FOLDER)
                 //Serazeni aplikaci podle pozice a predani je adapteru
                 adapter =
-                    FolderItemAdapter(data.itemList.toMutableList().apply { sortBy { it.position } })
+                    FolderItemAdapter(
+                        data.itemList.toMutableList().apply { sortBy { it.position } })
                 (adapter as FolderItemAdapter).setLabelColor(data.folder.itemColor)
             }
             binding.folderName.apply {

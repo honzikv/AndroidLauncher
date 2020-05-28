@@ -2,8 +2,8 @@ package com.honzikv.androidlauncher.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.FolderItemModel
+import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.FolderWithItems
 
 /**
@@ -50,7 +50,7 @@ interface FolderDao {
      */
     @Transaction
     @Query("SELECT * FROM FolderModel WHERE :folderId = id")
-    fun getFolderWithItemsLiveData(folderId: Long) : LiveData<FolderWithItems>
+    fun getFolderWithItemsLiveData(folderId: Long): LiveData<FolderWithItems>
 
     /**
      * Vrati slozku spolu s jejimi aplikacemi podle id slozky [folderId].

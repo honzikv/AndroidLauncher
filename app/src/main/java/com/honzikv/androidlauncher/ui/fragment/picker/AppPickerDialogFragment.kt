@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.honzikv.androidlauncher.databinding.AppPickerDialogFragmentBinding
 import com.honzikv.androidlauncher.ui.fragment.picker.adapter.AppPickerAdapter
-import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.DockViewModel
+import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -57,7 +56,7 @@ class AppPickerDialogFragment private constructor() : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
+        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark)
         folderId = requireArguments()[CONTAINER_ID] as Long
         Timber.d("Folder id is $folderId")
     }

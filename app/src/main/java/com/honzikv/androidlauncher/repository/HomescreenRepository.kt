@@ -166,7 +166,8 @@ class HomescreenRepository(
     /**
      * Aktualizuje seznam vsech slozek predany v parametru [folderList]
      */
-    suspend fun updateFolderList(folderList: List<FolderModel>) = folderDao.updateFolderList(folderList)
+    suspend fun updateFolderList(folderList: List<FolderModel>) =
+        folderDao.updateFolderList(folderList)
 
     /**
      * Vrati [FolderWithItems] s danym id [folderId] slozky

@@ -2,7 +2,10 @@ package com.honzikv.androidlauncher.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.honzikv.androidlauncher.database.dao.*
+import com.honzikv.androidlauncher.database.dao.DockDao
+import com.honzikv.androidlauncher.database.dao.FolderDao
+import com.honzikv.androidlauncher.database.dao.PageDao
+import com.honzikv.androidlauncher.database.dao.ThemeProfileDao
 import com.honzikv.androidlauncher.model.*
 
 /**
@@ -19,7 +22,7 @@ abstract class LauncherDatabase : RoomDatabase() {
 
     abstract fun dockDao(): DockDao
 
-    abstract fun homescreenPageDao() : PageDao
+    abstract fun homescreenPageDao(): PageDao
 
     abstract fun themeProfileDao(): ThemeProfileDao
 }

@@ -1,10 +1,11 @@
 package com.honzikv.androidlauncher.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.honzikv.androidlauncher.model.DrawerApp
 import com.honzikv.androidlauncher.repository.DrawerRepository
-import com.honzikv.androidlauncher.repository.AppSettingsRepository
-import com.honzikv.androidlauncher.repository.AppThemeRepository
 import kotlinx.coroutines.launch
 
 /**

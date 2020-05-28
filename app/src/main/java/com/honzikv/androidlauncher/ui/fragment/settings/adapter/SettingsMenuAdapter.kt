@@ -16,8 +16,6 @@ import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.multilevelview.MultiLevelAdapter
 import com.multilevelview.MultiLevelRecyclerView
 import com.multilevelview.models.RecyclerViewItem
-import kotlinx.android.synthetic.main.settings_switch_item.view.*
-import timber.log.Timber
 
 /**
  * Adapter slouzi pro propojeni jednotlivych dat z MultiLevelModels souboru a multi level recycler

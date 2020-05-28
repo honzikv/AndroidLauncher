@@ -3,7 +3,6 @@ package com.honzikv.androidlauncher.repository
 import android.content.SharedPreferences
 import com.honzikv.androidlauncher.utils.booleanLiveData
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 /**
  * Vytazene konstanty, protoze je potrebuje [Initializer] trida

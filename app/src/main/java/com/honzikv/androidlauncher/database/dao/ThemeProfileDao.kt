@@ -1,7 +1,9 @@
 package com.honzikv.androidlauncher.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 
 /**
@@ -20,5 +22,5 @@ interface ThemeProfileDao {
      * Prida profil do databaze a vrati jeho id
      */
     @Insert
-    suspend fun addProfile(profile: ThemeProfileModel) : Long
+    suspend fun addProfile(profile: ThemeProfileModel): Long
 }

@@ -2,7 +2,6 @@ package com.honzikv.androidlauncher.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.PageModel
 import com.honzikv.androidlauncher.model.PageWithFolders
 

@@ -10,11 +10,11 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
-import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.databinding.EditHomescreenContainerFragmentBinding
-import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
+import com.honzikv.androidlauncher.model.FolderWithItems
 import com.honzikv.androidlauncher.ui.fragment.page.adapter.EditFolderAdapter
+import com.honzikv.androidlauncher.ui.fragment.picker.AppPickerDialogFragment
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import com.honzikv.androidlauncher.utils.SETTINGS_BACKGROUND_ALPHA
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
@@ -104,7 +104,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val folderId = requireArguments()[FOLDER_ID] as Long
-        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark);
+        setStyle(STYLE_NO_FRAME, android.R.style.ThemeOverlay_Material_Dark)
         folder = homescreenViewModel.getFolderWithItemsLiveData(folderId)
     }
 

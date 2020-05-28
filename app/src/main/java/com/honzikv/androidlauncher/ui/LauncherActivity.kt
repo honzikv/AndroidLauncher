@@ -1,7 +1,7 @@
 package com.honzikv.androidlauncher.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.repository.DrawerRepository

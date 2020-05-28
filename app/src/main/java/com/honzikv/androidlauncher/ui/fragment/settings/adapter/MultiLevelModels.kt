@@ -2,8 +2,6 @@ package com.honzikv.androidlauncher.ui.fragment.settings.adapter
 
 import android.content.Context
 import android.widget.ArrayAdapter
-import androidx.lifecycle.LiveData
-import com.honzikv.androidlauncher.model.PageModel
 import com.multilevelview.models.RecyclerViewItem
 import timber.log.Timber
 

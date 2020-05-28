@@ -4,15 +4,14 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.observe
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.databinding.DockFragmentBinding
 import com.honzikv.androidlauncher.model.DockItemModel

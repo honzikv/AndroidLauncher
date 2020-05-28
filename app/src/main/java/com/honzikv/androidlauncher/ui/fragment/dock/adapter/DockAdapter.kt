@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.model.DockItemModel
 import com.honzikv.androidlauncher.databinding.IconWithTitleBelowBinding
+import com.honzikv.androidlauncher.model.DockItemModel
 import org.koin.core.KoinComponent
 import org.koin.core.get
 

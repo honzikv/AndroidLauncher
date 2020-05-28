@@ -1,6 +1,7 @@
 package com.honzikv.androidlauncher.model
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 /**
  * Entita reprezentuje stranku na plose

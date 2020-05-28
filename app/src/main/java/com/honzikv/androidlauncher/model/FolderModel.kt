@@ -2,7 +2,6 @@ package com.honzikv.androidlauncher.model
 
 import android.graphics.drawable.Drawable
 import androidx.room.*
-import timber.log.Timber
 
 /**
  * Entita reprezentujici slozku

@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.honzikv.androidlauncher.database.LauncherDatabase
 import com.honzikv.androidlauncher.repository.*
-import com.honzikv.androidlauncher.viewmodel.*
+import com.honzikv.androidlauncher.viewmodel.DockViewModel
+import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
+import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
+import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module

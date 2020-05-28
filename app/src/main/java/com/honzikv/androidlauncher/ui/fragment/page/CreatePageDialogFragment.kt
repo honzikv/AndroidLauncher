@@ -5,11 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-
-import androidx.lifecycle.observe
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
 import com.honzikv.androidlauncher.databinding.CreatePageDialogFragmentBinding
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
@@ -20,7 +18,7 @@ import timber.log.Timber
  * Dialog pro vytvoreni nove stranky - jedna se o male okno, ktere se zobrazi ve spodu obrazovky
  * - bottom sheet
  */
-class CreatePageDialogFragment private constructor(): BottomSheetDialogFragment() {
+class CreatePageDialogFragment private constructor() : BottomSheetDialogFragment() {
 
     companion object {
 

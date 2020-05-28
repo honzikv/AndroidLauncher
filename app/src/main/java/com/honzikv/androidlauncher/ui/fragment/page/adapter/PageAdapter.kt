@@ -1,13 +1,12 @@
 package com.honzikv.androidlauncher.ui.fragment.page.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.honzikv.androidlauncher.model.PageWithFolders
 import com.honzikv.androidlauncher.databinding.FolderListBinding
+import com.honzikv.androidlauncher.model.PageWithFolders
 
 /**
  * Adapter pro stranky ve view pageru ve fragmentu HomescreenFragment

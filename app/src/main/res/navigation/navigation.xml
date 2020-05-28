@@ -9,7 +9,7 @@
         android:id="@+id/homescreenPageFragment"
         android:name="com.honzikv.androidlauncher.ui.fragment.page.HomescreenFragment"
         android:label="homescreen_page_fragment"
-        tools:layout="@layout/homescreen_fragment" >
+        tools:layout="@layout/homescreen_fragment">
         <action
             android:id="@+id/action_homescreenPageFragment_to_appDrawerFragment"
             app:destination="@id/appDrawerFragment"
@@ -27,7 +27,7 @@
         android:id="@+id/appDrawerFragment"
         android:name="com.honzikv.androidlauncher.ui.fragment.drawer.DrawerFragment"
         android:label="app_drawer_fragment"
-        tools:layout="@layout/app_drawer_fragment" >
+        tools:layout="@layout/app_drawer_fragment">
         <action
             android:id="@+id/action_appDrawerFragment_to_homescreenPageFragment"
             app:destination="@id/homescreenPageFragment"
@@ -48,7 +48,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.honzikv.androidlauncher.ui.fragment.settings.SettingsFragment"
         android:label="settings_fragment"
-        tools:layout="@layout/settings_fragment" >
+        tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_homescreenPageFragment"
             app:destination="@id/homescreenPageFragment"

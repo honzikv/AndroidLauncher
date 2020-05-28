@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.databinding.CreateFolderDialogFragmentBinding
+import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.viewmodel.HomescreenViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
 import me.priyesh.chroma.ChromaDialog

@@ -107,12 +107,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemListRecyclerView"
+                style="@style/recycler_view_animation_falldown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                style="@style/recycler_view_animation_falldown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

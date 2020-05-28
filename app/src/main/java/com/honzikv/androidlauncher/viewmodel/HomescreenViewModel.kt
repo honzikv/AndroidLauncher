@@ -1,13 +1,16 @@
 package com.honzikv.androidlauncher.viewmodel
 
 import android.content.pm.PackageManager
-import androidx.lifecycle.*
-import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.honzikv.androidlauncher.model.*
 import com.honzikv.androidlauncher.repository.HomescreenRepository
 import com.honzikv.androidlauncher.utils.BackgroundTransformations
-import com.honzikv.androidlauncher.utils.IntegrityException
 import com.honzikv.androidlauncher.utils.Event
+import com.honzikv.androidlauncher.utils.IntegrityException
+import com.honzikv.androidlauncher.utils.MAX_ITEMS_IN_FOLDER
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -17,7 +20,8 @@ class HomescreenViewModel(
 ) : ViewModel() {
 
     companion object {
-        const val FOLDER_FULL_NO_ITEMS_ADDED = "Folder is full, nothing was added from selected apps"
+        const val FOLDER_FULL_NO_ITEMS_ADDED =
+            "Folder is full, nothing was added from selected apps"
         const val FOLDER_FULL_SOMETHING_ADDED = "Folder is full, not all items were added"
     }
 

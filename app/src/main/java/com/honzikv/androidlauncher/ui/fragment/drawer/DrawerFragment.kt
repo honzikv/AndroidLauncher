@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
@@ -12,12 +14,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.honzikv.androidlauncher.R
-import com.honzikv.androidlauncher.model.ThemeProfileModel
-
 import com.honzikv.androidlauncher.databinding.AppDrawerFragmentBinding
-import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
+import com.honzikv.androidlauncher.model.ThemeProfileModel
 import com.honzikv.androidlauncher.ui.fragment.drawer.adapter.AppDrawerAdapter
 import com.honzikv.androidlauncher.utils.DRAWER_GRID_COLUMNS
+import com.honzikv.androidlauncher.utils.RADIUS_CARD_VIEW
 import com.honzikv.androidlauncher.utils.applyAlpha
 import com.honzikv.androidlauncher.viewmodel.DrawerViewModel
 import com.honzikv.androidlauncher.viewmodel.SettingsViewModel
