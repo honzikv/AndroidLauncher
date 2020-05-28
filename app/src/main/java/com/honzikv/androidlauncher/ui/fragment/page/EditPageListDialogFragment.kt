@@ -179,7 +179,7 @@ class EditPageListDialogFragment private constructor() : DialogFragment() {
         //Kontrola abychom nesmazali vsechny stranky - aplikace nespadne ale nedava smysl,
         //misto toho homescreenViewModel vraci zpravu ze posledni slozka smazat nesla
         homescreenViewModel.getPageDeleteError().observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandledOrReturnNull()?.let { message ->
+            event.getContentIfNotHandled()?.let { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         })

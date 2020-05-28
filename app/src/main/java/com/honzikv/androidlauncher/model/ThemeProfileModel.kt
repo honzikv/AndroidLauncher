@@ -59,7 +59,7 @@ data class ThemeProfileModel(
     val switchBackgroundColor: Int,
 
     /**
-     * Jmeno
+     * Jmeno tema
      */
     var name: String
 ) :

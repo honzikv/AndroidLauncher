@@ -152,7 +152,7 @@ class EditDockItemsDialogFragment private constructor() : DialogFragment() {
 
         //Pozorovani pro chybu, kterou zobrazime jako toast zpravu
         dockViewModel.getDockPostError().observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandledOrReturnNull()?.let { message ->
+            event.getContentIfNotHandled()?.let { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         })

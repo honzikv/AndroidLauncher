@@ -42,7 +42,6 @@ interface FolderDao {
     @Query("DELETE FROM FolderModel WHERE :folderId = id")
     suspend fun deleteFolderWithId(folderId: Long)
 
-
     /**
      * Vrati slozku spolu s jejimi aplikacemi podle id slozky [folderId]. Data jsou zabalena do
      * LiveData a po zmene v databazi se automaticky aktualizuji. Musi bezet v transakci aby doslo

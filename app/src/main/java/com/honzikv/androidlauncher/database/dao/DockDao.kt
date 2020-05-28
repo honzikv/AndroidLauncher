@@ -17,7 +17,7 @@ interface DockDao {
     fun getAllItemsLiveData(): LiveData<List<DockItemModel>>
 
     /**
-     * Vrati seznam vsech predmetu v doku jako MutableList. Data se po nacteni neaktualizuji
+     * Vrati seznam vsech predmetu v doku jako MutableList. Data se po nacteni dale neaktualizuji
      */
     @Query("SELECT * FROM DockItemModel ORDER BY id")
     suspend fun getAllItems(): MutableList<DockItemModel>

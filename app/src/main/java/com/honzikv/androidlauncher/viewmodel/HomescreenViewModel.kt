@@ -33,7 +33,9 @@ class HomescreenViewModel(
 
     /**
      * K LiveData objektu obsahujiciho vsechny stranky se slozkami navic nacte i ikony a popisky
-     * do noveho LiveData objektu.
+     * do noveho LiveData objektu - protoze vychozi Transformations nabizi pouze transformaci na
+     * hlavnim (UI) vlakne pouzil jsem implementaci ze stack overflow, ktera vse provede na vedlejsim
+     * a vysledek posle pomoci postValue metody
      */
     val allPagesWithFolders =
         BackgroundTransformations.map(homescreenRepository.allPagesWithFolders) { pageList ->

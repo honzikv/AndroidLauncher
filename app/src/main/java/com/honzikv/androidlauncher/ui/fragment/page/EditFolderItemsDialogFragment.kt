@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
@@ -130,6 +131,13 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
             adapter = itemAdapter
             layoutManager = LinearLayoutManager(requireContext())
             ItemTouchHelper(itemTouchDragToReorderCallBack).attachToRecyclerView(this)
+        }
+
+        //Pozorovani chyb pri pridavani predmetu
+        homescreenViewModel.getFolderPostError().observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            }
         }
 
         //Nastaveni barev podle aktualniho tematu
