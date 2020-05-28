@@ -13,28 +13,63 @@ data class ThemeProfileModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
+    /**
+     * Pozadi draweru
+     */
     val drawerBackgroundColor: Int,
 
+    /**
+     * Barva textu u aplikaci v draweru
+     */
     val drawerTextFillColor: Int,
 
+    /**
+     * Barva vyhledavaciho pole v draweru
+     */
     val drawerSearchBackgroundColor: Int,
 
+    /**
+     * Barva textu v draweru
+     */
     val drawerSearchTextColor: Int,
 
+    /**
+     * Pozadi doku
+     */
     val dockBackgroundColor: Int,
 
+    /**
+     * Barva textu v doku
+     */
     val dockTextColor: Int,
 
+    /**
+     * Barva On stavu pro switch
+     */
     val switchThumbColorOn: Int,
 
+    /**
+     * Barva Off stavu pro switch
+     */
     val switchThumbColorOff: Int,
 
+    /**
+     * Pozadi switche
+     */
     val switchBackgroundColor: Int,
 
-    var name: String,
+    /**
+     * Jmeno
+     */
+    var name: String
+) :
+/**
+ * Tag interface pro Spinner
+ */
+    Displayable {
 
-    val isUserProfile: Boolean = true
-) : Displayable {
-
+    /**
+     * Override pro zobrazeni jmena ve spinneru
+     */
     override fun toString() = name
 }

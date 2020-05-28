@@ -180,7 +180,7 @@ class HomescreenRepository(
         folderDao.insertItemsWithFolderId(items)
 
     /**
-     * Ziska [FolderWithItems] jako LiveData objekt pro dane id slozky [folderId]
+     * Ziska instanci [FolderWithItems] jako LiveData objekt pro dane id slozky [folderId]
      */
     fun getFolderWithItemsLiveData(folderId: Long) = folderDao.getFolderWithItemsLiveData(folderId)
 
@@ -196,12 +196,12 @@ class HomescreenRepository(
     suspend fun getFirstPage() = pageDao.getFirstPage()
 
     /**
-     * Prida slozku [folder] bez reference na stranku
+     * Prida slozku [folder], ktera nema referenci na stranku
      */
     suspend fun addFolderWithoutPage(folder: FolderModel) = folderDao.addFolderWithoutPage(folder)
 
     /**
-     * Aktualizuje [itemList] - seznam slozek
+     * Aktualizuje [itemList] - seznam zastupcu slozek
      */
     suspend fun updateFolderItemList(itemList: List<FolderItemModel>) =
         folderDao.updateFolderItemList(itemList)

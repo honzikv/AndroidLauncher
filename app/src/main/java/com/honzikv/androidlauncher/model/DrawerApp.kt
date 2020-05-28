@@ -8,15 +8,20 @@ import android.graphics.drawable.Drawable
  */
 data class DrawerApp(
     val packageName: String,
+    /**
+     * Popisek
+     */
     val label: String,
+
+    /**
+     * Ikona
+     */
     val icon: Drawable
 ) {
-
+    /**
+     * Zda-li je zaskrtnuty (pro AppPickerDialog)
+     */
     var isChecked = false
-
-    fun check() {
-        isChecked = !isChecked
-    }
 
     /**
      * Override pro debug

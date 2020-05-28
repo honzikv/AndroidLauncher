@@ -1,7 +1,6 @@
 package com.honzikv.androidlauncher.ui.fragment.drawer
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.honzikv.androidlauncher.R
 import com.honzikv.androidlauncher.model.ThemeProfileModel
 
@@ -30,6 +28,10 @@ import timber.log.Timber
  * Fragment pro Drawer se vsemi aplikacemi
  */
 class DrawerFragment : Fragment() {
+
+    companion object {
+        const val OVERSCROLL_VAL = -160
+    }
 
     private val drawerViewModel: DrawerViewModel by sharedViewModel()
 
@@ -71,20 +73,24 @@ class DrawerFragment : Fragment() {
             adapter = appDrawerAdapter
         }
 
-        //Nastavni filter v searchView pro vyhledavani
-        binding.searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?) = false
-            override fun onQueryTextChange(newText: String?): Boolean {
-                appDrawerAdapter.filter.filter(newText)
-                return false
-            }
-        })
+        binding.searchView.apply {
+            //Nastavni filter v searchView pro vyhledavani
+            setOnQueryTextListener(object :
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?) = false
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    appDrawerAdapter.filter.filter(newText)
+                    return false
+                }
+            })
+            setBackgroundColor(Color.TRANSPARENT)
+        }
 
         //Nastavi ikonu pro navigaci do fragmentu s nastavenim
-        binding.settingsIcon.setOnClickListener {
-            navigateToSettings()
-        }
+        binding.settingsIcon.setOnClickListener { navigateToSettings() }
+
+        //Nastavi ikonu pro navigaci zpet na plochu
+        binding.backButton.setOnClickListener { navigateToHomescreen() }
 
         //Pozorovani zda-li se maji pouzivat zakulacene rohy
         settingsViewModel.useRoundCorners.observe(viewLifecycleOwner, { use ->
@@ -126,7 +132,11 @@ class DrawerFragment : Fragment() {
      */
     private fun useDrawerAsGrid(binding: AppDrawerFragmentBinding, use: Boolean) {
         binding.appDrawerRecyclerView.layoutManager =
-            createOverScrollLayoutManager(requireContext(), use)
+            if (use) {
+                GridLayoutManager(requireContext(), DRAWER_GRID_COLUMNS)
+            } else {
+                LinearLayoutManager(requireContext())
+            }
     }
 
     /**
@@ -141,6 +151,7 @@ class DrawerFragment : Fragment() {
             searchCardView.setCardBackgroundColor(theme.drawerSearchBackgroundColor)
             searchView.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
             settingsIcon.setColorFilter(theme.drawerBackgroundColor)
+            backButton.setColorFilter(theme.drawerBackgroundColor)
             allApps.setTextColor(theme.drawerBackgroundColor)
         }
     }
@@ -163,7 +174,7 @@ class DrawerFragment : Fragment() {
     /**
      * Presune se na fragment s domovskou obrazovkou
      */
-    private fun navigateToHomescreenFragment() =
+    private fun navigateToHomescreen() =
         navController.navigate(R.id.action_appDrawerFragment_to_homescreenPageFragment)
 
     /**
@@ -172,45 +183,5 @@ class DrawerFragment : Fragment() {
     private fun navigateToSettings() =
         navController.navigate(R.id.action_appDrawerFragment_to_settingsFragment)
 
-    /**
-     * Nastavi LayoutManageru moznost detekovat "overscroll" abychom mohli drawer zavrit i tazenim
-     * nahoru pokud jsme na zacatku
-     */
-    private fun createOverScrollLayoutManager(
-        context: Context,
-        useGridLayoutManager: Boolean
-    ): RecyclerView.LayoutManager {
-        if (!useGridLayoutManager) {
-            return object : LinearLayoutManager(context) {
-                override fun scrollVerticallyBy(
-                    dy: Int,
-                    recycler: RecyclerView.Recycler?,
-                    state: RecyclerView.State?
-                ): Int {
-                    val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
-                    //Pro < 0 se zavre prilis snadno - uzivatel by mohl zavrit i omylem
-                    if (dy - scrollRange < -60) {
-                        navigateToHomescreenFragment()
-                    }
-                    return scrollRange
-                }
-            }
-        }
-
-        return object : GridLayoutManager(context, DRAWER_GRID_COLUMNS) {
-            override fun scrollVerticallyBy(
-                dy: Int,
-                recycler: RecyclerView.Recycler?,
-                state: RecyclerView.State?
-            ): Int {
-                val scrollRange = super.scrollVerticallyBy(dy, recycler, state)
-                if (dy - scrollRange < -60) {
-                    Timber.d("User overscrolled")
-                    navigateToHomescreenFragment()
-                }
-                return scrollRange
-            }
-        }
-    }
 
 }

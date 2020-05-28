@@ -15,12 +15,21 @@ data class DockItemModel(
 
     val packageName: String,
 
+    /**
+     * Pozice v doku
+     */
     var position: Int = 0
 
 ) {
+    /**
+     * Ikona
+     */
     @Ignore
     var icon: Drawable? = null
 
+    /**
+     * Popisek
+     */
     @Ignore
     var label: String? = null
 }

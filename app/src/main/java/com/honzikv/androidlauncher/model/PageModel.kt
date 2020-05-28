@@ -10,8 +10,14 @@ data class PageModel(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
 
+    /**
+     * Cislo stranky
+     */
     var pageNumber: Int = 0,
 
+    /**
+     * Dalsi pozice slozky
+     */
     var nextFolderPosition: Int = 0
 ) {
     override fun equals(other: Any?): Boolean {

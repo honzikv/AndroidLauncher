@@ -20,16 +20,34 @@ data class FolderModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
 
+    /**
+     * Reference na stranku
+     */
     var pageId: Long? = null,
 
+    /**
+     * Pozice ve strance
+     */
     var position: Int? = null,
 
+    /**
+     * Barva pozadi
+     */
     var backgroundColor: Int,
 
+    /**
+     * Barva popisku u predmetu
+     */
     var itemColor: Int,
 
+    /**
+     * Nazev slozky
+     */
     var title: String,
 
+    /**
+     * Pozice dalsi aplikace
+     */
     var nextAppPosition: Int = 0
 ) {
     override fun toString() = title
@@ -86,13 +104,22 @@ data class FolderItemModel(
 
     val packageName: String,
 
+    /**
+     * Pozice ve slozce
+     */
     var position: Int = 0
 
 ) {
 
+    /**
+     * Ikona aplikace
+     */
     @Ignore
     var icon: Drawable? = null
 
+    /**
+     * Popisek
+     */
     @Ignore
     var label: String? = null
 }
@@ -119,10 +146,16 @@ data class FolderWithItems(
     @Embedded
     val folder: FolderModel,
 
+    /**
+     * Seznam vsech zastupcu aplikace ve slozce
+     */
     @Relation(parentColumn = "id", entityColumn = "folderId", entity = FolderItemModel::class)
     val itemList: List<FolderItemModel>
 ) {
 
+    /**
+     * Zda-li se ma zobrazit detail - pouziva se u HomescreenFragment fragmentu
+     */
     @Ignore
     var showItems: Boolean = false
 }
