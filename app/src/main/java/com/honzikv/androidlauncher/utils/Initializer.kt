@@ -2,7 +2,7 @@ package com.honzikv.androidlauncher.utils
 
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Color.*
+import android.graphics.Color.parseColor
 import com.honzikv.androidlauncher.model.FolderItemModel
 import com.honzikv.androidlauncher.model.FolderModel
 import com.honzikv.androidlauncher.model.PageModel
@@ -94,6 +94,7 @@ class Initializer(
 
         val items = mutableListOf<FolderItemModel>()
         var currentPosition = -1
+        //Projde vsechny aplikace a u tech, ktere jsou nainstalovane je prida do slozky
         DEFAULT_PACKAGES.forEach { appPackage ->
             if (isAppInstalled(appPackage)) {
                 Timber.d("This app (${appPackage}) is installed, adding to folder")
@@ -112,7 +113,7 @@ class Initializer(
     }
 
     /**
-     * Vytvori temata aplikace
+     * Vytvori temata aplikace a ulozi je do databaze
      */
     private suspend fun createThemes() = withContext(Dispatchers.IO) {
         Timber.d("Creating default theme profiles")

@@ -3,7 +3,7 @@ package com.honzikv.androidlauncher.utils
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 
-//Prevzato z https://gist.github.com/er-abhishek-luthra/9c2962b4c6b3df6b76135393244324b3
+//Puvodni implementace z https://gist.github.com/er-abhishek-luthra/9c2962b4c6b3df6b76135393244324b3
 /**
  * Umoznuje vytvorit LiveData, ktere sleduje SharedPreferences hodnoty
  */

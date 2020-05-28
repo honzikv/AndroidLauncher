@@ -36,9 +36,6 @@ class AppThemeRepository(
             switchThumbColorOff = Color.parseColor("#ecf0f1")
         )
 
-        /**
-         * Field v UserSettings
-         */
         const val APP_THEME_FIELD = "appTheme"
     }
 
@@ -68,7 +65,8 @@ class AppThemeRepository(
     }
 
     /**
-     * Funkce pro zmenu tema - nastavi field [APP_THEME_FIELD] na hodnotu [theme]
+     * Funkce pro zmenu tema - nastavi field [APP_THEME_FIELD] na hodnotu [theme]. Vyhodou je to,
+     * ze nemusime pracne upravovat databazi a pouze si ulozime dany JSON do user settings
      */
     fun changeTheme(theme: ThemeProfileModel) {
         preferences.edit().apply {
