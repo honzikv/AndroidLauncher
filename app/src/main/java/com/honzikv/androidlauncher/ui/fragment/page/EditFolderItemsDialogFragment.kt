@@ -57,7 +57,7 @@ class EditFolderItemsDialogFragment private constructor() : DialogFragment() {
     //ItemTouchHelper callback pro umozneni zmeny pozice tazenim
     private val itemTouchDragToReorderCallBack = object : ItemTouchHelper.SimpleCallback(
 
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         0
     ) {
 

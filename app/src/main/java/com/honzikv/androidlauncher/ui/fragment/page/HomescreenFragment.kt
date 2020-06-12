@@ -52,15 +52,16 @@ class HomescreenFragment : Fragment() {
         viewPagerAdapter = PageAdapter(requireActivity())
         binding.viewPager.adapter = viewPagerAdapter
 
-        binding.menuButton.setOnClickListener { navigateToAppDrawer() }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ ->
         }.attach()
 
-        //Nastaveni barvy ikony
         settingsViewModel.currentTheme.observe(viewLifecycleOwner) {
-            binding.menuButton.setColorFilter(it.dockBackgroundColor)
+            binding.cardView.setCardBackgroundColor(it.dockBackgroundColor)
+            binding.menuIcon.setColorFilter(it.dockTextColor)
         }
+
+        binding.cardView.setOnClickListener { navigateToAppDrawer() }
 
         settingsViewModel.showPageDots.observe(viewLifecycleOwner) {
             if (!it) {
